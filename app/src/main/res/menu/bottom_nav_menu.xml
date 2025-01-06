@@ -14,5 +14,5 @@
     <item
         android:id="@+id/navigation_tickets"
         android:icon="@drawable/ic_local_activity"
-        android:title="@string/title_tickets" />
+        android:title="@string/title_coupons" />
 </menu>

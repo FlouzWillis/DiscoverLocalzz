@@ -100,6 +100,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

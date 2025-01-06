@@ -66,39 +66,6 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_2"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/google_sign_in_button"
-                    style="@style/Widget.Material3.Button.ElevatedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/half_padding"
-                    android:layout_weight="1"
-                    android:text="@string/google_login"
-                    android:textColor="?attr/colorOnSurface"
-                    app:background="?attr/colorSurface"
-                    app:icon="@drawable/ic_google"
-                    app:iconTint="@null" />
-
-                <Button
-                    android:id="@+id/facebook_sign_in_button"
-                    style="@style/Widget.Material3.Button.ElevatedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/half_padding"
-                    android:layout_weight="1"
-                    android:text="@string/facebook_login"
-                    android:textColor="?attr/colorOnSurface"
-                    app:background="?attr/colorSurface"
-                    app:icon="@drawable/ic_facebook"
-                    app:iconTint="@null" />
-            </LinearLayout>
-
             <Button
                 android:id="@+id/register"
                 style="@style/Widget.Material3.Button.TextButton"

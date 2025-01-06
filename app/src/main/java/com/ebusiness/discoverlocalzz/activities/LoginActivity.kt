@@ -55,14 +55,6 @@ class LoginActivity : BaseActivity() {
                 .show()
         }
 
-        findViewById<Button>(R.id.google_sign_in_button).setOnClickListener {
-//            OutOfScopeDialog.show(this)
-        }
-
-        findViewById<Button>(R.id.facebook_sign_in_button).setOnClickListener {
-//            OutOfScopeDialog.show(this)
-        }
-
         findViewById<FloatingActionButton>(R.id.continue_button).setOnClickListener {
             progressBar.visibility = View.VISIBLE
             val emailView = findViewById<TextInputLayout>(R.id.e_mail_phone_number)

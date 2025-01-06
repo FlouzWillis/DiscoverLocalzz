@@ -19,6 +19,6 @@
     <fragment
         android:id="@+id/navigation_tickets"
         android:name="com.ebusiness.discoverlocalzz.fragments.TicketsFragment"
-        android:label="@string/title_tickets"
+        android:label="@string/title_coupons"
         tools:layout="@layout/fragment_tickets" />
 </navigation>

@@ -1,10 +1,13 @@
 package com.ebusiness.discoverlocalzz.fragments
 
+import android.annotation.SuppressLint
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +18,7 @@ import com.ebusiness.discoverlocalzz.activities.MainActivity
 import com.ebusiness.discoverlocalzz.adapters.CategoryListAdapter
 import com.ebusiness.discoverlocalzz.adapters.EmptyAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
+import com.ebusiness.discoverlocalzz.customview.showCustomAlertDialog
 import com.ebusiness.discoverlocalzz.data.AppDatabase
 import com.ebusiness.discoverlocalzz.data.models.AccountInterest
 import com.ebusiness.discoverlocalzz.data.models.InterestWithEventsWithReviews
@@ -33,6 +37,7 @@ class DiscoverFragment : Fragment() {
     /**
      * Erstellt die Ansicht für das Entdeckungsfragment und initialisiert Elemente wie Suchleiste und Eventliste.
      */
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,16 +46,22 @@ class DiscoverFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_discover, container, false)
 
         MainActivity.setupSearchView(root)
-        root.findViewById<SearchView>(R.id.searchView).setOnQueryTextListener (object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                onSearchClicked()
-                return true
-            }
+        root.findViewById<SearchView>(R.id.searchView)
+            .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    onSearchClicked()
+                    return true
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
+
+        val categoryFilterButton = root.findViewById<Button>(R.id.category_filter_button)
+        categoryFilterButton.setOnClickListener {
+            onClickCategoryFilterButton()
+        }
 
         val recyclerView = root.findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -62,6 +73,12 @@ class DiscoverFragment : Fragment() {
                     AppDatabase.getInstance(requireContext()).accountInterestDao()
                         .getUserInterests(Preferences.getUserId(requireContext())),
                 )
+
+            if (getSelectedCategories().isNotEmpty()) {
+                interests =
+                    interests.filter { getSelectedCategories().contains(it.interest.name) }
+            }
+
             recyclerView.adapter =
                 if (interests.isNotEmpty()) {
                     CategoryListAdapter(
@@ -99,6 +116,101 @@ class DiscoverFragment : Fragment() {
     fun onSearchClicked() {
 
     }
+
+    private fun getSelectedCategories(): Set<String> {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
+        return sharedPreferences.getStringSet("SelectedCategories", emptySet()) ?: emptySet()
+    }
+
+    private fun onClickCategoryFilterButton() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val allInterest = mutableListOf<String>()
+            val interests =
+                AppDatabase.getInstance(requireContext()).interestDao().getAllInterests()
+            interests.forEach { interest ->
+                allInterest.add(interest.name)
+            }
+
+            val reorderCategories = reorderCategories(
+                AppDatabase.getInstance(requireContext()).interestDao().getAll(),
+                AppDatabase.getInstance(requireContext()).accountInterestDao()
+                    .getUserInterests(Preferences.getUserId(requireContext())),
+            )
+
+            showCustomAlertDialog(
+                context = requireContext(),
+                title = "Kategorie",
+                description = "Kategorie wählen",
+                checkBoxTexts = allInterest,
+                onConfirm = { selectedItems ->
+
+                    val sharedPreferences =
+                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putStringSet("SelectedCategories", selectedItems.toSet())
+                    editor.apply()
+
+                    val filteredInterests =
+                        reorderCategories.filter { selectedItems.contains(it.interest.name) }
+
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+                    recyclerView?.adapter = if (filteredInterests.isNotEmpty()) {
+                        CategoryListAdapter(
+                            filteredInterests.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    } else {
+                        CategoryListAdapter(
+                            reorderCategories.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    }
+                },
+                onClear = {
+                    val sharedPreferences =
+                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
+                    sharedPreferences.edit().remove("SelectedCategories").apply()
+
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
+                        CategoryListAdapter(
+                            reorderCategories.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    } else {
+                        EmptyAdapter()
+                    }
+                },
+                preSelectedItems = getSelectedCategories().toList()
+            )
+        }
+    }
+
 
     /**
      * Behandelt Klickereignisse auf Veranstaltungen und leitet zum entsprechenden EventActivity weiter.

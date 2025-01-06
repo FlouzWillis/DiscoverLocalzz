@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,27 +14,67 @@
 
         <SearchView
             android:id="@+id/searchView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:queryBackground="@android:color/transparent"
-            android:queryHint="@string/search_hint_map"/>
+            android:queryHint="@string/search_hint_map" />
 
         <ImageView
             android:id="@+id/profileButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:clickable="true"
             android:layout_marginEnd="@dimen/full_padding"
+            android:clickable="true"
             android:focusable="true"
+            android:paddingStart="@dimen/half_padding"
             app:srcCompat="@drawable/ic_account_circle" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/full_padding"
+        android:layout_marginEnd="@dimen/full_padding"
+        android:layout_marginBottom="@dimen/half_padding"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/location_filter_button"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ort" />
+
+        <Button
+            android:id="@+id/category_filter_button"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Kategorie" />
+
+        <Button
+            android:id="@+id/date_filter_button"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Datum" />
+
+        <Button
+            android:id="@+id/rating_filter_button"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bewertung" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/padding_7"
-        android:clipToPadding="false" />
-</FrameLayout>
+        android:layout_height="match_parent" />
+</LinearLayout>
