@@ -1,0 +1,41 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="discover"
+        android:enabled="true"
+        android:icon="@drawable/app_icon"
+        android:shortcutShortLabel="@string/title_discover"
+        android:shortcutLongLabel="@string/title_discover"
+        android:shortcutDisabledMessage="@string/title_discover">
+        <intent
+            android:action="com.ebusiness.discoverlocalzz.SHOW_DISCOVER"
+            android:targetPackage="com.ebusiness.discoverlocalzz"
+            android:targetClass="com.ebusiness.discoverlocalzz.activities.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="map"
+        android:enabled="true"
+        android:icon="@drawable/app_icon"
+        android:shortcutShortLabel="@string/title_map"
+        android:shortcutLongLabel="@string/title_map"
+        android:shortcutDisabledMessage="@string/title_map">
+        <intent
+            android:action="com.ebusiness.discoverlocalzz.SHOW_MAP"
+            android:targetPackage="com.ebusiness.discoverlocalzz"
+            android:targetClass="com.ebusiness.discoverlocalzz.activities.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="tickets"
+        android:enabled="true"
+        android:icon="@drawable/app_icon"
+        android:shortcutShortLabel="@string/title_tickets"
+        android:shortcutLongLabel="@string/title_tickets"
+        android:shortcutDisabledMessage="@string/title_tickets">
+        <intent
+            android:action="com.ebusiness.discoverlocalzz.SHOW_TICKETS"
+            android:targetPackage="com.ebusiness.discoverlocalzz"
+            android:targetClass="com.ebusiness.discoverlocalzz.activities.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

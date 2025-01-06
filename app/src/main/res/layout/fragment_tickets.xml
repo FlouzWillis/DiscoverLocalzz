@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/padding_8"
+        android:clipToPadding="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchViewLayout"
+        android:paddingVertical="@dimen/half_padding"
+        android:paddingHorizontal="@dimen/full_padding">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/date_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_padding"
+            app:chipIconTint="?colorOnSurface"
+            android:text="@string/date"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/title_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_padding"
+            app:chipIconTint="?colorOnSurface"
+            android:text="@string/title"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/price_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_padding"
+            app:chipIconTint="?colorOnSurface"
+            android:text="@string/price"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/searchViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/full_padding"
+        android:background="@drawable/search_bar_layout"
+        android:orientation="horizontal">
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:queryBackground="@android:color/transparent"
+            android:queryHint="@string/search_hint_map"/>
+
+        <ImageView
+            android:id="@+id/profileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:layout_marginEnd="@dimen/full_padding"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_account_circle" />
+
+    </LinearLayout>
+</RelativeLayout>

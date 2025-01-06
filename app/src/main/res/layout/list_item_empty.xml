@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/full_padding"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:layout_width="@dimen/illustration_size"
+        android:layout_height="@dimen/illustration_size"
+        android:layout_margin="@dimen/full_padding"
+        android:layout_gravity="center"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_undraw_taken" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/full_padding"
+        android:layout_gravity="center"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+        android:text="@string/empty_list"/>
+</LinearLayout>

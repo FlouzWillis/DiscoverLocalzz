@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/illustration_size"
+    android:layout_height="@dimen/illustration_size"
+    android:layout_marginEnd="@dimen/full_padding"
+    app:cardCornerRadius="@dimen/full_padding">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:importantForAccessibility="no"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_dim" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackground" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/title"
+            android:layout_marginBottom="@dimen/quarter_padding"
+            android:paddingHorizontal="@dimen/full_padding">
+
+            <ImageView
+                android:id="@+id/first_star"
+                android:layout_width="@dimen/star_size"
+                android:layout_height="@dimen/star_size"
+                android:contentDescription="@null"
+                app:tint="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/second_star"
+                android:layout_width="@dimen/star_size"
+                android:layout_height="@dimen/star_size"
+                android:contentDescription="@null"
+                app:tint="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/third_star"
+                android:layout_width="@dimen/star_size"
+                android:layout_height="@dimen/star_size"
+                android:contentDescription="@null"
+                app:tint="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/fourth_star"
+                android:layout_width="@dimen/star_size"
+                android:layout_height="@dimen/star_size"
+                android:contentDescription="@null"
+                app:tint="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/fifth_star"
+                android:layout_width="@dimen/star_size"
+                android:layout_height="@dimen/star_size"
+                android:contentDescription="@null"
+                app:tint="@android:color/white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/quarter_padding"
+            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+            android:textColor="@android:color/white"
+            android:layout_above="@id/summary"
+            android:paddingHorizontal="@dimen/full_padding"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/full_padding"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@android:color/white"
+            android:layout_alignParentBottom="true"
+            android:paddingHorizontal="@dimen/full_padding"
+            android:textIsSelectable="false" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

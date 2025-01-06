@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="quarter_padding">4dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
+    <dimen name="full_padding">16dp</dimen>
+    <dimen name="padding_2">32dp</dimen>
+    <dimen name="padding_7">88dp</dimen>
+    <dimen name="padding_8">128dp</dimen>
+    <dimen name="star_size">12dp</dimen>
+    <dimen name="list_item_icon_size">40dp</dimen>
+    <dimen name="illustration_size">192dp</dimen>
+    <dimen name="event_header_size">320dp</dimen>
+</resources>
