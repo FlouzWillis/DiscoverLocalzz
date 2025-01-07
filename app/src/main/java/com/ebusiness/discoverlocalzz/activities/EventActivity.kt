@@ -52,15 +52,10 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
                     Intent(Intent.ACTION_SEND).apply {
                         type = "text/plain"
                         putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.app_name))
-                        putExtra(Intent.EXTRA_TEXT, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
                     },
                     resources.getString(R.string.share),
                 ),
             )
-        }
-
-        findViewById<FloatingActionButton>(R.id.buy).setOnClickListener {
-            onBuyClicked()
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.list)
@@ -156,25 +151,6 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
         }
     }
 
-    private fun onBuyClicked() {
-        if (Preferences.isLoggedIn(this)) {
-            startActivity(
-                Intent(this, BookingActivity::class.java).putExtra(
-                    EVENT_INTENT_EXTRA,
-                    intent.getLongExtra(EVENT_INTENT_EXTRA, -1),
-                ),
-            )
-        } else {
-            MaterialAlertDialogBuilder(this).setTitle(R.string.title_login)
-                .setMessage(R.string.booking_login_required)
-                .setPositiveButton(R.string.title_login) { _, _ ->
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-                .setNegativeButton(R.string.cancel) { _, _ -> }
-                .show()
-        }
-    }
-
     private fun showEvent(
         event: EventWithAddressOrganizerReviews,
         frame: View,
@@ -186,8 +162,6 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
         )
         StarView.fillStars(event.reviews.map { it.stars }.average().toFloat(), stars)
         frame.findViewById<TextView>(R.id.title).text = event.event.title
-        frame.findViewById<TextView>(R.id.summary).text =
-            event.event.getPriceAsLongString(resources)
         recyclerView.adapter =
             SimpleListAdapter(
                 listOf(
@@ -202,14 +176,14 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
                         R.drawable.ic_circle_person,
                     ),
                     SimpleListItem(
-                        event.event.getStartAsString(resources),
-                        resources.getString(R.string.`when`),
-                        R.drawable.ic_circle_calendar_today,
-                    ),
-                    SimpleListItem(
                         event.address.toString(resources),
                         resources.getString(R.string.where),
                         R.drawable.ic_circle_location_on,
+                    ),
+                    SimpleListItem(
+                        resources.getString(R.string.ratings_title),
+                        event.reviews.map { it.stars }.average().toFloat().toString(),
+                        R.drawable.ic_circle_star_filled,
                     ),
                 ),
                 this,
@@ -223,7 +197,6 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
     override fun onItemClicked(position: Int) {
         when (position) {
             LOCATION_ITEM -> External.openMaps(this, event?.address ?: error(EVENT_IS_NULL))
-            DATE_ITEM -> External.openCalendar(this, event?.event ?: error(EVENT_IS_NULL))
         }
     }
 
@@ -234,8 +207,7 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
          */
         const val EVENT_INTENT_EXTRA: String = "event_intent_extra"
 
-        private const val LOCATION_ITEM = 3
-        private const val DATE_ITEM = 2
+        private const val LOCATION_ITEM = 2
         private const val EVENT_IS_NULL = "Event is null."
     }
 }

@@ -2,6 +2,8 @@ package com.ebusiness.discoverlocalzz.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.Query
+import com.ebusiness.discoverlocalzz.data.models.Interest
 import com.ebusiness.discoverlocalzz.data.models.ZipCode
 
 /**
@@ -14,4 +16,7 @@ interface ZipCodeDao {
      */
     @Insert
     suspend fun insertAll(vararg zipCodes: ZipCode)
+
+    @Query("SELECT * FROM zip_code")
+    suspend fun getAllCodes(): List<ZipCode>
 }

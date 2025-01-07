@@ -73,7 +73,7 @@
         <activity
             android:name=".activities.TransactionHistoryActivity"
             android:exported="false"
-            android:label="@string/transaction_history"
+            android:label="@string/coupons_history"
             android:launchMode="singleTop"
             android:parentActivityName=".activities.AccountActivity" />
         <activity

@@ -41,7 +41,7 @@ class EventListAdapter(
         holder.image.setImageDrawable(items[position].background)
         StarView.fillStars(items[position].rating, holder.stars)
         holder.title.text = items[position].title
-        holder.summary.text = items[position].summary
+        holder.summary.text = ""
         holder.itemView.setOnClickListener { helperInterface.onItemClicked(position) }
     }
 

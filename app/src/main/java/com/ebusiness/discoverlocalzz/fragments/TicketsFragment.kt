@@ -29,7 +29,6 @@ import kotlinx.coroutines.launch
  */
 class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
     private var tickets: List<TicketWithEvent> = listOf()
-    private lateinit var dateFilter: Chip
     private lateinit var titleFilter: Chip
     private lateinit var priceFilter: Chip
     private lateinit var recyclerView: RecyclerView
@@ -58,7 +57,6 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
             }
         })
 
-        dateFilter = root.findViewById(R.id.date_filter)
         titleFilter = root.findViewById(R.id.title_filter)
         priceFilter = root.findViewById(R.id.price_filter)
 
@@ -69,16 +67,13 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
             tickets =
                 AppDatabase.getInstance(requireContext()).ticketDao()
                     .getAll(Preferences.getUserId(requireContext()))
-            dateFilter.setOnClickListener {
-                selectFilter(DATE_FILTER)
-            }
             titleFilter.setOnClickListener {
                 selectFilter(TITLE_FILTER)
             }
             priceFilter.setOnClickListener {
                 selectFilter(PRICE_FILTER)
             }
-            selectFilter(DATE_FILTER)
+            selectFilter(TITLE_FILTER)
         }
 
         return root
@@ -111,7 +106,6 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
     }
 
     private fun selectFilter(filter: Byte) {
-        dateFilter.chipIcon = null
         titleFilter.chipIcon = null
         priceFilter.chipIcon = null
         reversed = if (previousFilter == filter) !reversed else false
@@ -122,16 +116,6 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
                 R.drawable.ic_keyboard_arrow_down
             }
         when (filter) {
-            DATE_FILTER -> {
-                dateFilter.setChipIconResource(icon)
-                update(
-                    if (reversed) {
-                        tickets.sortedBy { it.event.start }
-                    } else {
-                        tickets.sortedByDescending { it.event.start }
-                    },
-                )
-            }
 
             TITLE_FILTER -> {
                 titleFilter.setChipIconResource(icon)

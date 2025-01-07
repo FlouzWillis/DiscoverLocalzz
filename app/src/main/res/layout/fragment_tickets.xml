@@ -19,14 +19,6 @@
         android:paddingHorizontal="@dimen/full_padding">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/date_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/half_padding"
-            app:chipIconTint="?colorOnSurface"
-            android:text="@string/date"/>
-
-        <com.google.android.material.chip.Chip
             android:id="@+id/title_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_padding"
             app:chipIconTint="?colorOnSurface"
-            android:text="@string/price"/>
+            android:text="@string/coupon"/>
     </LinearLayout>
 
     <LinearLayout

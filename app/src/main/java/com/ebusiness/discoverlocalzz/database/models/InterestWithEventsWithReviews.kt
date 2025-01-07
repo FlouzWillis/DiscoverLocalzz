@@ -24,7 +24,7 @@ data class InterestWithEventsWithReviews(
         associateBy = Junction(EventInterest::class),
         entity = Event::class,
     )
-    val events: List<EventWithReviews>,
+    var events: MutableList<EventWithReviews>,
 ) {
     /**
      * Konvertiert diese Interessenkategorie in ein [CategoryListItem] für die Anzeige in einer RecyclerView.

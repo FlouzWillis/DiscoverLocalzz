@@ -21,6 +21,7 @@ import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.customview.showCustomAlertDialog
 import com.ebusiness.discoverlocalzz.data.AppDatabase
 import com.ebusiness.discoverlocalzz.data.models.AccountInterest
+import com.ebusiness.discoverlocalzz.data.models.EventWithReviews
 import com.ebusiness.discoverlocalzz.data.models.InterestWithEventsWithReviews
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
@@ -61,6 +62,11 @@ class DiscoverFragment : Fragment() {
         val categoryFilterButton = root.findViewById<Button>(R.id.category_filter_button)
         categoryFilterButton.setOnClickListener {
             onClickCategoryFilterButton()
+        }
+
+        val locationFilterButton = root.findViewById<Button>(R.id.location_filter_button)
+        locationFilterButton.setOnClickListener {
+            onClickLocationFilterButton()
         }
 
         val recyclerView = root.findViewById<RecyclerView>(R.id.list)
@@ -121,6 +127,12 @@ class DiscoverFragment : Fragment() {
         val sharedPreferences =
             requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
         return sharedPreferences.getStringSet("SelectedCategories", emptySet()) ?: emptySet()
+    }
+
+    private fun getSelectedLocations(): Set<String> {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
+        return sharedPreferences.getStringSet("SelectedCities", emptySet()) ?: emptySet()
     }
 
     private fun onClickCategoryFilterButton() {
@@ -211,6 +223,123 @@ class DiscoverFragment : Fragment() {
         }
     }
 
+    private fun onClickLocationFilterButton() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val events = AppDatabase.getInstance(requireContext()).eventDao().getAll()
+            val cityCountMap = mutableMapOf<String, Int>()
+
+            events.forEach { location ->
+                val city = location.event.city
+                if (city.isNotBlank()) {
+                    val currentCount = cityCountMap[city] ?: 0
+                    cityCountMap[city] = currentCount + 1
+                }
+            }
+
+            val allCitiesWithCount = cityCountMap.map { (city, count) ->
+                "$city ($count)"
+            }
+
+            val reorderCategories = reorderCategories(
+                AppDatabase.getInstance(requireContext()).interestDao().getAll(),
+                AppDatabase.getInstance(requireContext()).accountInterestDao()
+                    .getUserInterests(Preferences.getUserId(requireContext())),
+            )
+
+            showCustomAlertDialog(
+                context = requireContext(),
+                title = "Orte",
+                description = "Ort wählen",
+                checkBoxTexts = allCitiesWithCount,
+                onConfirm = { selectedItems ->
+
+                    val sharedPreferences =
+                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putStringSet("SelectedCities", selectedItems.toSet())
+                    editor.apply()
+
+                    val filteredEvents = mutableListOf<EventWithReviews>()
+
+                    reorderCategories.forEach { category ->
+                        category.events.forEach { event ->
+                            if (selectedItems.contains(event.event.city)) {
+                                filteredEvents.add(event)
+                            }
+                        }
+                    }
+
+                    val allCategories = reorderCategories
+
+                    allCategories.forEach { catergory ->
+                        filteredEvents.forEach { event ->
+
+                            reorderCategories.forEach {
+                                if (it.events.contains(event) && catergory == it) {
+                                    catergory.events.add(event)
+                                }
+                            }
+                        }
+                    }
+
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+                    recyclerView?.adapter = if (allCategories.isNotEmpty()) {
+                        CategoryListAdapter(
+                            allCategories.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    } else if (allCategories.none { it.events.isEmpty() }) {
+                        EmptyAdapter()
+                    } else {
+                        CategoryListAdapter(
+                            reorderCategories.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    }
+                },
+                onClear = {
+                    val sharedPreferences =
+                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
+                    sharedPreferences.edit().remove("SelectedCities").apply()
+
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
+                        CategoryListAdapter(
+                            reorderCategories.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    } else {
+                        EmptyAdapter()
+                    }
+                },
+                preSelectedItems = getSelectedLocations().toList()
+            )
+        }
+    }
 
     /**
      * Behandelt Klickereignisse auf Veranstaltungen und leitet zum entsprechenden EventActivity weiter.

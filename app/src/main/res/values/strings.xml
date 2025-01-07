@@ -14,7 +14,7 @@
     <string name="my_data">Meine Daten</string>
     <string name="my_interests">Meine Interessen</string>
     <string name="payment_details">Zahlungsdetails</string>
-    <string name="transaction_history">Zahlungsverlauf</string>
+    <string name="coupons_history">eingelöste Gutscheine</string>
     <string name="imprint">Impressum</string>
     <string name="privacy_policy">Datenschutzerklärung</string>
 
@@ -36,7 +36,7 @@
 
     <string name="title">Titel</string>
     <string name="date">Datum</string>
-    <string name="price">Preis</string>
+    <string name="coupon">Rabatt</string>
     <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
 
@@ -56,6 +56,7 @@
     <string name="what">Was?</string>
     <string name="ticket_info">Zeige diesen Code beim Einlass vor</string>
     <string name="ticket_cancel">Stornierung anfordern</string>
+    <string name="ratings_title">Bewertungen</string>
 
     <string name="search_hint_discover">Entdecke deine Stadt</string>
     <string name="search_hint_map">Finde Locations in der Nähe</string>

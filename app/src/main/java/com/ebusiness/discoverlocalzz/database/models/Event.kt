@@ -31,6 +31,7 @@ class Event(
     @ColumnInfo(name = "address_id") val addressId: Long,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "image") val image: String,
+    @ColumnInfo(name = "city") val city: String
 ) {
     /**
      * Die eindeutige ID des Ereignisses.

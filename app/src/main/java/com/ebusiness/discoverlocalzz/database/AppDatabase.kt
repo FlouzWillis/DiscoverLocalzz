@@ -156,229 +156,254 @@ abstract class AppDatabase : RoomDatabase() {
                                 Event(
                                     1,
                                     29.00,
-                                    "Lucas Kochabend",
+                                    "Lorem Ipsum",
                                     1_706_227_200_000,
                                     1_706_211_000_000,
                                     1,
-                                    "Alle mögen gutes Essen, deshalb werden Sie " +
-                                            "auch Luca mögen!",
-                                    Base64.getFromAssets(context, "kochen.jpg"),
+                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
                                 ),
                                 Event(
                                     1,
                                     8.50,
-                                    "Domis Dampflockausstellung",
+                                    "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_706_300_000_000,
                                     1,
-                                    "Unser Dampflockexperte Domi lädt zu einem " +
-                                            "sinnlichen Abentuer in seine Privataussletung ein.",
-                                    Base64.getFromAssets(context, "bahn.jpg"),
+                                    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
                                 ),
                                 Event(
                                     1,
                                     11.50,
-                                    "Musical: Der große Joel alleine im Wald?",
+                                    "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_706_300_000_000,
                                     1,
-                                    "Eine unvergessleicher Abend voller Tanz und " +
-                                            "Stimmung",
-                                    Base64.getFromAssets(context, "musical.jpg"),
+                                    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
                                 ),
                                 Event(
                                     1,
                                     8.50,
-                                    "Tanz mit Tim",
+                                    "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_706_300_000_000,
                                     1,
-                                    "Wer sein Tanzbein mal wieder so richtig " +
-                                            "schwingen will, darf diesen Event nicht " +
-                                            "verpassen!",
-                                    Base64.getFromAssets(context, "tanz.jpg"),
+                                    "Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Mannheim"
                                 ),
                                 Event(
                                     1,
                                     8.50,
-                                    "Silvesterparty",
+                                    "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_704_088_800_000,
                                     1,
-                                    "Feier mit uns gemeinsam in das neue Jahr!",
-                                    Base64.getFromAssets(context, "silvester.jpg"),
+                                    "Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Mannheim"
                                 ),
                                 Event(
                                     1,
                                     12.00,
-                                    "Zeitreise: Kunst durch die Jahrhunderte",
+                                    "Lorem Ipsum",
                                     1_714_557_600_000,
                                     1_719_770_400_000,
                                     1,
-                                    "Eine Ausstellung, die Kunstwerke aus verschiedenen " +
-                                            "Epochen präsentiert, von der Renaissance bis zur modernen Kunst.",
-                                    Base64.getFromAssets(context, "zeitreise.jpg"),
+                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
                                 ),
                                 Event(
                                     1,
                                     10.00,
-                                    "Fotografie Heute: Eine globale Perspektive",
+                                    "Lorem Ipsum",
                                     1_721_037_600_000,
                                     1_723_744_800_000,
                                     1,
-                                    "Eine Fotografie Ausstellung, die Werke von zeitgenössischen " +
-                                            "Fotografen aus der ganzen Welt zeigt.",
-                                    Base64.getFromAssets(context, "fotografie.jpg"),
+                                    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Mannheim"
                                 ),
                                 Event(
                                     1,
                                     15.00,
-                                    "Design des 21. Jahrhunderts",
+                                    "Lorem Ipsum",
                                     1_725_184_800_000,
                                     1_727_719_200_000,
                                     1,
-                                    "Eine Ausstellung, die innovative Designkonzepte aus den Bereichen Mode, " +
-                                            "Möbel, Grafik und Industriedesign präsentiert.",
-                                    Base64.getFromAssets(context, "design.jpg"),
+                                    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Stuttgart"
                                 ),
                                 Event(
                                     1,
                                     18.00,
-                                    "Natur in der Kunst",
+                                    "Lorem Ipsum",
                                     1_727_776_800_000,
                                     1_730_397_600_000,
                                     1,
-                                    "Eine Ausstellung, die Kunstwerke präsentiert, die die " +
-                                            "Schönheit und Vielfalt der Natur darstellen.",
-                                    Base64.getFromAssets(context, "natur.jpg"),
+                                    "Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Stuttgart"
                                 ),
                                 Event(
                                     1,
                                     20.00,
-                                    "Lichter der Welt",
+                                    "Lorem Ipsum",
                                     1_733_076_000_000,
                                     1_735_682_400_000,
                                     1,
-                                    "Ein Festival, das Lichtinstallationen von internationalen " +
-                                            "Künstlern in der ganzen Stadt präsentiert. ",
-                                    Base64.getFromAssets(context, "lichter.jpg"),
+                                    "Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Mannheim"
                                 ),
                                 Event(
                                     1,
                                     35.00,
-                                    "Rhythmus der Nationen",
+                                    "Lorem Ipsum",
                                     1_719_835_200_000,
                                     1_722_463_200_000,
                                     1,
-                                    "Ein Musikfestival, das Bands und Musiker aus verschiedenen " +
-                                            "Ländern und Kulturen zusammenbringt. ",
-                                    Base64.getFromAssets(context, "rhythmus.jpg"),
+                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Berlin"
                                 ),
                                 Event(
                                     1,
                                     10.00,
-                                    "Straßenkunst Spektakel",
+                                    "Lorem Ipsum",
                                     1_722_506_400_000,
                                     1_725_141_600_000,
                                     1,
-                                    "Ein Festival, das Straßenkünstler, Akrobaten und Performer " +
-                                            "aus der ganzen Welt in einer Stadt versammelt. ",
-                                    Base64.getFromAssets(context, "strassenkunst.jpg"),
+                                    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Mannheim"
                                 ),
                                 Event(
                                     1,
                                     15.00,
-                                    "Filmnächte unter den Sternen",
+                                    "Lorem Ipsum",
                                     1_725_220_800_000,
                                     1_727_740_740_000,
                                     1,
-                                    "Ein Open-Air-Filmfestival, das klassische und zeitgenössische " +
-                                            "Filme unter dem Sternenhimmel zeigt. ",
-                                    Base64.getFromAssets(context, "filmnaechte.jpg"),
+                                    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
                                 ),
                                 Event(
                                     1,
                                     25.00,
-                                    "Elektronische Ekstase",
+                                    "Lorem Ipsum",
                                     1_717_279_200_000,
                                     1_717_300_800_000,
                                     1,
-                                    "Eine Party, die sich auf elektronische Musik konzentriert " +
-                                            "und Top-DJs aus der ganzen Welt einlädt. ",
-                                    Base64.getFromAssets(context, "elektronische.jpg"),
+                                    "Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
                                 ),
                                 Event(
                                     1,
                                     20.00,
-                                    "Retro Revival Nacht",
+                                    "Lorem Ipsum",
                                     1_721_080_800_000,
                                     1_721_102_400_000,
                                     1,
-                                    "Eine Themenparty, die die Musik und Mode der 80er und 90er Jahre feiert.",
-                                    Base64.getFromAssets(context, "retro.jpg"),
+                                    "Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Mannheim"
                                 ),
                                 Event(
                                     1,
                                     30.00,
-                                    "Tanz unter den Sternen",
+                                    "Lorem Ipsum",
                                     1_724_184_000_000,
                                     1_724_205_600_000,
                                     1,
-                                    "Eine Open-Air-Party im Mannheimer Stadtpark mit Live-Musik und Tanzflächen. ",
-                                    Base64.getFromAssets(context, "tanz_unter.jpg"),
+                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
                                 ),
                                 Event(
                                     1,
                                     15.00,
-                                    "Club der Kulturen",
+                                    "Lorem Ipsum",
                                     1_726_005_600_000,
                                     1_726_027_200_000,
                                     1,
-                                    "Eine Partyreihe, die Musikstile aus verschiedenen " +
-                                            "Kulturen und Ländern präsentiert.  ",
-                                    Base64.getFromAssets(context, "club_der.jpg"),
-                                ),
+                                    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
+                                    "Karlsruhe"
+                                )
+
                             )
                             interestDao().insertAll(
-                                Interest("Kultur", Base64.getFromAssets(context, "kultur.jpg")),
-                                Interest("Tanzen", Base64.getFromAssets(context, "musicalm.jpg")),
+                                Interest("Kultur", Base64.getFromAssets(context, "sample_bar.jpg")),
+                                Interest("Tanzen", Base64.getFromAssets(context, "sample_bar.jpg")),
                                 Interest(
                                     "Alkohol",
-                                    Base64.getFromAssets(context, "bar.jpg"),
+                                    Base64.getFromAssets(context, "sample_bar.jpg"),
                                 ),
-                                Interest("Essen", Base64.getFromAssets(context, "essen.jpg")),
-                                Interest("Party", Base64.getFromAssets(context, "club.jpg")),
+                                Interest("Essen", Base64.getFromAssets(context, "sample_bar.jpg")),
+                                Interest("Party", Base64.getFromAssets(context, "sample_bar.jpg")),
                             )
+
                             eventInterestDao().insertAll(
                                 EventInterest(1, 2),
-                                EventInterest(1, 3),
                                 EventInterest(2, 4),
-                                EventInterest(2, 3),
                                 EventInterest(3, 1),
-                                EventInterest(3, 2),
                                 EventInterest(4, 2),
-                                EventInterest(4, 3),
                                 EventInterest(5, 3),
-                                EventInterest(5, 2),
-                                EventInterest(5, 4),
-                                EventInterest(5, 5),
                                 EventInterest(6, 1),
                                 EventInterest(7, 1),
-                                EventInterest(8, 1),
+                                EventInterest(8, 4),
                                 EventInterest(9, 1),
-                                EventInterest(10, 2),
                                 EventInterest(10, 3),
-                                EventInterest(10, 5),
                                 EventInterest(11, 2),
-                                EventInterest(11, 3),
-                                EventInterest(11, 5),
-                                EventInterest(12, 2),
-                                EventInterest(12, 3),
                                 EventInterest(12, 5),
                                 EventInterest(13, 2),
-                                EventInterest(13, 3),
-                                EventInterest(13, 5),
-                            )
+                                EventInterest(14, 4),
+                                EventInterest(15, 1),
+                                EventInterest(16, 2),
+                                EventInterest(17, 5),
+                                )
+
+
+//                            eventInterestDao().insertAll(
+//                                EventInterest(1, 2),
+//                                EventInterest(1, 3),
+//                                EventInterest(2, 4),
+//                                EventInterest(2, 3),
+//                                EventInterest(3, 1),
+//                                EventInterest(3, 2),
+//                                EventInterest(4, 2),
+//                                EventInterest(4, 3),
+//                                EventInterest(5, 3),
+//                                EventInterest(5, 2),
+//                                EventInterest(5, 4),
+//                                EventInterest(5, 5),
+//                                EventInterest(6, 1),
+//                                EventInterest(7, 1),
+//                                EventInterest(8, 4),
+//                                EventInterest(9, 1),
+//                                EventInterest(10, 2),
+//                                EventInterest(10, 3),
+//                                EventInterest(10, 5),
+//                                EventInterest(11, 2),
+//                                EventInterest(11, 3),
+//                                EventInterest(11, 5),
+//                                EventInterest(12, 2),
+//                                EventInterest(12, 3),
+//                                EventInterest(12, 5),
+//                                EventInterest(13, 2),
+//                                EventInterest(13, 3),
+//                                EventInterest(13, 5),
+//                            )
                             reviewDao().insertAll(
                                 Review(1, 1, "", 2.5f, 1_000_000_000),
                                 Review(2, 1, "", 3.5f, 2_000_000_000),
@@ -389,13 +414,13 @@ abstract class AppDatabase : RoomDatabase() {
                                 Review(7, 1, "", 1.5f, 2_650_000_000),
                             )
                             organizerDao().insertAll(
-                                Organizer("Luca"),
+                                Organizer("Jan"),
                             )
                             zipCodeDao().insertAll(
                                 ZipCode("76133", "Karlsruhe"),
                             )
                             addressDao().insertAll(
-                                Address("Moltkestraße", "76133", "30"),
+                                Address("Kußmaulstraße", "76133", "1"),
                             )
                             accountDao().insertAll(
                                 Account(
