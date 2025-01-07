@@ -13,6 +13,10 @@ import com.ebusiness.discoverlocalzz.data.models.TicketWithEventWithAddress
  */
 @Dao
 interface TicketDao {
+
+    @Query("SELECT * FROM ticket")
+    suspend fun getAllTickets(): List<TicketWithEvent>
+
     /**
      * Holt alle Tickets eines Benutzers mit den zugehörigen Veranstaltungsdaten.
      */

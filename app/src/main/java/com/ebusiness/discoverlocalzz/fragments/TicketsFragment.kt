@@ -65,8 +65,8 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
         recyclerView.adapter = LoadingAdapter()
         CoroutineScope(Dispatchers.Main).launch {
             tickets =
-                AppDatabase.getInstance(requireContext()).ticketDao()
-                    .getAll(Preferences.getUserId(requireContext()))
+                AppDatabase.getInstance(requireContext()).ticketDao().getAllTickets()
+//                    .getAll(Preferences.getUserId(requireContext()))
             titleFilter.setOnClickListener {
                 selectFilter(TITLE_FILTER)
             }
