@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
 /**
- * Die Klasse AppDatabase repräsentiert die Room-Datenbank für die Event Radar-Anwendung.
+ * Die Klasse AppDatabase repräsentiert die Room-Datenbank für die Anwendung.
  * Sie definiert die Datenbankentitäten, die Version und stellt Datenbankoperationen bereit.
  */
 @Database(
