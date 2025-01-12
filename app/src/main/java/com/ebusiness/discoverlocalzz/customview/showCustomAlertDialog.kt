@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
@@ -46,14 +47,29 @@ fun showCustomAlertDialog(
         optionsList.forEach { text ->
             val radioButton = RadioButton(context).apply {
                 this.text = text
+                this.id = View.generateViewId()
                 this.isChecked = selectedItems.contains(text)
             }
             radioGroup.addView(radioButton)
             radioButtons.add(radioButton)
         }
 
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            val selectedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+
+            selectedItems.clear()
+            if (selectedRadioButton != null) {
+                selectedItems.add(selectedRadioButton.text.toString())
+            }
+
+            radioButtons.forEach { radioButton ->
+                radioButton.isChecked = radioButton.id == checkedId
+            }
+        }
+
         checkBoxContainer.addView(radioGroup)
-    } else {
+    }
+    else {
         optionsList.forEach { text ->
             val checkBox = CheckBox(context).apply {
                 this.text = text
