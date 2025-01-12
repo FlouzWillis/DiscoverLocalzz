@@ -1,9 +1,9 @@
-package com.ebusiness.discoverlocalzz.data.dao
+package com.ebusiness.discoverlocalzz.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.ebusiness.discoverlocalzz.data.models.Account
+import com.ebusiness.discoverlocalzz.database.models.Account
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Account-Daten in der Datenbank.

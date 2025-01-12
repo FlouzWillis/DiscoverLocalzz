@@ -1,4 +1,4 @@
-package com.ebusiness.discoverlocalzz.data
+package com.ebusiness.discoverlocalzz.database
 
 /**
  * Datenklasse, die ein einfaches Listen-Element mit einem Titel, einer Zusammenfassung und einem Symbol repräsentiert.

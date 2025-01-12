@@ -7,7 +7,7 @@ import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.adapters.EmptyAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
-import com.ebusiness.discoverlocalzz.data.AppDatabase
+import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import kotlinx.coroutines.CoroutineScope

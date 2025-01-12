@@ -1,4 +1,4 @@
-package com.ebusiness.discoverlocalzz.data.models
+package com.ebusiness.discoverlocalzz.database.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

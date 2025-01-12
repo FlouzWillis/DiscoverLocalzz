@@ -15,9 +15,8 @@ import com.ebusiness.discoverlocalzz.activities.TicketActivity
 import com.ebusiness.discoverlocalzz.adapters.EmptyAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
-import com.ebusiness.discoverlocalzz.data.AppDatabase
-import com.ebusiness.discoverlocalzz.data.models.TicketWithEvent
-import com.ebusiness.discoverlocalzz.helpers.Preferences
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.models.TicketWithEvent
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
     private var tickets: List<TicketWithEvent> = listOf()
     private lateinit var titleFilter: Chip
-    private lateinit var priceFilter: Chip
+    private lateinit var couponFilter: Chip
     private lateinit var recyclerView: RecyclerView
     private var previousFilter: Byte = -1
     private var reversed = false
@@ -58,7 +57,7 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
         })
 
         titleFilter = root.findViewById(R.id.title_filter)
-        priceFilter = root.findViewById(R.id.price_filter)
+        couponFilter = root.findViewById(R.id.coupon_filter)
 
         recyclerView = root.findViewById(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -70,8 +69,8 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
             titleFilter.setOnClickListener {
                 selectFilter(TITLE_FILTER)
             }
-            priceFilter.setOnClickListener {
-                selectFilter(PRICE_FILTER)
+            couponFilter.setOnClickListener {
+                selectFilter(COUPON_FILTER)
             }
             selectFilter(TITLE_FILTER)
         }
@@ -107,7 +106,7 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
 
     private fun selectFilter(filter: Byte) {
         titleFilter.chipIcon = null
-        priceFilter.chipIcon = null
+        couponFilter.chipIcon = null
         reversed = if (previousFilter == filter) !reversed else false
         val icon =
             if (reversed) {
@@ -128,13 +127,13 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
                 )
             }
 
-            PRICE_FILTER -> {
-                priceFilter.setChipIconResource(icon)
+            COUPON_FILTER -> {
+                couponFilter.setChipIconResource(icon)
                 update(
                     if (reversed) {
-                        tickets.sortedBy { it.event.price }
+                        tickets.sortedBy { it.event.title }
                     } else {
-                        tickets.sortedByDescending { it.event.price }
+                        tickets.sortedByDescending { it.event.title }
                     },
                 )
             }
@@ -149,6 +148,6 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
     companion object {
         private const val DATE_FILTER: Byte = 0
         private const val TITLE_FILTER: Byte = 1
-        private const val PRICE_FILTER: Byte = 2
+        private const val COUPON_FILTER: Byte = 2
     }
 }

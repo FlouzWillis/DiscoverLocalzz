@@ -1,4 +1,4 @@
-package com.ebusiness.discoverlocalzz.data.models
+package com.ebusiness.discoverlocalzz.database.models
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -18,5 +18,5 @@ data class EventWithAddress(
         entityColumn = "address_id",
         entity = Address::class,
     )
-    val address: AddressWithZipCode,
+    val address: Address,
 )

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
-import com.ebusiness.discoverlocalzz.data.AppDatabase
+import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

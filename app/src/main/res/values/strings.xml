@@ -41,7 +41,6 @@
     <string name="ok">OK</string>
 
     <string name="booking_title">Titel das Events</string>
-    <string name="booking_price">Preis inkl. MwSt.</string>
     <string name="booking_payment">Zahlungsmethode</string>
     <string name="booking_payment_card_number">••••%1$s</string>
     <string name="booking_payment_missing">Keine Zahlungsmethode</string>
@@ -111,7 +110,7 @@
     <string name="password_placeholder">••••••••</string>
     <string name="currency_format">%1$s €</string>
     <string name="vat_format">%1$s inkl. MwSt.</string>
-    <string name="summary_format">%1$s • %2$s</string>
+    <string name="summary_format">%1$s</string>
     <string name="start_format">%1$s um %2$s Uhr</string>
     <string name="address_format">%1$s %2$s, %3$s %4$s</string>
 </resources>

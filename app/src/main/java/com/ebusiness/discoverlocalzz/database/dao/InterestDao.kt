@@ -1,11 +1,11 @@
-package com.ebusiness.discoverlocalzz.data.dao
+package com.ebusiness.discoverlocalzz.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.ebusiness.discoverlocalzz.data.models.Interest
-import com.ebusiness.discoverlocalzz.data.models.InterestWithEventsWithReviews
+import com.ebusiness.discoverlocalzz.database.models.Interest
+import com.ebusiness.discoverlocalzz.database.models.InterestWithEventsWithReviews
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Interessendaten in der Datenbank.

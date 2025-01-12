@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.data.CategoryListItem
+import com.ebusiness.discoverlocalzz.database.CategoryListItem
 
 /**
  * Adapter für eine RecyclerView, die Kategorien mit zugehörigen Events anzeigt.

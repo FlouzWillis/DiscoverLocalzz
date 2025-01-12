@@ -1,4 +1,4 @@
-package com.ebusiness.discoverlocalzz.data.models
+package com.ebusiness.discoverlocalzz.database.models
 
 import android.content.res.Resources
 import androidx.room.ColumnInfo
@@ -12,7 +12,6 @@ import java.util.Locale
  * Die Klasse Event repräsentiert ein Ereignis in der Room-Datenbank.
  *
  * @property organizerId Die ID des Organisators des Ereignisses.
- * @property price Der Preis des Ereignisses.
  * @property title Der Titel des Ereignisses.
  * @property start Der Startzeitpunkt des Ereignisses (in Millisekunden seit der Epoche).
  * @property end Der Endzeitpunkt des Ereignisses (in Millisekunden seit der Epoche).
@@ -24,7 +23,6 @@ import java.util.Locale
 @Entity(tableName = "event")
 class Event(
     @ColumnInfo(name = "organizer_id") val organizerId: Long,
-    @ColumnInfo(name = "price") val price: Double,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "start") val start: Long,
     @ColumnInfo(name = "end") val end: Long,
@@ -66,27 +64,6 @@ class Event(
         )
 
     /**
-     * Gibt den Preis des Ereignisses als formatierten String zurück.
-     *
-     * @param resources Die Ressourcen.
-     * @return Der formatierte Preis.
-     */
-    fun getPriceAsString(resources: Resources): String =
-        resources.getString(R.string.currency_format, "%.2f".format(Locale.getDefault(), price))
-
-    /**
-     * Gibt den Preis des Ereignisses als formatierten String in Langform zurück.
-     *
-     * @param resources Die Ressourcen.
-     * @return Der formatierte Preis.
-     */
-    fun getPriceAsLongString(resources: Resources): String =
-        resources.getString(
-            R.string.vat_format,
-            getPriceAsString(resources),
-        )
-
-    /**
      * Gibt eine Zusammenfassung des Ereignisses als formatierten String zurück.
      *
      * @param resources Die Ressourcen.
@@ -95,7 +72,6 @@ class Event(
     fun getSummary(resources: Resources): String =
         resources.getString(
             R.string.summary_format,
-            getStartDate(),
-            getPriceAsString(resources),
+            getStartDate()
         )
 }

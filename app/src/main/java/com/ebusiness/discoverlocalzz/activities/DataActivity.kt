@@ -11,9 +11,9 @@ import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.adapters.ErrorAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
-import com.ebusiness.discoverlocalzz.data.AppDatabase
-import com.ebusiness.discoverlocalzz.data.SimpleListItem
-import com.ebusiness.discoverlocalzz.data.models.UserWithAccount
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.SimpleListItem
+import com.ebusiness.discoverlocalzz.database.models.UserWithAccount
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

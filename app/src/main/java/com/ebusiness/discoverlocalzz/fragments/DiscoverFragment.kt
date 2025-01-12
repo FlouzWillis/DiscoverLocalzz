@@ -3,6 +3,7 @@ package com.ebusiness.discoverlocalzz.fragments
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,22 +20,25 @@ import com.ebusiness.discoverlocalzz.adapters.CategoryListAdapter
 import com.ebusiness.discoverlocalzz.adapters.EmptyAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.customview.showCustomAlertDialog
-import com.ebusiness.discoverlocalzz.data.AppDatabase
-import com.ebusiness.discoverlocalzz.data.models.AccountInterest
-import com.ebusiness.discoverlocalzz.data.models.EventWithReviews
-import com.ebusiness.discoverlocalzz.data.models.InterestWithEventsWithReviews
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.models.AccountInterest
+import com.ebusiness.discoverlocalzz.database.models.Event
+import com.ebusiness.discoverlocalzz.database.models.EventWithReviews
+import com.ebusiness.discoverlocalzz.database.models.InterestWithEventsWithReviews
+import com.ebusiness.discoverlocalzz.database.models.Review
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 /**
  * Fragment zur Entdeckung und Anzeige von Veranstaltungen basierend auf Benutzerinteressen.
  */
 class DiscoverFragment : Fragment() {
     private var interests: List<InterestWithEventsWithReviews> = listOf()
-
+    private lateinit var filterSharedPreferences: SharedPreferences
     /**
      * Erstellt die Ansicht für das Entdeckungsfragment und initialisiert Elemente wie Suchleiste und Eventliste.
      */
@@ -47,6 +51,7 @@ class DiscoverFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_discover, container, false)
 
         MainActivity.setupSearchView(root)
+        filterSharedPreferences = requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
         root.findViewById<SearchView>(R.id.searchView)
             .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -67,6 +72,11 @@ class DiscoverFragment : Fragment() {
         val locationFilterButton = root.findViewById<Button>(R.id.location_filter_button)
         locationFilterButton.setOnClickListener {
             onClickLocationFilterButton()
+        }
+
+        val ratingFilterButton = root.findViewById<Button>(R.id.rating_filter_button)
+        ratingFilterButton.setOnClickListener {
+            onClickRatingFilterButton()
         }
 
         val recyclerView = root.findViewById<RecyclerView>(R.id.list)
@@ -124,15 +134,15 @@ class DiscoverFragment : Fragment() {
     }
 
     private fun getSelectedCategories(): Set<String> {
-        val sharedPreferences =
-            requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
-        return sharedPreferences.getStringSet("SelectedCategories", emptySet()) ?: emptySet()
+        return filterSharedPreferences.getStringSet("SelectedCategories", emptySet()) ?: emptySet()
     }
 
     private fun getSelectedLocations(): Set<String> {
-        val sharedPreferences =
-            requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
-        return sharedPreferences.getStringSet("SelectedCities", emptySet()) ?: emptySet()
+        return filterSharedPreferences.getStringSet("SelectedCities", emptySet()) ?: emptySet()
+    }
+
+    private fun getSelectedRating(): String? {
+        return filterSharedPreferences.getString("SelectedRating", null)
     }
 
     private fun onClickCategoryFilterButton() {
@@ -154,15 +164,10 @@ class DiscoverFragment : Fragment() {
                 context = requireContext(),
                 title = "Kategorie",
                 description = "Kategorie wählen",
-                checkBoxTexts = allInterest,
+                optionsList = allInterest,
                 onConfirm = { selectedItems ->
 
-                    val sharedPreferences =
-                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putStringSet("SelectedCategories", selectedItems.toSet())
-                    editor.apply()
-
+                    filterSharedPreferences.edit().putStringSet("SelectedCategories", selectedItems.toSet()).apply()
                     val filteredInterests =
                         reorderCategories.filter { selectedItems.contains(it.interest.name) }
 
@@ -196,9 +201,7 @@ class DiscoverFragment : Fragment() {
                     }
                 },
                 onClear = {
-                    val sharedPreferences =
-                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
-                    sharedPreferences.edit().remove("SelectedCategories").apply()
+                    filterSharedPreferences.edit().remove("SelectedCategories").apply()
 
                     val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
                     recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
@@ -250,14 +253,11 @@ class DiscoverFragment : Fragment() {
                 context = requireContext(),
                 title = "Orte",
                 description = "Ort wählen",
-                checkBoxTexts = allCitiesWithCount,
+                optionsList = allCitiesWithCount,
                 onConfirm = { selectedItems ->
 
-                    val sharedPreferences =
-                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putStringSet("SelectedCities", selectedItems.toSet())
-                    editor.apply()
+                    filterSharedPreferences.edit().putStringSet("SelectedCities", selectedItems.toSet())
+                        .apply()
 
                     val filteredEvents = mutableListOf<EventWithReviews>()
 
@@ -314,9 +314,8 @@ class DiscoverFragment : Fragment() {
                     }
                 },
                 onClear = {
-                    val sharedPreferences =
-                        requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
-                    sharedPreferences.edit().remove("SelectedCities").apply()
+
+                    filterSharedPreferences.edit().remove("SelectedCities").apply()
 
                     val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
                     recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
@@ -337,6 +336,117 @@ class DiscoverFragment : Fragment() {
                     }
                 },
                 preSelectedItems = getSelectedLocations().toList()
+            )
+        }
+    }
+
+    private fun onClickRatingFilterButton() {
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val reorderCategories = reorderCategories(
+                AppDatabase.getInstance(requireContext()).interestDao().getAll(),
+                AppDatabase.getInstance(requireContext()).accountInterestDao()
+                    .getUserInterests(Preferences.getUserId(requireContext())),
+            )
+
+            showCustomAlertDialog(
+                requireContext(),
+                requireContext().resources.getString(R.string.ratings_title),
+                "",
+                listOf("3+", "4+", "5"),
+                onConfirm = { selectedItems ->
+                    filterSharedPreferences.edit().putString("SelectedRating", selectedItems.first())
+                        .apply()
+                    val selectedRating = selectedItems.first()
+                    val filteredInterestsWithEvents: List<InterestWithEventsWithReviews> = when (selectedRating) {
+                        "3+" -> {
+                            reorderCategories.mapNotNull { interestWithEventsWithReviews ->
+                                val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
+                                    val averageRating = eventWithReviews.getAverageRating()
+                                    averageRating >= 3.0f
+                                }
+
+                                if (filteredEvents.isNotEmpty()) {
+                                    interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+                                } else {
+                                    null
+                                }
+                            }
+                        }
+                        "4+" -> {
+                            reorderCategories.mapNotNull { interestWithEventsWithReviews ->
+                                val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
+                                    val averageRating = eventWithReviews.getAverageRating()
+                                    averageRating >= 4.0f
+                                }
+
+                                if (filteredEvents.isNotEmpty()) {
+                                    interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+                                } else {
+                                    null
+                                }
+                            }
+                        }
+                        "5" -> {
+                            reorderCategories.mapNotNull { interestWithEventsWithReviews ->
+                                val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
+                                    val averageRating = eventWithReviews.getAverageRating()
+                                    averageRating == 5.0f
+                                }
+
+                                if (filteredEvents.isNotEmpty()) {
+                                    interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+                                } else {
+                                    null
+                                }
+                            }
+                        }
+                        else -> {
+                            emptyList()
+                        }
+                    }
+
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+                    recyclerView?.adapter = if (filteredInterestsWithEvents.isNotEmpty()) {
+                        CategoryListAdapter(
+                            filteredInterestsWithEvents.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    } else {
+                        EmptyAdapter()
+                    }
+                },
+                onClear = {
+                    filterSharedPreferences.edit().remove("SelectedRating").apply()
+
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
+                        CategoryListAdapter(
+                            reorderCategories.mapIndexed { index, event ->
+                                event.toListItem(
+                                    requireContext(),
+                                    object : RecyclerViewHelperInterface {
+                                        override fun onItemClicked(position: Int) {
+                                            onItemClicked(index, position)
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    } else {
+                        EmptyAdapter()
+                    }
+                },
+                preSelectedItems = if (getSelectedRating() != null) listOf(getSelectedRating()!!) else emptyList() ,
+                useRadioButton = true
             )
         }
     }

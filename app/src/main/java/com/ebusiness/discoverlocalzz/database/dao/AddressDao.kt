@@ -1,8 +1,8 @@
-package com.ebusiness.discoverlocalzz.data.dao
+package com.ebusiness.discoverlocalzz.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import com.ebusiness.discoverlocalzz.data.models.Address
+import com.ebusiness.discoverlocalzz.database.models.Address
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Adressdaten in der Datenbank.

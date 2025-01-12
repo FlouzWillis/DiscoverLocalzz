@@ -1,8 +1,8 @@
-package com.ebusiness.discoverlocalzz.data.dao
+package com.ebusiness.discoverlocalzz.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import com.ebusiness.discoverlocalzz.data.models.EventInterest
+import com.ebusiness.discoverlocalzz.database.models.EventInterest
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Event-Interessendaten in der Datenbank.

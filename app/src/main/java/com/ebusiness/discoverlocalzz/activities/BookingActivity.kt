@@ -9,10 +9,10 @@ import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.adapters.ErrorAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
-import com.ebusiness.discoverlocalzz.data.AppDatabase
-import com.ebusiness.discoverlocalzz.data.SimpleListItem
-import com.ebusiness.discoverlocalzz.data.models.Event
-import com.ebusiness.discoverlocalzz.data.models.Ticket
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.SimpleListItem
+import com.ebusiness.discoverlocalzz.database.models.Event
+import com.ebusiness.discoverlocalzz.database.models.Ticket
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -124,11 +124,6 @@ class BookingActivity : BaseActivity(), RecyclerViewHelperInterface {
                         event.title,
                         resources.getString(R.string.booking_title),
                         R.drawable.ic_circle_tag,
-                    ),
-                    SimpleListItem(
-                        event.getPriceAsString(resources),
-                        resources.getString(R.string.booking_price),
-                        R.drawable.ic_circle_euro,
                     ),
                     SimpleListItem(
                         getPaymentDetailsLabel(this),

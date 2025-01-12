@@ -1,4 +1,4 @@
-package com.ebusiness.discoverlocalzz.data.models
+package com.ebusiness.discoverlocalzz.database.models
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -21,7 +21,7 @@ data class EventWithAddressOrganizerReviews(
         entityColumn = "address_id",
         entity = Address::class,
     )
-    val address: AddressWithZipCode,
+    val address: Address,
     @Relation(
         parentColumn = "organizer_id",
         entityColumn = "organizer_id",

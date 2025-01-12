@@ -1,10 +1,10 @@
-package com.ebusiness.discoverlocalzz.data.models
+package com.ebusiness.discoverlocalzz.database.models
 
 import android.content.Context
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Relation
-import com.ebusiness.discoverlocalzz.data.EventListItem
+import com.ebusiness.discoverlocalzz.database.EventListItem
 import com.ebusiness.discoverlocalzz.helpers.Base64
 
 /**
@@ -37,5 +37,9 @@ data class EventWithReviews(
             event.getSummary(context.resources),
             Base64.decodeImage(context, event.image),
         )
+    }
+
+    fun getAverageRating(): Float {
+        return reviews.map { it.stars }.average().toFloat()
     }
 }

@@ -1,4 +1,4 @@
-package com.ebusiness.discoverlocalzz.data
+package com.ebusiness.discoverlocalzz.database
 
 import android.content.Context
 import android.content.Intent
@@ -9,28 +9,26 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.activities.MainActivity
-import com.ebusiness.discoverlocalzz.data.dao.AccountDao
-import com.ebusiness.discoverlocalzz.data.dao.AccountInterestDao
-import com.ebusiness.discoverlocalzz.data.dao.AddressDao
-import com.ebusiness.discoverlocalzz.data.dao.EventDao
-import com.ebusiness.discoverlocalzz.data.dao.EventInterestDao
-import com.ebusiness.discoverlocalzz.data.dao.InterestDao
-import com.ebusiness.discoverlocalzz.data.dao.OrganizerDao
-import com.ebusiness.discoverlocalzz.data.dao.ReviewDao
-import com.ebusiness.discoverlocalzz.data.dao.TicketDao
+import com.ebusiness.discoverlocalzz.database.dao.AccountDao
+import com.ebusiness.discoverlocalzz.database.dao.AccountInterestDao
+import com.ebusiness.discoverlocalzz.database.dao.AddressDao
+import com.ebusiness.discoverlocalzz.database.dao.EventDao
+import com.ebusiness.discoverlocalzz.database.dao.EventInterestDao
+import com.ebusiness.discoverlocalzz.database.dao.InterestDao
+import com.ebusiness.discoverlocalzz.database.dao.OrganizerDao
+import com.ebusiness.discoverlocalzz.database.dao.ReviewDao
+import com.ebusiness.discoverlocalzz.database.dao.TicketDao
 import com.ebusiness.discoverlocalzz.database.dao.UserDao
-import com.ebusiness.discoverlocalzz.data.dao.ZipCodeDao
-import com.ebusiness.discoverlocalzz.data.models.Account
-import com.ebusiness.discoverlocalzz.data.models.AccountInterest
-import com.ebusiness.discoverlocalzz.data.models.Address
-import com.ebusiness.discoverlocalzz.data.models.Event
-import com.ebusiness.discoverlocalzz.data.models.EventInterest
-import com.ebusiness.discoverlocalzz.data.models.Interest
-import com.ebusiness.discoverlocalzz.data.models.Organizer
-import com.ebusiness.discoverlocalzz.data.models.Review
-import com.ebusiness.discoverlocalzz.data.models.Ticket
-import com.ebusiness.discoverlocalzz.data.models.User
-import com.ebusiness.discoverlocalzz.data.models.ZipCode
+import com.ebusiness.discoverlocalzz.database.models.Account
+import com.ebusiness.discoverlocalzz.database.models.AccountInterest
+import com.ebusiness.discoverlocalzz.database.models.Address
+import com.ebusiness.discoverlocalzz.database.models.Event
+import com.ebusiness.discoverlocalzz.database.models.EventInterest
+import com.ebusiness.discoverlocalzz.database.models.Interest
+import com.ebusiness.discoverlocalzz.database.models.Organizer
+import com.ebusiness.discoverlocalzz.database.models.Review
+import com.ebusiness.discoverlocalzz.database.models.Ticket
+import com.ebusiness.discoverlocalzz.database.models.User
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +37,7 @@ import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
 /**
- * Die Klasse AppDatabase repräsentiert die Room-Datenbank für die Event Radar-Anwendung.
+ * Die Klasse AppDatabase repräsentiert die Room-Datenbank für die Anwendung.
  * Sie definiert die Datenbankentitäten, die Version und stellt Datenbankoperationen bereit.
  */
 @Database(
@@ -54,7 +52,6 @@ import org.mindrot.jbcrypt.BCrypt
         Review::class,
         Ticket::class,
         User::class,
-        ZipCode::class,
     ],
     version = 1,
     exportSchema = false,
@@ -95,11 +92,6 @@ abstract class AppDatabase : RoomDatabase() {
      * DAO zum Zugriff auf Organizer-Daten.
      */
     abstract fun organizerDao(): OrganizerDao
-
-    /**
-     * DAO zum Zugriff auf ZipCode-Daten.
-     */
-    abstract fun zipCodeDao(): ZipCodeDao
 
     /**
      * DAO zum Zugriff auf Account-Daten.
@@ -155,7 +147,6 @@ abstract class AppDatabase : RoomDatabase() {
                             eventDao().insertAll(
                                 Event(
                                     1,
-                                    29.00,
                                     "Lorem Ipsum",
                                     1_706_227_200_000,
                                     1_706_211_000_000,
@@ -166,7 +157,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    8.50,
                                     "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_706_300_000_000,
@@ -177,7 +167,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    11.50,
                                     "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_706_300_000_000,
@@ -188,7 +177,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    8.50,
                                     "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_706_300_000_000,
@@ -199,7 +187,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    8.50,
                                     "Lorem Ipsum",
                                     1_706_299_900_000,
                                     1_704_088_800_000,
@@ -210,7 +197,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    12.00,
                                     "Lorem Ipsum",
                                     1_714_557_600_000,
                                     1_719_770_400_000,
@@ -221,7 +207,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    10.00,
                                     "Lorem Ipsum",
                                     1_721_037_600_000,
                                     1_723_744_800_000,
@@ -232,7 +217,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    15.00,
                                     "Lorem Ipsum",
                                     1_725_184_800_000,
                                     1_727_719_200_000,
@@ -243,7 +227,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    18.00,
                                     "Lorem Ipsum",
                                     1_727_776_800_000,
                                     1_730_397_600_000,
@@ -254,7 +237,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    20.00,
                                     "Lorem Ipsum",
                                     1_733_076_000_000,
                                     1_735_682_400_000,
@@ -265,7 +247,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    35.00,
                                     "Lorem Ipsum",
                                     1_719_835_200_000,
                                     1_722_463_200_000,
@@ -276,7 +257,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    10.00,
                                     "Lorem Ipsum",
                                     1_722_506_400_000,
                                     1_725_141_600_000,
@@ -287,7 +267,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    15.00,
                                     "Lorem Ipsum",
                                     1_725_220_800_000,
                                     1_727_740_740_000,
@@ -298,7 +277,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    25.00,
                                     "Lorem Ipsum",
                                     1_717_279_200_000,
                                     1_717_300_800_000,
@@ -309,7 +287,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    20.00,
                                     "Lorem Ipsum",
                                     1_721_080_800_000,
                                     1_721_102_400_000,
@@ -320,7 +297,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    30.00,
                                     "Lorem Ipsum",
                                     1_724_184_000_000,
                                     1_724_205_600_000,
@@ -331,7 +307,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 ),
                                 Event(
                                     1,
-                                    15.00,
                                     "Lorem Ipsum",
                                     1_726_005_600_000,
                                     1_726_027_200_000,
@@ -416,11 +391,8 @@ abstract class AppDatabase : RoomDatabase() {
                             organizerDao().insertAll(
                                 Organizer("Jan"),
                             )
-                            zipCodeDao().insertAll(
-                                ZipCode("76133", "Karlsruhe"),
-                            )
                             addressDao().insertAll(
-                                Address("Kußmaulstraße", "76133", "1"),
+                                Address("Kußmaulstraße", "76133", "1", "Karlsruhe"),
                             )
                             accountDao().insertAll(
                                 Account(

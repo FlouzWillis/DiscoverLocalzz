@@ -1,8 +1,9 @@
-package com.ebusiness.discoverlocalzz.data.dao
+package com.ebusiness.discoverlocalzz.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import com.ebusiness.discoverlocalzz.data.models.Review
+import androidx.room.Query
+import com.ebusiness.discoverlocalzz.database.models.Review
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Bewertungsdaten in der Datenbank.
@@ -14,4 +15,10 @@ interface ReviewDao {
      */
     @Insert
     suspend fun insertAll(vararg reviews: Review)
+
+    @Query("SELECT * FROM review")
+    suspend fun getAllReviews(): List<Review>
+
+    @Query("SELECT * FROM review WHERE event_id = :id")
+    suspend fun getReviewsForEvent(id: Long): List<Review>
 }

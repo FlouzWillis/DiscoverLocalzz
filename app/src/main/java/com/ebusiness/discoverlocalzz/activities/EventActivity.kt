@@ -16,9 +16,9 @@ import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.adapters.ErrorAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
-import com.ebusiness.discoverlocalzz.data.AppDatabase
-import com.ebusiness.discoverlocalzz.data.SimpleListItem
-import com.ebusiness.discoverlocalzz.data.models.EventWithAddressOrganizerReviews
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.SimpleListItem
+import com.ebusiness.discoverlocalzz.database.models.EventWithAddressOrganizerReviews
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.ebusiness.discoverlocalzz.helpers.External
 import com.ebusiness.discoverlocalzz.helpers.Preferences

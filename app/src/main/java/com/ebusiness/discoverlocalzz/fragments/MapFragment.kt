@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.activities.MainActivity
-import com.ebusiness.discoverlocalzz.data.AppDatabase
+import com.ebusiness.discoverlocalzz.database.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

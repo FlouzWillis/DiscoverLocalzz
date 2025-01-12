@@ -10,9 +10,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ProgressBar
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.data.AppDatabase
-import com.ebusiness.discoverlocalzz.data.models.Account
-import com.ebusiness.discoverlocalzz.data.models.User
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.models.Account
+import com.ebusiness.discoverlocalzz.database.models.User
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward

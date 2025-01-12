@@ -1,4 +1,4 @@
-package com.ebusiness.discoverlocalzz.data
+package com.ebusiness.discoverlocalzz.database
 
 import android.graphics.drawable.Drawable
 

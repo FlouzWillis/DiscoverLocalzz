@@ -1,12 +1,12 @@
-package com.ebusiness.discoverlocalzz.data.dao
+package com.ebusiness.discoverlocalzz.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.ebusiness.discoverlocalzz.data.models.Ticket
-import com.ebusiness.discoverlocalzz.data.models.TicketWithEvent
-import com.ebusiness.discoverlocalzz.data.models.TicketWithEventWithAddress
+import com.ebusiness.discoverlocalzz.database.models.Ticket
+import com.ebusiness.discoverlocalzz.database.models.TicketWithEvent
+import com.ebusiness.discoverlocalzz.database.models.TicketWithEventWithAddress
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Ticketdaten in der Datenbank.

@@ -1,11 +1,11 @@
-package com.ebusiness.discoverlocalzz.data.models
+package com.ebusiness.discoverlocalzz.database.models
 
 import android.content.res.Resources
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Relation
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.data.SimpleListItem
+import com.ebusiness.discoverlocalzz.database.SimpleListItem
 
 /**
  * Die Klasse TicketWithEvent stellt eine Beziehung zwischen einem Ticket und einem Event in der Room-Datenbank dar.
@@ -45,7 +45,7 @@ data class TicketWithEvent(
      */
     fun toTransactionHistoryItem(resources: Resources): SimpleListItem =
         SimpleListItem(
-            event.getPriceAsString(resources),
+            "",
             event.title,
             R.drawable.ic_square_credit_card,
             ticket.getPurchasedAtAsString(),

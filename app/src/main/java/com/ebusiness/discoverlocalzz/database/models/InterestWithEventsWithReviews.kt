@@ -1,11 +1,11 @@
-package com.ebusiness.discoverlocalzz.data.models
+package com.ebusiness.discoverlocalzz.database.models
 
 import android.content.Context
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
-import com.ebusiness.discoverlocalzz.data.CategoryListItem
+import com.ebusiness.discoverlocalzz.database.CategoryListItem
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 
 /**

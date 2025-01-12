@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.data.models.Interest
+import com.ebusiness.discoverlocalzz.database.models.Interest
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 

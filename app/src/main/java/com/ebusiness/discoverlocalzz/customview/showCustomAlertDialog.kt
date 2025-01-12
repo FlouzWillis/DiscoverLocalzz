@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.ebusiness.discoverlocalzz.R
 
 @SuppressLint("MissingInflatedId")
@@ -16,10 +17,11 @@ fun showCustomAlertDialog(
     context: Context,
     title: String,
     description: String,
-    checkBoxTexts: List<String>,
+    optionsList: List<String>,
     onConfirm: (selectedItems: List<String>) -> Unit,
     onClear: () -> Unit,
-    preSelectedItems: List<String> = emptyList()
+    preSelectedItems: List<String> = emptyList(),
+    useRadioButton: Boolean = false
 ) {
     val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_filter_list, null)
 
@@ -30,18 +32,36 @@ fun showCustomAlertDialog(
     val checkBoxContainer: LinearLayout = dialogView.findViewById(R.id.checkbox_container)
     val cancelButton: Button = dialogView.findViewById(R.id.cancel_button)
     val confirmButton: Button = dialogView.findViewById(R.id.confirm_button)
+    val radioButtons = mutableListOf<RadioButton>()
+    val checkBoxes = mutableListOf<CheckBox>()
 
     titleTextView.text = title
     descriptionTextView.text = description
 
-    val checkBoxes = mutableListOf<CheckBox>()
-    checkBoxTexts.forEach { text ->
-        val checkBox = CheckBox(context).apply {
-            this.text = text
+    if (useRadioButton) {
+        val radioGroup = RadioGroup(context).apply {
+            orientation = RadioGroup.VERTICAL
         }
-        checkBox.isChecked = selectedItems.contains(text)
-        checkBoxContainer.addView(checkBox)
-        checkBoxes.add(checkBox)
+
+        optionsList.forEach { text ->
+            val radioButton = RadioButton(context).apply {
+                this.text = text
+                this.isChecked = selectedItems.contains(text)
+            }
+            radioGroup.addView(radioButton)
+            radioButtons.add(radioButton)
+        }
+
+        checkBoxContainer.addView(radioGroup)
+    } else {
+        optionsList.forEach { text ->
+            val checkBox = CheckBox(context).apply {
+                this.text = text
+            }
+            checkBox.isChecked = selectedItems.contains(text)
+            checkBoxContainer.addView(checkBox)
+            checkBoxes.add(checkBox)
+        }
     }
 
     val alertDialog = AlertDialog.Builder(context)
@@ -54,7 +74,11 @@ fun showCustomAlertDialog(
     }
 
     confirmButton.setOnClickListener {
-        val selectedItems = checkBoxes.filter { it.isChecked }.map { it.text.toString() }
+        val selectedItems = if (useRadioButton) {
+            radioButtons.filter { it.isChecked }.map { it.text.toString() }
+        } else {
+            checkBoxes.filter { it.isChecked }.map { it.text.toString() }
+        }
         onConfirm(selectedItems)
         alertDialog.dismiss()
     }

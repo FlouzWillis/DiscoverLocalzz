@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.data.EventListItem
+import com.ebusiness.discoverlocalzz.database.EventListItem
 import com.ebusiness.discoverlocalzz.helpers.StarView
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 

@@ -8,8 +8,8 @@ import android.provider.CalendarContract
 import android.util.Log
 import android.widget.Toast
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.data.models.AddressWithZipCode
-import com.ebusiness.discoverlocalzz.data.models.Event
+import com.ebusiness.discoverlocalzz.database.models.Address
+import com.ebusiness.discoverlocalzz.database.models.Event
 
 /**
  * Objekt zur Interaktion mit externen Anwendungen wie dem Kalender und Karten.
@@ -55,7 +55,7 @@ object External {
      */
     fun openMaps(
         context: Context,
-        address: AddressWithZipCode,
+        address: Address,
     ) {
         val mapIntent =
             Intent(

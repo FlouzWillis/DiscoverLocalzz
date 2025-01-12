@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.adapters.InterestListAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
-import com.ebusiness.discoverlocalzz.data.AppDatabase
-import com.ebusiness.discoverlocalzz.data.models.AccountInterest
-import com.ebusiness.discoverlocalzz.data.models.Interest
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.models.AccountInterest
+import com.ebusiness.discoverlocalzz.database.models.Interest
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.floatingactionbutton.FloatingActionButton
