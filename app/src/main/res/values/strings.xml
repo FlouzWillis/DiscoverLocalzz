@@ -4,7 +4,7 @@
     <string name="title_map">Karte</string>
     <string name="title_coupons">Gutscheine</string>
     <string name="title_event">Event</string>
-    <string name="title_ticket">Ticket</string>
+    <string name="title_coupon">Rabatt</string>
     <string name="title_booking">Buchen</string>
     <string name="title_interests">Interessen</string>
     <string name="title_register">Registrieren</string>
@@ -32,7 +32,7 @@
     <string name="birthdate_error">Geburtsdatum ist erforderlich</string>
     <string name="phone_error">Ungültige Handynummer</string>
     <string name="password_empty_error">Passwort ist erforderlich</string>
-    <string name ="passwords_do_not_match">Passwörter stimmen nicht überein</string>
+    <string name="passwords_do_not_match">Passwörter stimmen nicht überein</string>
 
     <string name="title">Titel</string>
     <string name="date">Datum</string>
@@ -51,15 +51,16 @@
     <string name="description">Beschreibung</string>
     <string name="organizer">Veranstalter</string>
     <string name="when">Wann?</string>
+    <string name="available_until">Gültig bis</string>
     <string name="where">Wo?</string>
     <string name="what">Was?</string>
-    <string name="ticket_info">Zeige diesen Code beim Einlass vor</string>
-    <string name="ticket_cancel">Stornierung anfordern</string>
+    <string name="coupon_info">Zeige diesen Code beim Einlass vor</string>
+    <string name="coupon_cancel">Stornierung anfordern</string>
     <string name="ratings_title">Bewertungen</string>
 
     <string name="search_hint_discover">Entdecke deine Stadt</string>
     <string name="search_hint_map">Finde Locations in der Nähe</string>
-    <string name="search_hint_tickets">Durchsuche deine Tickets</string>
+    <string name="search_hint_coupons">Durchsuche deine Gutscheine</string>
 
     <string name="logout">Abmelden</string>
     <string name="logout_summary">Sind Sie sich sicher, dass Sie sich abmelden möchten?</string>
@@ -90,7 +91,7 @@
     <string name="calendar_error">"Es ist keine Kalender-App installiert."</string>
 
     <string name="cancellation">Stornieren</string>
-    <string name="cancellation_message">Möchten Sie Ihr Ticket wirklich stornieren? Bitte geben Sie einen Grund an.</string>
+    <string name="cancellation_message">Möchten Sie Ihr Gutschein wirklich stornieren? Bitte geben Sie einen Grund an.</string>
     <string name="reason">Grund</string>
 
     <string name="forgot_password">Passwort vergessen</string>

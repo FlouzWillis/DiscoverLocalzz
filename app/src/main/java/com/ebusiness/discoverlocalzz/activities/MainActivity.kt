@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.SearchView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -36,7 +35,7 @@ class MainActivity : BaseActivity() {
         when (intent.action) {
             "com.ebusiness.discoverlocalzz.SHOW_DISCOVER" -> navigate(navController, R.id.navigation_discover)
             "com.ebusiness.discoverlocalzz.SHOW_MAP" -> navigate(navController, R.id.navigation_map)
-            "com.ebusiness.discoverlocalzz.SHOW_TICKETS" -> navigate(navController, R.id.navigation_tickets)
+            "com.ebusiness.discoverlocalzz.SHOW_COUPONS" -> navigate(navController, R.id.navigation_coupons)
         }
     }
 

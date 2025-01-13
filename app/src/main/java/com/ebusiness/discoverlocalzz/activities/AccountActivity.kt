@@ -34,7 +34,7 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
                     SimpleListItem(
                         resources.getString(R.string.coupons_history),
                         "",
-                        R.drawable.ic_circle_payments,
+                        R.drawable.ic_circle_local_activity,
                     ),
                     SimpleListItem(resources.getString(R.string.imprint), "", R.drawable.ic_circle_link),
                     SimpleListItem(resources.getString(R.string.privacy_policy), "", R.drawable.ic_circle_link),
@@ -66,7 +66,7 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
                     MY_DATA_ITEM -> DataActivity::class.java
                     MY_INTERESTS_ITEM -> InterestsActivity::class.java
                     PAYMENT_DETAILS_ITEM -> PaymentDetailsActivity::class.java
-                    TRANSACTION_HISTORY_ITEM -> TransactionHistoryActivity::class.java
+                    REDEEMED_COUPONS_ITEM -> RedeemedCouponsActivity::class.java
                     IMPRINT_ITEM -> ImprintActivity::class.java
                     PRIVACY_POLICY_ITEM -> PrivacyPolicyActivity::class.java
                     else -> return
@@ -79,7 +79,7 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
         private const val MY_DATA_ITEM = 0
         private const val MY_INTERESTS_ITEM = 1
         private const val PAYMENT_DETAILS_ITEM = 2
-        private const val TRANSACTION_HISTORY_ITEM = 3
+        private const val REDEEMED_COUPONS_ITEM = 3
         private const val IMPRINT_ITEM = 4
         private const val PRIVACY_POLICY_ITEM = 5
     }

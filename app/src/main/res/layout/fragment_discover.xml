@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:queryBackground="@android:color/transparent"
-            android:queryHint="@string/search_hint_map" />
+            android:queryHint="@string/search_hint_discover" />
 
         <ImageView
             android:id="@+id/profileButton"
@@ -41,14 +41,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/location_filter_button"
-            style="@style/Widget.Material3.Button.IconButton.Outlined"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Ort" />
-
-        <Button
             android:id="@+id/category_filter_button"
             style="@style/Widget.Material3.Button.IconButton.Outlined"
             android:layout_width="wrap_content"
@@ -63,6 +55,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Bewertung" />
+
+        <Button
+            android:id="@+id/location_filter_button"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ort"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

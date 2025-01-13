@@ -12,7 +12,7 @@ import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.SimpleListItem
 import com.ebusiness.discoverlocalzz.database.models.Event
-import com.ebusiness.discoverlocalzz.database.models.Ticket
+import com.ebusiness.discoverlocalzz.database.models.Coupon
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -62,18 +62,18 @@ class BookingActivity : BaseActivity(), RecyclerViewHelperInterface {
                     }
 
                     CoroutineScope(Dispatchers.Main).launch {
-                        val ticket =
-                            AppDatabase.getInstance(this@BookingActivity).ticketDao().insert(
-                                Ticket(
+                        val coupon =
+                            AppDatabase.getInstance(this@BookingActivity).couponDao().insert(
+                                Coupon(
                                     event.id,
                                     Preferences.getUserId(this@BookingActivity),
                                     System.currentTimeMillis(),
                                 ),
                             )
                         startActivity(
-                            Intent(this@BookingActivity, TicketActivity::class.java).putExtra(
-                                TicketActivity.TICKET_INTENT_EXTRA,
-                                ticket,
+                            Intent(this@BookingActivity, CouponActivity::class.java).putExtra(
+                                CouponActivity.COUPON_INTENT_EXTRA,
+                                coupon,
                             ),
                         )
                     }

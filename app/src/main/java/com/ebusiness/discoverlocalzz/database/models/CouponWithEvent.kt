@@ -6,16 +6,17 @@ import androidx.room.Entity
 import androidx.room.Relation
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.database.SimpleListItem
+import com.ebusiness.discoverlocalzz.database.dao.AddressDao
 
 /**
  * Die Klasse TicketWithEvent stellt eine Beziehung zwischen einem Ticket und einem Event in der Room-Datenbank dar.
  *
- * @property ticket Das Ticket, das mit dem Event verknüpft ist.
+ * @property coupon Das Ticket, das mit dem Event verknüpft ist.
  * @property event Das Event, mit dem das Ticket verknüpft ist.
  */
 @Entity
-data class TicketWithEvent(
-    @Embedded val ticket: Ticket,
+data class CouponWithEvent(
+    @Embedded val coupon: Coupon,
     @Relation(
         parentColumn = "event_id",
         entityColumn = "event_id",
@@ -29,11 +30,12 @@ data class TicketWithEvent(
      * @param resources Die Ressourcen.
      * @return Ein SimpleListItem-Objekt, das die Informationen des Events enthält.
      */
-    fun toListItem(resources: Resources): SimpleListItem =
+    suspend fun toListItem(resources: Resources, addressDao: AddressDao): SimpleListItem =
         SimpleListItem(
             event.title,
-            event.getSummary(resources),
-            R.drawable.ic_circle_tag,
+            event.getAddress(addressDao, resources),
+            R.drawable.ic_circle_local_activity,
+            "10%"
         )
 
     /**
@@ -43,11 +45,11 @@ data class TicketWithEvent(
      * @param resources Die Ressourcen.
      * @return Ein SimpleListItem-Objekt, das die Informationen der Transaktion enthält.
      */
-    fun toTransactionHistoryItem(resources: Resources): SimpleListItem =
+    fun toRedeemedCouponsListItem(resources: Resources): SimpleListItem =
         SimpleListItem(
             "",
             event.title,
             R.drawable.ic_square_credit_card,
-            ticket.getPurchasedAtAsString(),
+            coupon.getExpiredDateAsString(),
         )
 }

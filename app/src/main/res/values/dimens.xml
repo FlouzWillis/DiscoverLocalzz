@@ -10,4 +10,5 @@
     <dimen name="list_item_icon_size">40dp</dimen>
     <dimen name="illustration_size">192dp</dimen>
     <dimen name="event_header_size">320dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

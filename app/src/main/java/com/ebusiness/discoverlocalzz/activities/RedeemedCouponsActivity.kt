@@ -17,28 +17,34 @@ import kotlinx.coroutines.launch
 /**
  * Aktivität für den Zahlungsverlauf.
  */
-class TransactionHistoryActivity : BaseActivity(), RecyclerViewHelperInterface {
+class RedeemedCouponsActivity : BaseActivity(), RecyclerViewHelperInterface {
     /**
      * Initialisiert die Zahlungsverlaufs-Aktivität.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transaction_history)
+        setContentView(R.layout.activity_redeemed_coupons)
 
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = LoadingAdapter()
         CoroutineScope(Dispatchers.Main).launch {
-            val tickets =
-                AppDatabase.getInstance(this@TransactionHistoryActivity)
-                    .ticketDao()
-                    .getAll(Preferences.getUserId(this@TransactionHistoryActivity))
+            val coupons =
+                AppDatabase.getInstance(this@RedeemedCouponsActivity)
+                    .couponDao()
+                    .getAll(Preferences.getUserId(this@RedeemedCouponsActivity))
+
+            val currentDate = System.currentTimeMillis()
+
+            val expiredCoupons = coupons.filter {
+                it.coupon.expiryDate < currentDate
+            }
 
             recyclerView.adapter =
-                if (tickets.isNotEmpty()) {
+                if (expiredCoupons.isNotEmpty()) {
                     SimpleListAdapter(
-                        tickets.map { it.toTransactionHistoryItem(resources) },
-                        this@TransactionHistoryActivity,
+                        expiredCoupons.map { it.toRedeemedCouponsListItem(resources) },
+                        this@RedeemedCouponsActivity,
                     )
                 } else {
                     EmptyAdapter()

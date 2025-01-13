@@ -172,16 +172,13 @@ class MapFragment : Fragment() {
                 }
 
                 locations?.firstOrNull()?.let { location ->
-                    // Create a GeoPoint from the found location
                     val searchPoint = GeoPoint(location.latitude, location.longitude)
 
-                    // Animate map to the found location
                     map.controller.apply {
                         animateTo(searchPoint)
                         zoomTo(DEFAULT_ZOOM_LEVEL)
                     }
 
-                    // Optionally add a marker for the searched location
                     map.overlays.add(
                         Marker(map).apply {
                             position = searchPoint
@@ -194,7 +191,7 @@ class MapFragment : Fragment() {
                         }
                     )
 
-                    map.invalidate() // Refresh the map
+                    map.invalidate()
                 } ?: run {
                     Toast.makeText(
                         context,

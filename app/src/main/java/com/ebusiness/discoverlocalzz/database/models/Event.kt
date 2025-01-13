@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ebusiness.discoverlocalzz.R
+import com.ebusiness.discoverlocalzz.database.dao.AddressDao
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -58,9 +59,8 @@ class Event(
      */
     fun getStartAsString(resources: Resources): String =
         resources.getString(
-            R.string.start_format,
-            getStartDate(),
-            getStartTime(),
+            R.string.summary_format,
+            getStartDate()
         )
 
     /**
@@ -74,4 +74,16 @@ class Event(
             R.string.summary_format,
             getStartDate()
         )
+
+    suspend fun getAddress(addressDao: AddressDao, resources: Resources): String {
+        val address = addressDao.getAddressById(addressId)
+
+        return resources.getString(
+            R.string.address_format,
+            address?.street ?: "",
+            address?.number,
+            address?.zipCode ?: "",
+            address?.city ?: ""
+        )
+    }
 }

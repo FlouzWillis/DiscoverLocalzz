@@ -12,7 +12,7 @@
         android:title="@string/title_map" />
 
     <item
-        android:id="@+id/navigation_tickets"
+        android:id="@+id/navigation_coupons"
         android:icon="@drawable/ic_local_activity"
         android:title="@string/title_coupons" />
 </menu>

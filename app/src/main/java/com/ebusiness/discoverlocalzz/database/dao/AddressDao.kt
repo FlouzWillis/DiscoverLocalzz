@@ -2,6 +2,8 @@ package com.ebusiness.discoverlocalzz.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
 import com.ebusiness.discoverlocalzz.database.models.Address
 
 /**
@@ -14,4 +16,7 @@ interface AddressDao {
      */
     @Insert
     suspend fun insertAll(vararg addresses: Address)
+
+    @Query("SELECT * FROM address WHERE address_id = :addressId")
+    suspend fun getAddressById(addressId: Long): Address?
 }

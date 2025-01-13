@@ -26,14 +26,14 @@
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
-        android:shortcutId="tickets"
+        android:shortcutId="coupons"
         android:enabled="true"
         android:icon="@drawable/app_icon"
         android:shortcutShortLabel="@string/title_coupons"
         android:shortcutLongLabel="@string/title_coupons"
         android:shortcutDisabledMessage="@string/title_coupons">
         <intent
-            android:action="com.ebusiness.discoverlocalzz.SHOW_TICKETS"
+            android:action="com.ebusiness.discoverlocalzz.SHOW_COUPONS"
             android:targetPackage="com.ebusiness.discoverlocalzz"
             android:targetClass="com.ebusiness.discoverlocalzz.activities.MainActivity" />
         <categories android:name="android.shortcut.conversation" />

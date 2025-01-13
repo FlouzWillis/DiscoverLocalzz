@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:queryBackground="@android:color/transparent"
-            android:queryHint="@string/search_hint_map"/>
+            android:queryHint="@string/search_hint_coupons"/>
 
         <ImageView
             android:id="@+id/profileButton"

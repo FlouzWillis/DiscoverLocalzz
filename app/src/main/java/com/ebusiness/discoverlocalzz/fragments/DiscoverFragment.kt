@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,16 +23,12 @@ import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.customview.showCustomAlertDialog
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.models.AccountInterest
-import com.ebusiness.discoverlocalzz.database.models.Event
-import com.ebusiness.discoverlocalzz.database.models.EventWithReviews
 import com.ebusiness.discoverlocalzz.database.models.InterestWithEventsWithReviews
-import com.ebusiness.discoverlocalzz.database.models.Review
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 /**
  * Fragment zur Entdeckung und Anzeige von Veranstaltungen basierend auf Benutzerinteressen.
@@ -52,17 +49,27 @@ class DiscoverFragment : Fragment() {
 
         MainActivity.setupSearchView(root)
         filterSharedPreferences = requireContext().getSharedPreferences("FilterPreferences", MODE_PRIVATE)
-        root.findViewById<SearchView>(R.id.searchView)
-            .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        root.findViewById<SearchView>(R.id.searchView).apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     onSearchClicked()
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrEmpty()) {
+                        updateInterestList(interests)
+                    }
                     return false
                 }
             })
+
+            setOnCloseListener {
+                this.setQuery("", false)
+                updateInterestList(interests)
+                true
+            }
+        }
 
         val categoryFilterButton = root.findViewById<Button>(R.id.category_filter_button)
         categoryFilterButton.setOnClickListener {
@@ -130,7 +137,47 @@ class DiscoverFragment : Fragment() {
         }
 
     fun onSearchClicked() {
+        val searchView = requireView().findViewById<SearchView>(R.id.searchView)
+        val searchQuery = searchView.query.toString()
 
+        if (searchQuery.isEmpty()) {
+            Toast.makeText(context, getString(R.string.name), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val filteredInterests = interests.mapNotNull { interestWithEventsWithReviews ->
+            val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
+                eventWithReviews.event.title.contains(searchQuery, ignoreCase = true)
+            }
+
+            if (filteredEvents.isNotEmpty()) {
+                interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+            } else {
+                null
+            }
+        }
+
+        updateInterestList(filteredInterests)
+    }
+
+    private fun updateInterestList(filteredInterests: List<InterestWithEventsWithReviews>) {
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+        recyclerView?.adapter = if (filteredInterests.isNotEmpty()) {
+            CategoryListAdapter(
+                filteredInterests.mapIndexed { index, event ->
+                    event.toListItem(
+                        requireContext(),
+                        object : RecyclerViewHelperInterface {
+                            override fun onItemClicked(position: Int) {
+                                onItemClicked(index, position)
+                            }
+                        }
+                    )
+                }
+            )
+        } else {
+            EmptyAdapter()
+        }
     }
 
     private fun getSelectedCategories(): Set<String> {
@@ -227,7 +274,7 @@ class DiscoverFragment : Fragment() {
     }
 
     private fun onClickLocationFilterButton() {
-        CoroutineScope(Dispatchers.Main).launch {
+        /*CoroutineScope(Dispatchers.Main).launch {
             val events = AppDatabase.getInstance(requireContext()).eventDao().getAll()
             val cityCountMap = mutableMapOf<String, Int>()
 
@@ -337,7 +384,7 @@ class DiscoverFragment : Fragment() {
                 },
                 preSelectedItems = getSelectedLocations().toList()
             )
-        }
+        }*/
     }
 
     private fun onClickRatingFilterButton() {

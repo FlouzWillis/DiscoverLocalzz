@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.activities.MainActivity
-import com.ebusiness.discoverlocalzz.activities.TicketActivity
+import com.ebusiness.discoverlocalzz.activities.CouponActivity
 import com.ebusiness.discoverlocalzz.adapters.EmptyAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
 import com.ebusiness.discoverlocalzz.database.AppDatabase
-import com.ebusiness.discoverlocalzz.database.models.TicketWithEvent
+import com.ebusiness.discoverlocalzz.database.models.CouponWithEvent
+import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.CoroutineScope
@@ -26,8 +27,8 @@ import kotlinx.coroutines.launch
 /**
  * Fragment für die Anzeige und Filterung von Benutzertickets.
  */
-class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
-    private var tickets: List<TicketWithEvent> = listOf()
+class CouponsFragment : Fragment(), RecyclerViewHelperInterface {
+    private var coupons: List<CouponWithEvent> = listOf()
     private lateinit var titleFilter: Chip
     private lateinit var couponFilter: Chip
     private lateinit var recyclerView: RecyclerView
@@ -42,19 +43,22 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val root = inflater.inflate(R.layout.fragment_tickets, container, false)
+        val root = inflater.inflate(R.layout.fragment_coupons, container, false)
 
         MainActivity.setupSearchView(root)
-        root.findViewById<SearchView>(R.id.searchView).setOnQueryTextListener (object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                onSearchClicked()
-                return true
-            }
+        root.findViewById<SearchView>(R.id.searchView).apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    onSearchClicked()
+                    return true
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
+
+        }
 
         titleFilter = root.findViewById(R.id.title_filter)
         couponFilter = root.findViewById(R.id.coupon_filter)
@@ -63,9 +67,9 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = LoadingAdapter()
         CoroutineScope(Dispatchers.Main).launch {
-            tickets =
-                AppDatabase.getInstance(requireContext()).ticketDao().getAllTickets()
-//                    .getAll(Preferences.getUserId(requireContext()))
+            coupons =
+                AppDatabase.getInstance(requireContext()).couponDao()
+                    .getAll(Preferences.getUserId(requireContext())).filter { it.coupon.expiryDate > System.currentTimeMillis() }
             titleFilter.setOnClickListener {
                 selectFilter(TITLE_FILTER)
             }
@@ -82,26 +86,28 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
      * Behandelt Klickereignisse auf Ticketelemente und leitet zum Detailbereich des ausgewählten Tickets weiter.
      */
     override fun onItemClicked(position: Int) {
-        if (tickets.size > position) {
+        if (coupons.size > position) {
             requireContext().startActivity(
-                Intent(requireContext(), TicketActivity::class.java).apply {
-                    putExtra(TicketActivity.TICKET_INTENT_EXTRA, tickets[position].ticket.id)
+                Intent(requireContext(), CouponActivity::class.java).apply {
+                    putExtra(CouponActivity.COUPON_INTENT_EXTRA, coupons[position].coupon.id)
                 },
             )
         }
     }
 
-    private fun update(newTickets: List<TicketWithEvent>) {
-        tickets = newTickets
-        recyclerView.adapter =
-            if (tickets.isNotEmpty()) {
-                SimpleListAdapter(
-                    tickets.map { it.toListItem(resources) },
-                    this@TicketsFragment,
-                )
-            } else {
-                EmptyAdapter()
-            }
+    private fun update(newCoupons: List<CouponWithEvent>) {
+        CoroutineScope(Dispatchers.Main).launch {
+            coupons = newCoupons
+            recyclerView.adapter =
+                if (coupons.isNotEmpty()) {
+                    SimpleListAdapter(
+                        coupons.map { it.toListItem(resources, AppDatabase.getInstance(requireContext()).addressDao()) },
+                        this@CouponsFragment,
+                    )
+                } else {
+                    EmptyAdapter()
+                }
+        }
     }
 
     private fun selectFilter(filter: Byte) {
@@ -120,9 +126,9 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
                 titleFilter.setChipIconResource(icon)
                 update(
                     if (reversed) {
-                        tickets.sortedBy { it.event.title }
+                        coupons.sortedBy { it.event.title }
                     } else {
-                        tickets.sortedByDescending { it.event.title }
+                        coupons.sortedByDescending { it.event.title }
                     },
                 )
             }
@@ -131,9 +137,9 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
                 couponFilter.setChipIconResource(icon)
                 update(
                     if (reversed) {
-                        tickets.sortedBy { it.event.title }
+                        coupons.sortedBy { it.coupon.expiryDate }
                     } else {
-                        tickets.sortedByDescending { it.event.title }
+                        coupons.sortedByDescending { it.coupon.expiryDate }
                     },
                 )
             }
@@ -146,7 +152,6 @@ class TicketsFragment : Fragment(), RecyclerViewHelperInterface {
     }
 
     companion object {
-        private const val DATE_FILTER: Byte = 0
         private const val TITLE_FILTER: Byte = 1
         private const val COUPON_FILTER: Byte = 2
     }
