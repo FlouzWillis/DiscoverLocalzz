@@ -32,7 +32,7 @@
     <string name="birthdate_error">Geburtsdatum ist erforderlich</string>
     <string name="phone_error">Ungültige Handynummer</string>
     <string name="password_empty_error">Passwort ist erforderlich</string>
-    <string name ="passwords_do_not_match">Passwörter stimmen nicht überein</string>
+    <string name="passwords_do_not_match">Passwörter stimmen nicht überein</string>
 
     <string name="title">Titel</string>
     <string name="date">Datum</string>

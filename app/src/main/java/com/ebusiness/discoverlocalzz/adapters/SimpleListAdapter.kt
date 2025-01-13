@@ -55,8 +55,8 @@ class SimpleListAdapter(
         if (items[position].summary.isEmpty()) {
             holder.summary.visibility = View.GONE
         } else {
-//            holder.summary.visibility = View.VISIBLE
-//            holder.summary.text = items[position].summary
+            holder.summary.visibility = View.VISIBLE
+            holder.summary.text = items[position].summary
         }
         holder.drawable.setImageResource(items[position].icon)
         holder.itemView.setOnClickListener { helperInterface.onItemClicked(position) }

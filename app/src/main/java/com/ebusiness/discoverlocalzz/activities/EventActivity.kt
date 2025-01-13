@@ -10,15 +10,18 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.adapters.ErrorAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
+import com.ebusiness.discoverlocalzz.customview.showReviewDialog
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.SimpleListItem
 import com.ebusiness.discoverlocalzz.database.models.EventWithAddressOrganizerReviews
+import com.ebusiness.discoverlocalzz.database.models.Review
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.ebusiness.discoverlocalzz.helpers.External
 import com.ebusiness.discoverlocalzz.helpers.Preferences
@@ -30,13 +33,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 /**
  * Aktivität für die Darstellung von Eventdetails und Interaktionsmöglichkeiten wie Teilen und Buchen.
  */
 class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
     private var event: EventWithAddressOrganizerReviews? = null
-
     /**
      * Initialisiert die Eventaktivität und lädt Eventdetails und interaktive Funktionen.
      */
@@ -88,6 +95,29 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
                 )
             } else {
                 recyclerView.adapter = ErrorAdapter()
+            }
+        }
+
+        findViewById<FloatingActionButton>(R.id.add_review).setOnClickListener {
+            event?.let { event ->
+                showReviewDialog(
+                    this@EventActivity,
+                    onConfirm = { rating, reviewText ->
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val reviewDao = AppDatabase.getInstance(this@EventActivity).reviewDao()
+                            val review = Review(
+                                event.event.id,
+                                event.organizer.id,
+                                reviewText,
+                                rating,
+                                getCurrentDate()
+                            )
+                            reviewDao.saveReviewForEvent(review)
+                        }
+                    },
+                    onClear = {
+
+                    })
             }
         }
     }
@@ -197,7 +227,19 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
     override fun onItemClicked(position: Int) {
         when (position) {
             LOCATION_ITEM -> External.openMaps(this, event?.address ?: error(EVENT_IS_NULL))
+            REVIEWS_ITEM -> openReviewsView()
         }
+    }
+
+    private fun openReviewsView() {
+        this.startActivity(
+            Intent(this, ReviewsActivity::class.java).apply {
+                putExtra(
+                    EventActivity.EVENT_INTENT_EXTRA,
+                    event?.event?.id,
+                )
+            },
+        )
     }
 
     companion object {
@@ -206,8 +248,19 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
          * Aktivitäten zu übertragen.
          */
         const val EVENT_INTENT_EXTRA: String = "event_intent_extra"
-
+        private const val REVIEWS_ITEM = 3
         private const val LOCATION_ITEM = 2
         private const val EVENT_IS_NULL = "Event is null."
+    }
+
+    private fun getCurrentDate(): Long {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        val currentDateMillis = calendar.timeInMillis
+        return currentDateMillis
     }
 }

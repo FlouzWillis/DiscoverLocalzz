@@ -21,4 +21,7 @@ interface ReviewDao {
 
     @Query("SELECT * FROM review WHERE event_id = :id")
     suspend fun getReviewsForEvent(id: Long): List<Review>
+
+    @Insert
+    suspend fun saveReviewForEvent(review: Review)
 }
