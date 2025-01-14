@@ -15,7 +15,6 @@ import com.ebusiness.discoverlocalzz.database.models.CouponWithEventWithAddress
 import com.ebusiness.discoverlocalzz.helpers.External
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
