@@ -2,14 +2,26 @@ package com.ebusiness.discoverlocalzz.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.SearchView
+import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -17,8 +29,11 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.activities.MainActivity
-import com.ebusiness.discoverlocalzz.customview.showAddLocationDialog
 import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.models.Address
+import com.ebusiness.discoverlocalzz.database.models.Location
+import com.ebusiness.discoverlocalzz.database.models.LocationInterest
+import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +55,31 @@ import java.util.Locale
 class MapFragment : Fragment() {
     private lateinit var map: MapView
     private var geocoder: Geocoder? = null
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
+    private var dialogView: View? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        imagePickerLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                val imageUri = data?.data
+                if (imageUri != null) {
+                    if (dialogView == null) {
+                        dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_location, null)
+                    }
+                    dialogView?.let {
+                        val uploadedImageView = it.findViewById<ImageView>(R.id.uploaded_image)
+                        uploadedImageView.setImageURI(imageUri)
+                        uploadedImageView.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Erstellt die Ansicht für das Kartenfragment und initialisiert die Suchleiste.
@@ -53,16 +93,17 @@ class MapFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_map, container, false)
 
         MainActivity.setupSearchView(root)
-        root.findViewById<SearchView>(R.id.searchView).setOnQueryTextListener (object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                onSearchClicked()
-                return true
-            }
+        root.findViewById<SearchView>(R.id.searchView)
+            .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    onSearchClicked()
+                    return true
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
 
         root.findViewById<FloatingActionButton>(R.id.add_location_button).setOnClickListener {
             showAddLocationDialog(requireContext())
@@ -101,7 +142,8 @@ class MapFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             geocoder = Geocoder(requireContext(), Locale.getDefault())
-            for ((location, address) in AppDatabase.getInstance(requireContext()).locationDao().getAll()) {
+            for ((location, address) in AppDatabase.getInstance(requireContext()).locationDao()
+                .getAll()) {
                 geocoder?.getFromLocationName(
                     address.toString(resources),
                     1,
@@ -110,7 +152,10 @@ class MapFragment : Fragment() {
                         Marker(map).apply {
                             position = GeoPoint(address.latitude, address.longitude)
                             title = location.title
-                            icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_local_activity)
+                            icon = ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_circle_local_activity
+                            )
                         },
                     )
                 }
@@ -214,5 +259,90 @@ class MapFragment : Fragment() {
                 ).show()
             }
         }
+    }
+
+    private fun showAddLocationDialog(context: Context) {
+        if (dialogView == null) {
+            dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_location, null)
+        }
+        val database = AppDatabase.getInstance(context)
+        val cancelButton = dialogView?.findViewById<Button>(R.id.cancel_button)
+        val addButton = dialogView?.findViewById<Button>(R.id.add_button)
+        val categoriesList = dialogView?.findViewById<Spinner>(R.id.categories_list)
+        val uploadImageButton = dialogView?.findViewById<Button>(R.id.upload_image_button)
+        val uploadedImageView = dialogView?.findViewById<ImageView>(R.id.uploaded_image)
+        val streetEt = dialogView?.findViewById<EditText>(R.id.street_et)
+        val streetNumEt = dialogView?.findViewById<EditText>(R.id.number_et)
+        val zipCodeEt = dialogView?.findViewById<EditText>(R.id.zip_code_et)
+        val cityEt = dialogView?.findViewById<EditText>(R.id.city_et)
+        val titleEt = dialogView?.findViewById<EditText>(R.id.title_et)
+        val description = dialogView?.findViewById<EditText>(R.id.description_et)
+
+        uploadImageButton?.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK).apply {
+                type = "image/*"
+            }
+            imagePickerLauncher.launch(intent)
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val allCategories = database.interestDao().getAllInterests()
+            val categoryNames = allCategories.map { it.name }
+
+            val adapter = ArrayAdapter(
+                context,
+                android.R.layout.simple_spinner_item,
+                categoryNames
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+            categoriesList?.adapter = adapter
+        }
+
+        val alertDialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .create()
+
+        cancelButton?.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        addButton?.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                val street = streetEt?.text.toString()
+                val streetNumber = streetNumEt?.text.toString()
+                val zipCode = zipCodeEt?.text.toString()
+                val city = cityEt?.text.toString()
+                val title = titleEt?.text.toString()
+                val descriptionText = description?.text.toString()
+                val selectedCategory = categoriesList?.selectedItem?.toString()
+
+                val uploadedImageDrawable = uploadedImageView?.drawable
+                val base64Image = if (uploadedImageDrawable is BitmapDrawable) {
+                    val bitmap = uploadedImageDrawable.bitmap
+                    Base64.encodeImageToBase64(bitmap)
+                } else {
+                    null
+                }
+
+                val addressId = database.addressDao().insert(Address(street, zipCode, streetNumber, city))
+                val location = Location(
+                    1,
+                    title ?: "",
+                    addressId,
+                    descriptionText ?: "",
+                    base64Image ?: Base64.getFromAssets(context, "sample_bar.jpg"),
+                    )
+
+                val locationId = database.locationDao().insert(location)
+                database.interestDao().getInterestIdByName(selectedCategory ?: "")?.let { id ->
+                    database.locationInterestDao().insert(LocationInterest(locationId, id))
+                }
+            }
+
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 }

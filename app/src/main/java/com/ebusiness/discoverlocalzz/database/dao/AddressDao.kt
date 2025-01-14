@@ -19,4 +19,7 @@ interface AddressDao {
 
     @Query("SELECT * FROM address WHERE address_id = :addressId")
     suspend fun getAddressById(addressId: Long): Address?
+
+    @Insert
+    suspend fun insert(address: Address): Long
 }

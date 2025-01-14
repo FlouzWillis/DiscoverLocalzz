@@ -14,4 +14,7 @@ interface LocationInterestDao {
      */
     @Insert
     suspend fun insertAll(vararg interests: LocationInterest)
+
+    @Insert
+    suspend fun insert(locationInterest: LocationInterest)
 }

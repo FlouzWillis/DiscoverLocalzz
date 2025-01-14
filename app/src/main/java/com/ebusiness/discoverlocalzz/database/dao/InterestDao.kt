@@ -30,4 +30,7 @@ interface InterestDao {
      */
     @Insert
     suspend fun insertAll(vararg interests: Interest)
+
+    @Query("SELECT interest_id FROM interest where name = :name")
+    suspend fun getInterestIdByName(name: String): Long?
 }

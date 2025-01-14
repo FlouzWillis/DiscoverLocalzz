@@ -38,4 +38,7 @@ interface LocationDao {
      */
     @Insert
     suspend fun insertAll(vararg locations: Location)
+
+    @Insert
+    suspend fun insert(location: Location): Long
 }

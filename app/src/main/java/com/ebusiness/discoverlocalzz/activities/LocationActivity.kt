@@ -185,6 +185,9 @@ class LocationActivity : BaseActivity(), RecyclerViewHelperInterface {
         )
         StarView.fillStars(location.reviews.map { it.stars }.average().toFloat(), stars)
         frame.findViewById<TextView>(R.id.title).text = location.location.title
+        val locationRating = location.reviews.map { it.stars }.average().toFloat()
+        val ratingDisplay = if (locationRating.isNaN()) "Noch keine Bewertungen" else locationRating.toString()
+
         recyclerView.adapter =
             SimpleListAdapter(
                 listOf(
@@ -200,7 +203,7 @@ class LocationActivity : BaseActivity(), RecyclerViewHelperInterface {
                     ),
                     SimpleListItem(
                         resources.getString(R.string.ratings_title),
-                        location.reviews.map { it.stars }.average().toFloat().toString(),
+                        ratingDisplay,
                         R.drawable.ic_circle_star_filled,
                     ),
                 ),

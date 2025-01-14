@@ -1,11 +1,13 @@
 package com.ebusiness.discoverlocalzz.helpers
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.util.Base64
 import android.view.Gravity
 import androidx.core.graphics.drawable.toDrawable
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 /**
@@ -49,5 +51,12 @@ object Base64 {
         inputStream.read(fileBytes)
         inputStream.close()
         return Base64.encodeToString(fileBytes, Base64.DEFAULT)
+    }
+
+    fun encodeImageToBase64(bitmap: Bitmap): String {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 }
