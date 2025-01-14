@@ -12,8 +12,8 @@ import com.ebusiness.discoverlocalzz.activities.MainActivity
 import com.ebusiness.discoverlocalzz.database.dao.AccountDao
 import com.ebusiness.discoverlocalzz.database.dao.AccountInterestDao
 import com.ebusiness.discoverlocalzz.database.dao.AddressDao
-import com.ebusiness.discoverlocalzz.database.dao.EventDao
-import com.ebusiness.discoverlocalzz.database.dao.EventInterestDao
+import com.ebusiness.discoverlocalzz.database.dao.LocationDao
+import com.ebusiness.discoverlocalzz.database.dao.LocationInterestDao
 import com.ebusiness.discoverlocalzz.database.dao.InterestDao
 import com.ebusiness.discoverlocalzz.database.dao.OrganizerDao
 import com.ebusiness.discoverlocalzz.database.dao.ReviewDao
@@ -22,12 +22,13 @@ import com.ebusiness.discoverlocalzz.database.dao.UserDao
 import com.ebusiness.discoverlocalzz.database.models.Account
 import com.ebusiness.discoverlocalzz.database.models.AccountInterest
 import com.ebusiness.discoverlocalzz.database.models.Address
-import com.ebusiness.discoverlocalzz.database.models.Event
-import com.ebusiness.discoverlocalzz.database.models.EventInterest
+import com.ebusiness.discoverlocalzz.database.models.Location
+import com.ebusiness.discoverlocalzz.database.models.LocationInterest
 import com.ebusiness.discoverlocalzz.database.models.Interest
 import com.ebusiness.discoverlocalzz.database.models.Organizer
 import com.ebusiness.discoverlocalzz.database.models.Review
 import com.ebusiness.discoverlocalzz.database.models.Coupon
+import com.ebusiness.discoverlocalzz.database.models.LocationWithAddress
 import com.ebusiness.discoverlocalzz.database.models.User
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -45,8 +46,8 @@ import org.mindrot.jbcrypt.BCrypt
         Account::class,
         AccountInterest::class,
         Address::class,
-        Event::class,
-        EventInterest::class,
+        Location::class,
+        LocationInterest::class,
         Interest::class,
         Organizer::class,
         Review::class,
@@ -64,9 +65,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun couponDao(): CouponDao
 
     /**
-     * DAO zum Zugriff auf Event-Daten.
+     * DAO zum Zugriff auf Location-Daten.
      */
-    abstract fun eventDao(): EventDao
+    abstract fun locationDao(): LocationDao
 
     /**
      * DAO zum Zugriff auf Interessen-Daten.
@@ -74,9 +75,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun interestDao(): InterestDao
 
     /**
-     * DAO zum Zugriff auf EventInterest-Daten.
+     * DAO zum Zugriff auf LocationInterest-Daten.
      */
-    abstract fun eventInterestDao(): EventInterestDao
+    abstract fun locationInterestDao(): LocationInterestDao
 
     /**
      * DAO zum Zugriff auf Review-Daten.
@@ -109,7 +110,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
-        private const val DATABASE_NAME = "event.db"
+        private const val DATABASE_NAME = "Location.db"
 
         @Volatile
         private var instance: AppDatabase? = null
@@ -148,208 +149,125 @@ abstract class AppDatabase : RoomDatabase() {
                                 Coupon(3, 1, 1_706_227_200_000),
                                 Coupon(4, 1, 1_706_227_200_000),
                             )
-                            eventDao().insertAll(
-                                Event(
+                            locationDao().insertAll(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 1",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
+                                    "Badisches Staatstheater",
                                     1,
                                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 2",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Naturkundemuseum",
+                                    2,
                                     "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 2",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Rheingold",
+                                    3,
                                     "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 3",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Marktlücke",
+                                    4,
                                     "Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Mannheim"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 4",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Die Stadtmitte",
+                                    5,
                                     "Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Mannheim"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 5",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Berghain",
+                                    6,
                                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 6",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Palast der Republik",
+                                    7,
                                     "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Mannheim"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 7",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Bierakademie",
+                                    8,
                                     "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Stuttgart"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum 8",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Oishii",
+                                    9,
                                     "Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Stuttgart"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Kebab Factory",
+                                    10,
                                     "Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Mannheim"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Agostea",
+                                    11,
                                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Berlin"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Schräglage Club",
+                                    12,
                                     "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Mannheim"
                                 ),
-                                Event(
+                                Location(
                                     1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
+                                    "Berghain",
+                                    6,
                                     "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
                                 ),
-                                Event(
-                                    1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
-                                    "Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.",
-                                    Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
-                                ),
-                                Event(
-                                    1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
-                                    "Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
-                                    Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Mannheim"
-                                ),
-                                Event(
-                                    1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                                    Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
-                                ),
-                                Event(
-                                    1,
-                                    "Lorem Ipsum",
-                                    1_767_139_200_000,
-                                    1_767_139_200_000,
-                                    1,
-                                    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                                    Base64.getFromAssets(context, "sample_bar.jpg"),
-                                    "Karlsruhe"
-                                )
 
                             )
                             interestDao().insertAll(
                                 Interest("Kultur", Base64.getFromAssets(context, "sample_bar.jpg")),
                                 Interest("Tanzen", Base64.getFromAssets(context, "sample_bar.jpg")),
                                 Interest(
-                                    "Alkohol",
+                                    "Drinks",
                                     Base64.getFromAssets(context, "sample_bar.jpg"),
                                 ),
                                 Interest("Essen", Base64.getFromAssets(context, "sample_bar.jpg")),
                                 Interest("Party", Base64.getFromAssets(context, "sample_bar.jpg")),
                             )
 
-                            eventInterestDao().insertAll(
-                                EventInterest(1, 2),
-                                EventInterest(2, 4),
-                                EventInterest(3, 1),
-                                EventInterest(4, 2),
-                                EventInterest(5, 3),
-                                EventInterest(6, 1),
-                                EventInterest(7, 1),
-                                EventInterest(8, 4),
-                                EventInterest(9, 1),
-                                EventInterest(10, 3),
-                                EventInterest(11, 2),
-                                EventInterest(12, 5),
-                                EventInterest(13, 2),
-                                EventInterest(14, 4),
-                                EventInterest(15, 1),
-                                EventInterest(16, 2),
-                                EventInterest(17, 5),
+                            locationInterestDao().insertAll(
+                                LocationInterest(1, 1),
+                                LocationInterest(2, 1),
+                                LocationInterest(3, 1),
+                                LocationInterest(4, 2),
+                                LocationInterest(5, 2),
+                                LocationInterest(6, 2),
+                                LocationInterest(7, 3),
+                                LocationInterest(8, 3),
+                                LocationInterest(9, 4),
+                                LocationInterest(10, 4),
+                                LocationInterest(11, 5),
+                                LocationInterest(12, 5),
+                                LocationInterest(13, 5),
                                 )
 
                             reviewDao().insertAll(
@@ -365,8 +283,19 @@ abstract class AppDatabase : RoomDatabase() {
                                 Organizer(""),
                             )
                             addressDao().insertAll(
-                                Address("Kußmaulstraße", "76133", "1", "Karlsruhe"),
-                            )
+                                Address("Baumeisterstraße", "76137", "11", "Karlsruhe"),
+                                Address("Erbprinzenstraße", "76133", "13", "Karlsruhe"),
+                                Address("Rheinstraße", "76185", "77", "Karlsruhe"),
+                                Address("Zähringerstraße", "76133", "96", "Karlsruhe"),
+                                Address("Baumeisterstraße", "76137", "3", "Karlsruhe"),
+                                Address("Am Wriezener bhf", "10243", "1", "Berlin"),
+                                Address("Friedrichstraße", "70174", "27", "Stuttgart"),
+                                Address("Douglasstraße", "76133", "10", "Karlsruhe"),
+                                Address("Bürgerstraße", "76133", "16", "Karlsruhe"),
+                                Address("Rheinstraße", "76185", "18", "Karlsruhe"),
+                                Address("Rüppurrer Str.", "76137", "1", "Karlsruhe"),
+                                Address("Hirschstraße", "70173", "14", "Karlsruhe"),
+                                )
                             accountDao().insertAll(
                                 Account(
                                     "test@test.de",

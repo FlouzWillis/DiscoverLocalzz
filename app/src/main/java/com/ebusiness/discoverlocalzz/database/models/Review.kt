@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 /**
  * Die Klasse Review repräsentiert eine Bewertung in der Room-Datenbank.
  *
- * @property eventId Die ID des zugehörigen Events.
+ * @property locationId Die ID des zugehörigen Locations.
  * @property userId Die ID des Benutzers, der die Bewertung abgegeben hat.
  * @property message Die Nachricht oder der Kommentar zur Bewertung.
  * @property stars Die Anzahl der Sterne, die für die Bewertung vergeben wurden.
@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "review")
 class Review(
-    @ColumnInfo(name = "event_id") val eventId: Long,
+    @ColumnInfo(name = "location_id") val locationId: Long,
     @ColumnInfo(name = "user_id") val userId: Long,
     @ColumnInfo(name = "message") val message: String,
     @ColumnInfo(name = "stars") val stars: Float,

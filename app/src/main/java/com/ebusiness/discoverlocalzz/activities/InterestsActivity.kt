@@ -26,7 +26,7 @@ class InterestsActivity : BaseActivity(), RecyclerViewHelperInterface {
     private lateinit var adapter: InterestListAdapter
 
     /**
-     * Initialisiert die Interessenaktivität und setzt Event-Handler für Benutzerinteraktionen.
+     * Initialisiert die Interessenaktivität und setzt Location-Handler für Benutzerinteraktionen.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -28,7 +28,7 @@ import org.mindrot.jbcrypt.BCrypt
  */
 class DataActivity : BaseActivity(), RecyclerViewHelperInterface {
     /**
-     * Initialisiert die Nutzerdaten-Aktivität und konfiguriert Event-Handler für die Löschoption.
+     * Initialisiert die Nutzerdaten-Aktivität und konfiguriert Location-Handler für die Löschoption.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

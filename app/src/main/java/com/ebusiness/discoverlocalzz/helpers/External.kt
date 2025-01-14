@@ -9,7 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.database.models.Address
-import com.ebusiness.discoverlocalzz.database.models.Event
+import com.ebusiness.discoverlocalzz.database.models.Location
 
 /**
  * Objekt zur Interaktion mit externen Anwendungen wie dem Kalender und Karten.
@@ -18,34 +18,6 @@ import com.ebusiness.discoverlocalzz.database.models.Event
  * durch nahtlose Integration mit anderen häufig genutzten Apps zu verbessern.
  */
 object External {
-    /**
-     * Öffnet den Kalender des Benutzers und fügt ein neues Ereignis hinzu.
-     *
-     * @param context Der Kontext, in dem die Aktion ausgeführt wird.
-     * @param event Das Event-Objekt, das Informationen über das Ereignis enthält.
-     * @throws PackageManager.NameNotFoundException wenn der Kalender nicht gefunden wird.
-     */
-    fun openCalendar(
-        context: Context,
-        event: Event,
-    ) {
-        try {
-            context.startActivity(
-                Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.Events.TITLE, event.title)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.start)
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.end),
-            )
-        } catch (exception: PackageManager.NameNotFoundException) {
-            Log.w(this::class.simpleName, exception)
-            Toast.makeText(
-                context,
-                R.string.calendar_error,
-                Toast.LENGTH_SHORT,
-            ).show()
-        }
-    }
 
     /**
      * Öffnet Google Maps und sucht nach einer angegebenen Adresse.

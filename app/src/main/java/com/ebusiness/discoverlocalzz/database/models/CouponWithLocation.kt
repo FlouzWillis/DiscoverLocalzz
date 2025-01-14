@@ -9,37 +9,37 @@ import com.ebusiness.discoverlocalzz.database.SimpleListItem
 import com.ebusiness.discoverlocalzz.database.dao.AddressDao
 
 /**
- * Die Klasse TicketWithEvent stellt eine Beziehung zwischen einem Ticket und einem Event in der Room-Datenbank dar.
+ * Die Klasse TicketWithLocation stellt eine Beziehung zwischen einem Ticket und einem Location in der Room-Datenbank dar.
  *
- * @property coupon Das Ticket, das mit dem Event verknüpft ist.
- * @property event Das Event, mit dem das Ticket verknüpft ist.
+ * @property coupon Das Ticket, das mit dem Location verknüpft ist.
+ * @property location Das Location, mit dem das Ticket verknüpft ist.
  */
 @Entity
-data class CouponWithEvent(
+data class CouponWithLocation(
     @Embedded val coupon: Coupon,
     @Relation(
-        parentColumn = "event_id",
-        entityColumn = "event_id",
+        parentColumn = "location_id",
+        entityColumn = "location_id",
     )
-    val event: Event,
+    val location: Location,
 ) {
     /**
-     * Diese Methode konvertiert das TicketWithEvent-Objekt in ein SimpleListItem-Objekt für die
+     * Diese Methode konvertiert das TicketWithLocation-Objekt in ein SimpleListItem-Objekt für die
      * Anzeige in einer RecyclerView.
      *
      * @param resources Die Ressourcen.
-     * @return Ein SimpleListItem-Objekt, das die Informationen des Events enthält.
+     * @return Ein SimpleListItem-Objekt, das die Informationen des Locations enthält.
      */
     suspend fun toListItem(resources: Resources, addressDao: AddressDao): SimpleListItem =
         SimpleListItem(
-            event.title,
-            event.getAddress(addressDao, resources),
+            location.title,
+            location.getAddress(addressDao, resources),
             R.drawable.ic_circle_local_activity,
             "10%"
         )
 
     /**
-     * Diese Methode konvertiert das TicketWithEvent-Objekt in ein SimpleListItem-Objekt für
+     * Diese Methode konvertiert das TicketWithLocation-Objekt in ein SimpleListItem-Objekt für
      * die Anzeige in einer RecyclerView.
      *
      * @param resources Die Ressourcen.
@@ -48,7 +48,7 @@ data class CouponWithEvent(
     fun toRedeemedCouponsListItem(resources: Resources): SimpleListItem =
         SimpleListItem(
             "",
-            event.title,
+            location.title,
             R.drawable.ic_square_credit_card,
             coupon.getExpiredDateAsString(),
         )

@@ -19,7 +19,7 @@
             <RelativeLayout
                 android:id="@+id/frame"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/event_header_size">
+                android:layout_height="@dimen/location_header_size">
 
                 <ImageView
                     android:id="@+id/image"

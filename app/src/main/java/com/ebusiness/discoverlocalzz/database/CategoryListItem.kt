@@ -12,6 +12,6 @@ import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
  */
 data class CategoryListItem(
     val title: String,
-    val list: List<EventListItem>,
+    val list: List<LocationListItem>,
     val helperInterface: RecyclerViewHelperInterface,
 )

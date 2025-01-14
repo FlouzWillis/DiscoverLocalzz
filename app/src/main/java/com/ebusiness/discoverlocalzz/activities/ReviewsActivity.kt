@@ -8,25 +8,17 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.activities.EventActivity.Companion.EVENT_INTENT_EXTRA
+import com.ebusiness.discoverlocalzz.activities.LocationActivity.Companion.LOCATION_INTENT_EXTRA
 import com.ebusiness.discoverlocalzz.adapters.ErrorAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.SimpleListItem
-import com.ebusiness.discoverlocalzz.database.models.EventWithAddressOrganizerReviews
-import com.ebusiness.discoverlocalzz.database.models.Review
-import com.ebusiness.discoverlocalzz.databinding.ActivityReviewsBinding
+import com.ebusiness.discoverlocalzz.database.models.LocationWithAddressOrganizerReviews
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.ebusiness.discoverlocalzz.helpers.StarView
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
@@ -39,7 +31,7 @@ import java.util.Date
 import java.util.Locale
 
 class ReviewsActivity : BaseActivity(), RecyclerViewHelperInterface {
-    private var event: EventWithAddressOrganizerReviews? = null
+    private var location: LocationWithAddressOrganizerReviews? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,18 +44,18 @@ class ReviewsActivity : BaseActivity(), RecyclerViewHelperInterface {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = LoadingAdapter()
 
-        if (!intent.hasExtra(EVENT_INTENT_EXTRA)) {
+        if (!intent.hasExtra(LOCATION_INTENT_EXTRA)) {
             recyclerView.adapter = ErrorAdapter()
             return
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            event = AppDatabase.getInstance(this@ReviewsActivity).eventDao()
-                .getWithAddressOrganizerReviews(intent.getLongExtra(EVENT_INTENT_EXTRA, -1))
+            location = AppDatabase.getInstance(this@ReviewsActivity).locationDao()
+                .getWithAddressOrganizerReviews(intent.getLongExtra(LOCATION_INTENT_EXTRA, -1))
 
-            if (event != null) {
+            if (location != null) {
                 showReviews(
-                    event!!,
+                    location!!,
                     findViewById(R.id.frame),
                     recyclerView)
             } else {
@@ -133,7 +125,7 @@ class ReviewsActivity : BaseActivity(), RecyclerViewHelperInterface {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun showReviews(
-        event: EventWithAddressOrganizerReviews,
+        location: LocationWithAddressOrganizerReviews,
         frame: View,
         recyclerView: RecyclerView
     ) {
@@ -146,14 +138,14 @@ class ReviewsActivity : BaseActivity(), RecyclerViewHelperInterface {
         )
 
         frame.findViewById<ImageView>(R.id.image).setImageDrawable(
-            Base64.decodeImage(this, event.event.image),
+            Base64.decodeImage(this, location.location.image),
         )
-        StarView.fillStars(event.reviews.map { it.stars }.average().toFloat(), stars)
-        frame.findViewById<TextView>(R.id.title).text = event.event.title
+        StarView.fillStars(location.reviews.map { it.stars }.average().toFloat(), stars)
+        frame.findViewById<TextView>(R.id.title).text = location.location.title
 
         val reviewList = mutableListOf<SimpleListItem>()
 
-        event.reviews.forEach { review ->
+        location.reviews.forEach { review ->
             reviewList.add(SimpleListItem(
                 review.stars.toString(),
                 review.message,

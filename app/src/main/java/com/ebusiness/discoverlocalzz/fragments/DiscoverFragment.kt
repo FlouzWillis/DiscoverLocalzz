@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.activities.EventActivity
+import com.ebusiness.discoverlocalzz.activities.LocationActivity
 import com.ebusiness.discoverlocalzz.activities.MainActivity
 import com.ebusiness.discoverlocalzz.adapters.CategoryListAdapter
 import com.ebusiness.discoverlocalzz.adapters.EmptyAdapter
@@ -23,7 +23,8 @@ import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.customview.showCustomAlertDialog
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.models.AccountInterest
-import com.ebusiness.discoverlocalzz.database.models.InterestWithEventsWithReviews
+import com.ebusiness.discoverlocalzz.database.models.InterestWithLocationsWithReviews
+import com.ebusiness.discoverlocalzz.database.models.LocationWithReviews
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import kotlinx.coroutines.CoroutineScope
@@ -34,10 +35,10 @@ import kotlinx.coroutines.launch
  * Fragment zur Entdeckung und Anzeige von Veranstaltungen basierend auf Benutzerinteressen.
  */
 class DiscoverFragment : Fragment() {
-    private var interests: List<InterestWithEventsWithReviews> = listOf()
+    private var interests: List<InterestWithLocationsWithReviews> = listOf()
     private lateinit var filterSharedPreferences: SharedPreferences
     /**
-     * Erstellt die Ansicht für das Entdeckungsfragment und initialisiert Elemente wie Suchleiste und Eventliste.
+     * Erstellt die Ansicht für das Entdeckungsfragment und initialisiert Elemente wie Suchleiste und Locationliste.
      */
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -76,10 +77,10 @@ class DiscoverFragment : Fragment() {
             onClickCategoryFilterButton()
         }
 
-        val locationFilterButton = root.findViewById<Button>(R.id.location_filter_button)
-        locationFilterButton.setOnClickListener {
-            onClickLocationFilterButton()
-        }
+//        val locationFilterButton = root.findViewById<Button>(R.id.location_filter_button)
+//        locationFilterButton.setOnClickListener {
+//            onClickLocationFilterButton()
+//        }
 
         val ratingFilterButton = root.findViewById<Button>(R.id.rating_filter_button)
         ratingFilterButton.setOnClickListener {
@@ -105,8 +106,8 @@ class DiscoverFragment : Fragment() {
             recyclerView.adapter =
                 if (interests.isNotEmpty()) {
                     CategoryListAdapter(
-                        interests.mapIndexed { index, event ->
-                            event.toListItem(
+                        interests.mapIndexed { index, location ->
+                            location.toListItem(
                                 requireContext(),
                                 object : RecyclerViewHelperInterface {
                                     override fun onItemClicked(position: Int) {
@@ -125,9 +126,9 @@ class DiscoverFragment : Fragment() {
     }
 
     private fun reorderCategories(
-        allCategories: List<InterestWithEventsWithReviews>,
+        allCategories: List<InterestWithLocationsWithReviews>,
         userInterests: List<AccountInterest>,
-    ): List<InterestWithEventsWithReviews> =
+    ): List<InterestWithLocationsWithReviews> =
         allCategories.sortedBy { (interest, _) ->
             if (userInterests.any { it.interestId == interest.id }) {
                 0
@@ -145,13 +146,13 @@ class DiscoverFragment : Fragment() {
             return
         }
 
-        val filteredInterests = interests.mapNotNull { interestWithEventsWithReviews ->
-            val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
-                eventWithReviews.event.title.contains(searchQuery, ignoreCase = true)
+        val filteredInterests = interests.mapNotNull { interestWithLocationsWithReviews ->
+            val filteredLocations = interestWithLocationsWithReviews.locations.filter { locationWithReviews ->
+                locationWithReviews.location.title.contains(searchQuery, ignoreCase = true)
             }
 
-            if (filteredEvents.isNotEmpty()) {
-                interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+            if (filteredLocations.isNotEmpty()) {
+                interestWithLocationsWithReviews.copy(locations = filteredLocations.toMutableList())
             } else {
                 null
             }
@@ -160,12 +161,12 @@ class DiscoverFragment : Fragment() {
         updateInterestList(filteredInterests)
     }
 
-    private fun updateInterestList(filteredInterests: List<InterestWithEventsWithReviews>) {
+    private fun updateInterestList(filteredInterests: List<InterestWithLocationsWithReviews>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
         recyclerView?.adapter = if (filteredInterests.isNotEmpty()) {
             CategoryListAdapter(
-                filteredInterests.mapIndexed { index, event ->
-                    event.toListItem(
+                filteredInterests.mapIndexed { index, location ->
+                    location.toListItem(
                         requireContext(),
                         object : RecyclerViewHelperInterface {
                             override fun onItemClicked(position: Int) {
@@ -221,8 +222,8 @@ class DiscoverFragment : Fragment() {
                     val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
                     recyclerView?.adapter = if (filteredInterests.isNotEmpty()) {
                         CategoryListAdapter(
-                            filteredInterests.mapIndexed { index, event ->
-                                event.toListItem(
+                            filteredInterests.mapIndexed { index, location ->
+                                location.toListItem(
                                     requireContext(),
                                     object : RecyclerViewHelperInterface {
                                         override fun onItemClicked(position: Int) {
@@ -234,8 +235,8 @@ class DiscoverFragment : Fragment() {
                         )
                     } else {
                         CategoryListAdapter(
-                            reorderCategories.mapIndexed { index, event ->
-                                event.toListItem(
+                            reorderCategories.mapIndexed { index, location ->
+                                location.toListItem(
                                     requireContext(),
                                     object : RecyclerViewHelperInterface {
                                         override fun onItemClicked(position: Int) {
@@ -253,8 +254,8 @@ class DiscoverFragment : Fragment() {
                     val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
                     recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
                         CategoryListAdapter(
-                            reorderCategories.mapIndexed { index, event ->
-                                event.toListItem(
+                            reorderCategories.mapIndexed { index, location ->
+                                location.toListItem(
                                     requireContext(),
                                     object : RecyclerViewHelperInterface {
                                         override fun onItemClicked(position: Int) {
@@ -273,119 +274,118 @@ class DiscoverFragment : Fragment() {
         }
     }
 
-    private fun onClickLocationFilterButton() {
-        /*CoroutineScope(Dispatchers.Main).launch {
-            val events = AppDatabase.getInstance(requireContext()).eventDao().getAll()
-            val cityCountMap = mutableMapOf<String, Int>()
-
-            events.forEach { location ->
-                val city = location.event.city
-                if (city.isNotBlank()) {
-                    val currentCount = cityCountMap[city] ?: 0
-                    cityCountMap[city] = currentCount + 1
-                }
-            }
-
-            val allCitiesWithCount = cityCountMap.map { (city, count) ->
-                "$city ($count)"
-            }
-
-            val reorderCategories = reorderCategories(
-                AppDatabase.getInstance(requireContext()).interestDao().getAll(),
-                AppDatabase.getInstance(requireContext()).accountInterestDao()
-                    .getUserInterests(Preferences.getUserId(requireContext())),
-            )
-
-            showCustomAlertDialog(
-                context = requireContext(),
-                title = "Orte",
-                description = "Ort wählen",
-                optionsList = allCitiesWithCount,
-                onConfirm = { selectedItems ->
-
-                    filterSharedPreferences.edit().putStringSet("SelectedCities", selectedItems.toSet())
-                        .apply()
-
-                    val filteredEvents = mutableListOf<EventWithReviews>()
-
-                    reorderCategories.forEach { category ->
-                        category.events.forEach { event ->
-                            if (selectedItems.contains(event.event.city)) {
-                                filteredEvents.add(event)
-                            }
-                        }
-                    }
-
-                    val allCategories = reorderCategories
-
-                    allCategories.forEach { catergory ->
-                        filteredEvents.forEach { event ->
-
-                            reorderCategories.forEach {
-                                if (it.events.contains(event) && catergory == it) {
-                                    catergory.events.add(event)
-                                }
-                            }
-                        }
-                    }
-
-                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
-                    recyclerView?.adapter = if (allCategories.isNotEmpty()) {
-                        CategoryListAdapter(
-                            allCategories.mapIndexed { index, event ->
-                                event.toListItem(
-                                    requireContext(),
-                                    object : RecyclerViewHelperInterface {
-                                        override fun onItemClicked(position: Int) {
-                                            onItemClicked(index, position)
-                                        }
-                                    },
-                                )
-                            },
-                        )
-                    } else if (allCategories.none { it.events.isEmpty() }) {
-                        EmptyAdapter()
-                    } else {
-                        CategoryListAdapter(
-                            reorderCategories.mapIndexed { index, event ->
-                                event.toListItem(
-                                    requireContext(),
-                                    object : RecyclerViewHelperInterface {
-                                        override fun onItemClicked(position: Int) {
-                                            onItemClicked(index, position)
-                                        }
-                                    },
-                                )
-                            },
-                        )
-                    }
-                },
-                onClear = {
-
-                    filterSharedPreferences.edit().remove("SelectedCities").apply()
-
-                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
-                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
-                        CategoryListAdapter(
-                            reorderCategories.mapIndexed { index, event ->
-                                event.toListItem(
-                                    requireContext(),
-                                    object : RecyclerViewHelperInterface {
-                                        override fun onItemClicked(position: Int) {
-                                            onItemClicked(index, position)
-                                        }
-                                    },
-                                )
-                            },
-                        )
-                    } else {
-                        EmptyAdapter()
-                    }
-                },
-                preSelectedItems = getSelectedLocations().toList()
-            )
-        }*/
-    }
+//    private fun onClickLocationFilterButton() {
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val database = AppDatabase.getInstance(requireContext())
+//            val locations = database.locationDao().getAll()
+//            val cityCountMap = mutableMapOf<String, Int>()
+//
+//            locations.forEach { location ->
+//                val city = location.address.city
+//                if (city.isNotBlank()) {
+//                    val currentCount = cityCountMap[city] ?: 0
+//                    cityCountMap[city] = currentCount + 1
+//                }
+//            }
+//
+//            val allCitiesWithCount = cityCountMap.map { (city, count) ->
+//                "$city ($count)"
+//            }
+//
+//            val reorderCategories = reorderCategories(
+//                AppDatabase.getInstance(requireContext()).interestDao().getAll(),
+//                AppDatabase.getInstance(requireContext()).accountInterestDao()
+//                    .getUserInterests(Preferences.getUserId(requireContext())),
+//            )
+//
+//            showCustomAlertDialog(
+//                context = requireContext(),
+//                title = "Orte",
+//                description = "Ort wählen",
+//                optionsList = allCitiesWithCount,
+//                onConfirm = { selectedItems ->
+//
+//                    filterSharedPreferences.edit()
+//                        .putStringSet("SelectedCities", selectedItems.toSet())
+//                        .apply()
+//
+//                    val filteredLocations = listOf<InterestWithLocationsWithReviews>()
+//                    CoroutineScope(Dispatchers.Main).launch {
+//                        reorderCategories.mapNotNull { interestWithLocationsWithReviews ->
+//                            val filteredLocations = interestWithLocationsWithReviews.locations.filter { location ->
+//                                database.addressDao().getAddressById(location.location.addressId)
+//                                    ?.let {
+//                                        if (selectedItems.contains(it.city)) {
+//                                            filteredLocations.add(location)
+//                                        }
+//                                    }
+//                            }
+//
+//                            if (filteredLocations.isNotEmpty()) {
+//                                interestWithLocationsWithReviews.copy(locations = filteredLocations.toMutableList())
+//                            } else {
+//                                null
+//                            }
+//                        }
+//                    }
+//
+//                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+//                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
+//                        CategoryListAdapter(
+//                            filteredLocations.mapIndexed { index, location ->
+//                                location.toListItem(
+//                                    requireContext(),
+//                                    object : RecyclerViewHelperInterface {
+//                                        override fun onItemClicked(position: Int) {
+//                                            onItemClicked(index, position)
+//                                        }
+//                                    },
+//                                )
+//                            },
+//                        )
+//                    } else if (reorderCategories.none { it.locations.isEmpty() }) {
+//                        EmptyAdapter()
+//                    } else {
+//                        CategoryListAdapter(
+//                            reorderCategories.mapIndexed { index, location ->
+//                                location.toListItem(
+//                                    requireContext(),
+//                                    object : RecyclerViewHelperInterface {
+//                                        override fun onItemClicked(position: Int) {
+//                                            onItemClicked(index, position)
+//                                        }
+//                                    },
+//                                )
+//                            },
+//                        )
+//                    }
+//                },
+//                onClear = {
+//
+//                    filterSharedPreferences.edit().remove("SelectedCities").apply()
+//
+//                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
+//                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
+//                        CategoryListAdapter(
+//                            reorderCategories.mapIndexed { index, location ->
+//                                location.toListItem(
+//                                    requireContext(),
+//                                    object : RecyclerViewHelperInterface {
+//                                        override fun onItemClicked(position: Int) {
+//                                            onItemClicked(index, position)
+//                                        }
+//                                    },
+//                                )
+//                            },
+//                        )
+//                    } else {
+//                        EmptyAdapter()
+//                    }
+//                },
+//                preSelectedItems = getSelectedLocations().toList()
+//            )
+//        }
+//    }
 
     private fun onClickRatingFilterButton() {
 
@@ -405,44 +405,44 @@ class DiscoverFragment : Fragment() {
                     filterSharedPreferences.edit().putString("SelectedRating", selectedItems.first())
                         .apply()
                     val selectedRating = selectedItems.first()
-                    val filteredInterestsWithEvents: List<InterestWithEventsWithReviews> = when (selectedRating) {
+                    val filteredInterestsWithLocations: List<InterestWithLocationsWithReviews> = when (selectedRating) {
                         "3+" -> {
-                            reorderCategories.mapNotNull { interestWithEventsWithReviews ->
-                                val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
-                                    val averageRating = eventWithReviews.getAverageRating()
+                            reorderCategories.mapNotNull { interestWithLocationsWithReviews ->
+                                val filteredLocations = interestWithLocationsWithReviews.locations.filter { locationWithReviews ->
+                                    val averageRating = locationWithReviews.getAverageRating()
                                     averageRating >= 3.0f
                                 }
 
-                                if (filteredEvents.isNotEmpty()) {
-                                    interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+                                if (filteredLocations.isNotEmpty()) {
+                                    interestWithLocationsWithReviews.copy(locations = filteredLocations.toMutableList())
                                 } else {
                                     null
                                 }
                             }
                         }
                         "4+" -> {
-                            reorderCategories.mapNotNull { interestWithEventsWithReviews ->
-                                val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
-                                    val averageRating = eventWithReviews.getAverageRating()
+                            reorderCategories.mapNotNull { interestWithLocationsWithReviews ->
+                                val filteredLocations = interestWithLocationsWithReviews.locations.filter { locationWithReviews ->
+                                    val averageRating = locationWithReviews.getAverageRating()
                                     averageRating >= 4.0f
                                 }
 
-                                if (filteredEvents.isNotEmpty()) {
-                                    interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+                                if (filteredLocations.isNotEmpty()) {
+                                    interestWithLocationsWithReviews.copy(locations = filteredLocations.toMutableList())
                                 } else {
                                     null
                                 }
                             }
                         }
                         "5" -> {
-                            reorderCategories.mapNotNull { interestWithEventsWithReviews ->
-                                val filteredEvents = interestWithEventsWithReviews.events.filter { eventWithReviews ->
-                                    val averageRating = eventWithReviews.getAverageRating()
+                            reorderCategories.mapNotNull { interestWithLocationsWithReviews ->
+                                val filteredLocations = interestWithLocationsWithReviews.locations.filter { locationWithReviews ->
+                                    val averageRating = locationWithReviews.getAverageRating()
                                     averageRating == 5.0f
                                 }
 
-                                if (filteredEvents.isNotEmpty()) {
-                                    interestWithEventsWithReviews.copy(events = filteredEvents.toMutableList())
+                                if (filteredLocations.isNotEmpty()) {
+                                    interestWithLocationsWithReviews.copy(locations = filteredLocations.toMutableList())
                                 } else {
                                     null
                                 }
@@ -454,10 +454,10 @@ class DiscoverFragment : Fragment() {
                     }
 
                     val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
-                    recyclerView?.adapter = if (filteredInterestsWithEvents.isNotEmpty()) {
+                    recyclerView?.adapter = if (filteredInterestsWithLocations.isNotEmpty()) {
                         CategoryListAdapter(
-                            filteredInterestsWithEvents.mapIndexed { index, event ->
-                                event.toListItem(
+                            filteredInterestsWithLocations.mapIndexed { index, location ->
+                                location.toListItem(
                                     requireContext(),
                                     object : RecyclerViewHelperInterface {
                                         override fun onItemClicked(position: Int) {
@@ -477,8 +477,8 @@ class DiscoverFragment : Fragment() {
                     val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
                     recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
                         CategoryListAdapter(
-                            reorderCategories.mapIndexed { index, event ->
-                                event.toListItem(
+                            reorderCategories.mapIndexed { index, location ->
+                                location.toListItem(
                                     requireContext(),
                                     object : RecyclerViewHelperInterface {
                                         override fun onItemClicked(position: Int) {
@@ -499,18 +499,18 @@ class DiscoverFragment : Fragment() {
     }
 
     /**
-     * Behandelt Klickereignisse auf Veranstaltungen und leitet zum entsprechenden EventActivity weiter.
+     * Behandelt Klickereignisse auf Veranstaltungen und leitet zum entsprechenden LocationActivity weiter.
      */
     internal fun onItemClicked(
         categoryPosition: Int,
-        eventPosition: Int,
+        locationPosition: Int,
     ) {
-        if (interests.size > categoryPosition && interests[categoryPosition].events.size > eventPosition) {
+        if (interests.size > categoryPosition && interests[categoryPosition].locations.size > locationPosition) {
             requireContext().startActivity(
-                Intent(requireContext(), EventActivity::class.java).apply {
+                Intent(requireContext(), LocationActivity::class.java).apply {
                     putExtra(
-                        EventActivity.EVENT_INTENT_EXTRA,
-                        interests[categoryPosition].events[eventPosition].event.id,
+                        LocationActivity.LOCATION_INTENT_EXTRA,
+                        interests[categoryPosition].locations[locationPosition].location.id,
                     )
                 },
             )

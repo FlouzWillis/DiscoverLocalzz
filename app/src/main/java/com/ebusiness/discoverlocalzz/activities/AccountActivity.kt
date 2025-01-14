@@ -17,7 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  */
 class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
     /**
-     * Initialisiert die Account-Aktivität und konfiguriert Event-Handler für die Abmeldeoption.
+     * Initialisiert die Account-Aktivität und konfiguriert Location-Handler für die Abmeldeoption.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

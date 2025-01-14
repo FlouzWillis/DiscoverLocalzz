@@ -10,7 +10,6 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
@@ -20,36 +19,30 @@ import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
 import com.ebusiness.discoverlocalzz.customview.showReviewDialog
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.SimpleListItem
-import com.ebusiness.discoverlocalzz.database.models.EventWithAddressOrganizerReviews
+import com.ebusiness.discoverlocalzz.database.models.LocationWithAddressOrganizerReviews
 import com.ebusiness.discoverlocalzz.database.models.Review
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.ebusiness.discoverlocalzz.helpers.External
-import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.helpers.StarView
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 /**
- * Aktivität für die Darstellung von Eventdetails und Interaktionsmöglichkeiten wie Teilen und Buchen.
+ * Aktivität für die Darstellung von Locationdetails und Interaktionsmöglichkeiten wie Teilen und Buchen.
  */
-class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
-    private var event: EventWithAddressOrganizerReviews? = null
+class LocationActivity : BaseActivity(), RecyclerViewHelperInterface {
+    private var location: LocationWithAddressOrganizerReviews? = null
     /**
-     * Initialisiert die Eventaktivität und lädt Eventdetails und interaktive Funktionen.
+     * Initialisiert die Locationaktivität und lädt Locationdetails und interaktive Funktionen.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_event)
+        setContentView(R.layout.activity_location)
 
         setupLayout()
 
@@ -70,19 +63,19 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = LoadingAdapter()
 
-        if (!intent.hasExtra(EVENT_INTENT_EXTRA)) {
+        if (!intent.hasExtra(LOCATION_INTENT_EXTRA)) {
             recyclerView.adapter = ErrorAdapter()
             return
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            event =
-                AppDatabase.getInstance(this@EventActivity).eventDao()
-                    .getWithAddressOrganizerReviews(intent.getLongExtra(EVENT_INTENT_EXTRA, -1))
+            location =
+                AppDatabase.getInstance(this@LocationActivity).locationDao()
+                    .getWithAddressOrganizerReviews(intent.getLongExtra(LOCATION_INTENT_EXTRA, -1))
 
-            if (event != null) {
-                showEvent(
-                    event ?: error(EVENT_IS_NULL),
+            if (location != null) {
+                showLocation(
+                    location ?: error(LOCATION_IS_NULL),
                     findViewById(R.id.frame),
                     listOf(
                         findViewById(R.id.first_star),
@@ -99,20 +92,20 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
         }
 
         findViewById<FloatingActionButton>(R.id.add_review).setOnClickListener {
-            event?.let { event ->
+            location?.let { location ->
                 showReviewDialog(
-                    this@EventActivity,
+                    this@LocationActivity,
                     onConfirm = { rating, reviewText ->
                         CoroutineScope(Dispatchers.Main).launch {
-                            val reviewDao = AppDatabase.getInstance(this@EventActivity).reviewDao()
+                            val reviewDao = AppDatabase.getInstance(this@LocationActivity).reviewDao()
                             val review = Review(
-                                event.event.id,
-                                event.organizer.id,
+                                location.location.id,
+                                location.organizer.id,
                                 reviewText,
                                 rating,
                                 getCurrentDate()
                             )
-                            reviewDao.saveReviewForEvent(review)
+                            reviewDao.saveReviewForLocation(review)
                         }
                     },
                     onClear = {
@@ -181,33 +174,33 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
         }
     }
 
-    private fun showEvent(
-        event: EventWithAddressOrganizerReviews,
+    private fun showLocation(
+        location: LocationWithAddressOrganizerReviews,
         frame: View,
         stars: List<ImageView>,
         recyclerView: RecyclerView,
     ) {
         frame.findViewById<ImageView>(R.id.image).setImageDrawable(
-            Base64.decodeImage(this@EventActivity, event.event.image),
+            Base64.decodeImage(this@LocationActivity, location.location.image),
         )
-        StarView.fillStars(event.reviews.map { it.stars }.average().toFloat(), stars)
-        frame.findViewById<TextView>(R.id.title).text = event.event.title
+        StarView.fillStars(location.reviews.map { it.stars }.average().toFloat(), stars)
+        frame.findViewById<TextView>(R.id.title).text = location.location.title
         recyclerView.adapter =
             SimpleListAdapter(
                 listOf(
                     SimpleListItem(
                         resources.getString(R.string.description),
-                        event.event.description,
+                        location.location.description,
                         R.drawable.ic_circle_local_activity,
                     ),
                     SimpleListItem(
-                        event.address.toString(resources),
+                        location.address.toString(resources),
                         resources.getString(R.string.where),
                         R.drawable.ic_circle_location_on,
                     ),
                     SimpleListItem(
                         resources.getString(R.string.ratings_title),
-                        event.reviews.map { it.stars }.average().toFloat().toString(),
+                        location.reviews.map { it.stars }.average().toFloat().toString(),
                         R.drawable.ic_circle_star_filled,
                     ),
                 ),
@@ -216,12 +209,12 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
     }
 
     /**
-     * Reagiert auf Klickereignisse in der Eventliste.
+     * Reagiert auf Klickereignisse in der Locationliste.
      * Öffnet Google Maps, wenn auf das Standortelement geklickt wird.
      */
     override fun onItemClicked(position: Int) {
         when (position) {
-            LOCATION_ITEM -> External.openMaps(this, event?.address ?: error(EVENT_IS_NULL))
+            LOCATION_ITEM -> External.openMaps(this, location?.address ?: error(LOCATION_IS_NULL))
             REVIEWS_ITEM -> openReviewsView()
         }
     }
@@ -230,8 +223,8 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
         this.startActivity(
             Intent(this, ReviewsActivity::class.java).apply {
                 putExtra(
-                    EventActivity.EVENT_INTENT_EXTRA,
-                    event?.event?.id,
+                    LocationActivity.LOCATION_INTENT_EXTRA,
+                    location?.location?.id,
                 )
             },
         )
@@ -239,13 +232,13 @@ class EventActivity : BaseActivity(), RecyclerViewHelperInterface {
 
     companion object {
         /**
-         * Konstante für den Schlüssel, der verwendet wird, um Event-Daten als Intent-Extra zwischen
+         * Konstante für den Schlüssel, der verwendet wird, um Location-Daten als Intent-Extra zwischen
          * Aktivitäten zu übertragen.
          */
-        const val EVENT_INTENT_EXTRA: String = "event_intent_extra"
+        const val LOCATION_INTENT_EXTRA: String = "location_intent_extra"
         private const val REVIEWS_ITEM = 2
         private const val LOCATION_ITEM = 1
-        private const val EVENT_IS_NULL = "Event is null."
+        private const val LOCATION_IS_NULL = "Location is null."
     }
 
     private fun getCurrentDate(): Long {

@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.ebusiness.discoverlocalzz.database.models.Interest
-import com.ebusiness.discoverlocalzz.database.models.InterestWithEventsWithReviews
+import com.ebusiness.discoverlocalzz.database.models.InterestWithLocationsWithReviews
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Interessendaten in der Datenbank.
@@ -17,7 +17,7 @@ interface InterestDao {
      */
     @Transaction
     @Query("SELECT * FROM interest")
-    suspend fun getAll(): List<InterestWithEventsWithReviews>
+    suspend fun getAll(): List<InterestWithLocationsWithReviews>
 
     /**
      * Holt alle Interessen aus der Datenbank.

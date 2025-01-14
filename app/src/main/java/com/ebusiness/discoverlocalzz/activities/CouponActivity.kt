@@ -11,7 +11,7 @@ import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.SimpleListItem
-import com.ebusiness.discoverlocalzz.database.models.CouponWithEventWithAddress
+import com.ebusiness.discoverlocalzz.database.models.CouponWithLocationWithAddress
 import com.ebusiness.discoverlocalzz.helpers.External
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
  * Aktivität zur Anzeige von Ticketinformationen und Interaktionsmöglichkeiten wie Stornierung.
  */
 class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
-    private var coupon: CouponWithEventWithAddress? = null
+    private var coupon: CouponWithLocationWithAddress? = null
     private lateinit var recyclerView: RecyclerView
 
     /**
@@ -54,7 +54,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
         CoroutineScope(Dispatchers.Main).launch {
             coupon =
                 AppDatabase.getInstance(this@CouponActivity).couponDao()
-                    .getWithEventWithAddress(
+                    .getWithLocationWithAddress(
                         intent.getLongExtra(COUPON_INTENT_EXTRA, -1),
                         Preferences.getUserId(this@CouponActivity),
                     )
@@ -64,7 +64,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
                         listOf(
                             SimpleListItem("", resources.getString(R.string.coupon_info)),
                             SimpleListItem(
-                                coupon?.event?.event?.title ?: error(COUPON_IS_NULL),
+                                coupon?.location?.location?.title ?: error(COUPON_IS_NULL),
                                 resources.getString(R.string.what),
                                 R.drawable.ic_circle_local_activity,
                             ),
@@ -74,7 +74,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
                                 R.drawable.ic_circle_calendar_today,
                             ),
                             SimpleListItem(
-                                coupon?.event?.address?.toString(resources) ?: error(COUPON_IS_NULL),
+                                coupon?.location?.address?.toString(resources) ?: error(COUPON_IS_NULL),
                                 resources.getString(R.string.where),
                                 R.drawable.ic_circle_location_on,
                             ),
@@ -101,8 +101,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
      */
     override fun onItemClicked(position: Int) {
         when (position) {
-            LOCATION_ITEM -> External.openMaps(this, coupon?.event?.address ?: error(COUPON_IS_NULL))
-            DATE_ITEM -> External.openCalendar(this, coupon?.event?.event ?: error(COUPON_IS_NULL))
+            LOCATION_ITEM -> External.openMaps(this, coupon?.location?.address ?: error(COUPON_IS_NULL))
         }
     }
 

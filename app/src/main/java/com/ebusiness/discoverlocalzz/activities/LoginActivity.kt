@@ -21,7 +21,7 @@ import org.mindrot.jbcrypt.BCrypt
  */
 class LoginActivity : BaseActivity() {
     /**
-     * Initialisiert die Login-Aktivität und konfiguriert Event-Handler für Anmeldeoptionen.
+     * Initialisiert die Login-Aktivität und konfiguriert Location-Handler für Anmeldeoptionen.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

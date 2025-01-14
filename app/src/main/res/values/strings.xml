@@ -3,7 +3,7 @@
     <string name="title_discover">Entdecken</string>
     <string name="title_map">Karte</string>
     <string name="title_coupons">Gutscheine</string>
-    <string name="title_event">Event</string>
+    <string name="title_location">Location</string>
     <string name="title_coupon">Rabatt</string>
     <string name="title_booking">Buchen</string>
     <string name="title_interests">Interessen</string>
@@ -40,7 +40,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
 
-    <string name="booking_title">Titel das Events</string>
+    <string name="booking_title">Titel des Locations</string>
     <string name="booking_payment">Zahlungsmethode</string>
     <string name="booking_payment_card_number">••••%1$s</string>
     <string name="booking_payment_missing">Keine Zahlungsmethode</string>

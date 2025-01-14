@@ -16,7 +16,7 @@ import com.ebusiness.discoverlocalzz.adapters.EmptyAdapter
 import com.ebusiness.discoverlocalzz.adapters.LoadingAdapter
 import com.ebusiness.discoverlocalzz.adapters.SimpleListAdapter
 import com.ebusiness.discoverlocalzz.database.AppDatabase
-import com.ebusiness.discoverlocalzz.database.models.CouponWithEvent
+import com.ebusiness.discoverlocalzz.database.models.CouponWithLocation
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.chip.Chip
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
  * Fragment für die Anzeige und Filterung von Benutzertickets.
  */
 class CouponsFragment : Fragment(), RecyclerViewHelperInterface {
-    private var coupons: List<CouponWithEvent> = listOf()
+    private var coupons: List<CouponWithLocation> = listOf()
     private lateinit var titleFilter: Chip
     private lateinit var couponFilter: Chip
     private lateinit var recyclerView: RecyclerView
@@ -95,7 +95,7 @@ class CouponsFragment : Fragment(), RecyclerViewHelperInterface {
         }
     }
 
-    private fun update(newCoupons: List<CouponWithEvent>) {
+    private fun update(newCoupons: List<CouponWithLocation>) {
         CoroutineScope(Dispatchers.Main).launch {
             coupons = newCoupons
             recyclerView.adapter =
@@ -126,9 +126,9 @@ class CouponsFragment : Fragment(), RecyclerViewHelperInterface {
                 titleFilter.setChipIconResource(icon)
                 update(
                     if (reversed) {
-                        coupons.sortedBy { it.event.title }
+                        coupons.sortedBy { it.location.title }
                     } else {
-                        coupons.sortedByDescending { it.event.title }
+                        coupons.sortedByDescending { it.location.title }
                     },
                 )
             }

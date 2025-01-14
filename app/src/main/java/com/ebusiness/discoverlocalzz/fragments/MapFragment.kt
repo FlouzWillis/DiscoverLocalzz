@@ -1,6 +1,7 @@
 package com.ebusiness.discoverlocalzz.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
@@ -16,7 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.activities.MainActivity
+import com.ebusiness.discoverlocalzz.customview.showAddLocationDialog
 import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,6 +44,7 @@ class MapFragment : Fragment() {
     /**
      * Erstellt die Ansicht für das Kartenfragment und initialisiert die Suchleiste.
      */
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,6 +64,9 @@ class MapFragment : Fragment() {
             }
         })
 
+        root.findViewById<FloatingActionButton>(R.id.add_location_button).setOnClickListener {
+            showAddLocationDialog(requireContext())
+        }
         requestPermissions()
 
         Configuration.getInstance().load(
@@ -94,15 +101,15 @@ class MapFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             geocoder = Geocoder(requireContext(), Locale.getDefault())
-            for ((event, address) in AppDatabase.getInstance(requireContext()).eventDao().getAll()) {
+            for ((location, address) in AppDatabase.getInstance(requireContext()).locationDao().getAll()) {
                 geocoder?.getFromLocationName(
                     address.toString(resources),
                     1,
-                )?.firstOrNull()?.let { location ->
+                )?.firstOrNull()?.let { address ->
                     map.overlays.add(
                         Marker(map).apply {
-                            position = GeoPoint(location.latitude, location.longitude)
-                            title = event.title
+                            position = GeoPoint(address.latitude, address.longitude)
+                            title = location.title
                             icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_local_activity)
                         },
                     )

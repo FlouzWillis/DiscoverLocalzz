@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable
  * @param summary Die Zusammenfassung oder Beschreibung der Veranstaltung.
  * @param background Das mit der Veranstaltung verbundene Hintergrund-Drawable.
  */
-data class EventListItem(
+data class LocationListItem(
     val rating: Float,
     val title: String,
     val summary: String,

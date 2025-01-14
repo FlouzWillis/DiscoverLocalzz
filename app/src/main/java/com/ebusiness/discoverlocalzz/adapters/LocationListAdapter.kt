@@ -7,17 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ebusiness.discoverlocalzz.R
-import com.ebusiness.discoverlocalzz.database.EventListItem
+import com.ebusiness.discoverlocalzz.database.LocationListItem
 import com.ebusiness.discoverlocalzz.helpers.StarView
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 
 /**
  * Adapter für eine RecyclerView, der Veranstaltungselemente anzeigt.
  */
-class EventListAdapter(
-    private val items: List<EventListItem>,
+class LocationListAdapter(
+    private val items: List<LocationListItem>,
     private val helperInterface: RecyclerViewHelperInterface,
-) : RecyclerView.Adapter<EventListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LocationListAdapter.ViewHolder>() {
     /**
      * Erstellt einen neuen ViewHolder für Veranstaltungselemente.
      */
@@ -28,7 +28,7 @@ class EventListAdapter(
         ViewHolder(
             LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.list_item_event, parent, false),
+                .inflate(R.layout.list_item_location, parent, false),
         )
 
     /**

@@ -5,8 +5,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.ebusiness.discoverlocalzz.database.models.Coupon
-import com.ebusiness.discoverlocalzz.database.models.CouponWithEvent
-import com.ebusiness.discoverlocalzz.database.models.CouponWithEventWithAddress
+import com.ebusiness.discoverlocalzz.database.models.CouponWithLocation
+import com.ebusiness.discoverlocalzz.database.models.CouponWithLocationWithAddress
 
 /**
  * Data Access Object (DAO) Schnittstelle für den Zugriff auf Ticketdaten in der Datenbank.
@@ -19,17 +19,17 @@ interface CouponDao {
      */
     @Transaction
     @Query("SELECT * FROM coupon WHERE user_id = :userId AND is_deleted = 0 ORDER BY expiry_date DESC")
-    suspend fun getAll(userId: Long): List<CouponWithEvent>
+    suspend fun getAll(userId: Long): List<CouponWithLocation>
 
     /**
      * Holt ein spezifisches Ticket eines Benutzers mit zugehöriger Veranstaltung und Adresse.
      */
     @Transaction
     @Query("SELECT * FROM coupon WHERE coupon_id = :id AND user_id = :userId LIMIT 1")
-    suspend fun getWithEventWithAddress(
+    suspend fun getWithLocationWithAddress(
         id: Long,
         userId: Long,
-    ): CouponWithEventWithAddress?
+    ): CouponWithLocationWithAddress?
 
     /**
      * Markiert ein Ticket anhand der ID zur Löschung.

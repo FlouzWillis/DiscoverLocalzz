@@ -19,7 +19,7 @@
             <RelativeLayout
                 android:id="@+id/frame"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/event_header_size">
+                android:layout_height="@dimen/location_header_size">
 
                 <ImageView
                     android:id="@+id/image"
@@ -132,7 +132,7 @@
         android:layout_above="@id/share"
         android:layout_alignParentEnd="true"
         android:layout_marginHorizontal="@dimen/full_padding"
-        android:contentDescription="@string/title_event"
+        android:contentDescription="@string/title_location"
         app:srcCompat="@drawable/ic_add" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

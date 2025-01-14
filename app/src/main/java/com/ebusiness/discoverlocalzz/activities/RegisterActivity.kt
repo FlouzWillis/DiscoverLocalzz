@@ -56,7 +56,7 @@ class RegisterActivity : BaseActivity() {
     }
 
     /**
-     * Initialisiert die Registrierungsaktivität und setzt einen Event-Handler für den Fortfahren-Button.
+     * Initialisiert die Registrierungsaktivität und setzt einen Location-Handler für den Fortfahren-Button.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -10,7 +10,7 @@ import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.database.CategoryListItem
 
 /**
- * Adapter für eine RecyclerView, die Kategorien mit zugehörigen Events anzeigt.
+ * Adapter für eine RecyclerView, die Kategorien mit zugehörigen Locations anzeigt.
  */
 class CategoryListAdapter(
     private val items: List<CategoryListItem>,
@@ -29,7 +29,7 @@ class CategoryListAdapter(
         )
 
     /**
-     * Bindet Daten an einen ViewHolder, um eine Kategorie mit ihren Events darzustellen.
+     * Bindet Daten an einen ViewHolder, um eine Kategorie mit ihren Locations darzustellen.
      */
     override fun onBindViewHolder(
         holder: ViewHolder,
@@ -44,7 +44,7 @@ class CategoryListAdapter(
                 false,
             )
         holder.list.adapter =
-            EventListAdapter(
+            LocationListAdapter(
                 items[position].list,
                 items[position].helperInterface,
             )

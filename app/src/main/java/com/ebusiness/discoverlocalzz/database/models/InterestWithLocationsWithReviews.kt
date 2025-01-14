@@ -9,22 +9,22 @@ import com.ebusiness.discoverlocalzz.database.CategoryListItem
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 
 /**
- * Die Klasse InterestWithEventsWithReviews repräsentiert eine Interessenkategorie zusammen mit den dazugehörigen
+ * Die Klasse InterestWithLocationsWithReviews repräsentiert eine Interessenkategorie zusammen mit den dazugehörigen
  * Veranstaltungen und Bewertungen in der Room-Datenbank.
  *
  * @property interest Das Interesse, das diese Kategorie repräsentiert.
- * @property events Eine Liste von Veranstaltungen mit Bewertungen, die diesem Interesse zugeordnet sind.
+ * @property locations Eine Liste von Veranstaltungen mit Bewertungen, die diesem Interesse zugeordnet sind.
  */
 @Entity
-data class InterestWithEventsWithReviews(
+data class InterestWithLocationsWithReviews(
     @Embedded val interest: Interest,
     @Relation(
         parentColumn = "interest_id",
-        entityColumn = "event_id",
-        associateBy = Junction(EventInterest::class),
-        entity = Event::class,
+        entityColumn = "location_id",
+        associateBy = Junction(LocationInterest::class),
+        entity = Location::class,
     )
-    var events: MutableList<EventWithReviews>,
+    var locations: MutableList<LocationWithReviews>,
 ) {
     /**
      * Konvertiert diese Interessenkategorie in ein [CategoryListItem] für die Anzeige in einer RecyclerView.
@@ -39,7 +39,7 @@ data class InterestWithEventsWithReviews(
     ): CategoryListItem =
         CategoryListItem(
             interest.name,
-            events.map { it.toListItem(context) },
+            locations.map { it.toListItem(context) },
             helperInterface,
         )
 }
