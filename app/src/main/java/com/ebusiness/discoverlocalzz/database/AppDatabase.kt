@@ -28,7 +28,6 @@ import com.ebusiness.discoverlocalzz.database.models.Interest
 import com.ebusiness.discoverlocalzz.database.models.Organizer
 import com.ebusiness.discoverlocalzz.database.models.Review
 import com.ebusiness.discoverlocalzz.database.models.Coupon
-import com.ebusiness.discoverlocalzz.database.models.LocationWithAddress
 import com.ebusiness.discoverlocalzz.database.models.User
 import com.ebusiness.discoverlocalzz.helpers.Base64
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
