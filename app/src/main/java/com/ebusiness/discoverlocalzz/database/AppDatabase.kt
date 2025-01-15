@@ -153,7 +153,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     1,
                                     "Badisches Staatstheater",
                                     1,
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                    "Das Badische Staatstheater Karlsruhe ist ein renommiertes Theater in Karlsruhe, das für seine vielseitigen Aufführungen in den Bereichen Schauspiel, Oper, Ballett und Konzert bekannt ist.",
                                     Base64.getFromAssets(context, "Badisches-Staatstheater-Karlsruhe.jpg"),
                                 ),
                                 Location(
@@ -168,7 +168,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     "Rheingold",
                                     3,
                                     "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-                                    Base64.getFromAssets(context, "Karlsruhe_Rheingold_Mühlburg.jpg"),
+                                    Base64.getFromAssets(context, "Karlsruhe_Rheingold.jpg"),
                                 ),
                                 Location(
                                     1,
@@ -231,7 +231,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     "Schräglage Club",
                                     12,
                                     "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                                    Base64.getFromAssets(context, "Schräglage-Club.jpg"),
+                                    Base64.getFromAssets(context, "Schraeglage-Club.jpg"),
                                 ),
                                 Location(
                                     1,
