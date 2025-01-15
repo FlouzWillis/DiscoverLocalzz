@@ -29,7 +29,7 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
             SimpleListAdapter(
                 listOf(
                     SimpleListItem(resources.getString(R.string.my_data), "", R.drawable.ic_circle_person),
-                    SimpleListItem(resources.getString(R.string.my_interests), "", R.drawable.ic_circle_local_activity),
+                    SimpleListItem(resources.getString(R.string.my_interests), "", R.drawable.ic_circle_interests),
                     SimpleListItem(resources.getString(R.string.payment_details), "", R.drawable.ic_circle_credit_card),
                     SimpleListItem(
                         resources.getString(R.string.coupons_history),

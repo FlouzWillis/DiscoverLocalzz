@@ -5,92 +5,127 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/full_padding">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/half_padding"
         android:text="Location Hinzufügen"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <EditText
-        android:id="@+id/title_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Location Titel"
-        android:inputType="text" />
-
-    <EditText
-        android:id="@+id/description_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Description"
-        android:inputType="text" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/full_padding"
+        android:paddingTop="@dimen/full_padding"
+        android:paddingEnd="@dimen/full_padding"
+        android:paddingRight="@dimen/full_padding">
 
         <EditText
-            android:id="@+id/street_et"
-            android:layout_width="wrap_content"
+            android:id="@+id/title_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Straße"
-            android:inputType="textPostalAddress" />
+            android:ems="10"
+            android:hint="Location Titel*"
+            android:inputType="text" />
 
         <EditText
-            android:id="@+id/number_et"
-            android:layout_width="wrap_content"
+            android:id="@+id/description_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Num"
-            android:inputType="number" />
+            android:ems="10"
+            android:hint="Description"
+            android:inputType="text" />
 
-        <EditText
-            android:id="@+id/zip_code_et"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="PLZ"
-            android:inputType="number" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/city_et"
+            <EditText
+                android:id="@+id/street_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Straße*"
+                android:inputType="textPostalAddress" />
+
+            <EditText
+                android:id="@+id/number_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Num*"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/zip_code_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="PLZ*"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/city_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Stadt*"
+                android:inputType="textPostalAddress" />
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/categories_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/uploaded_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/uploaded_image"
+                android:layout_width="154dp"
+                android:layout_height="136dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <ImageButton
+                android:id="@+id/delete_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_circle_delete" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/upload_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Stadt"
-            android:inputType="textPostalAddress" />
+            android:text="Foto hochladen" />
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/categories_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
-
-    <ImageView
-        android:id="@+id/uploaded_image"
-        android:layout_width="148dp"
-        android:layout_height="124dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    <Button
-        android:id="@+id/upload_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Foto hochladen" />
-
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="left|end"
         android:orientation="horizontal">
 
         <Button
@@ -107,7 +142,7 @@
         <Button
             android:id="@+id/add_button"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"

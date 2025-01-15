@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="map_location">#4688F1</color>
+    <color name="error_hint_color">#FF6666</color>
+    <color name="normal_hint_color">#808080</color>
 </resources>

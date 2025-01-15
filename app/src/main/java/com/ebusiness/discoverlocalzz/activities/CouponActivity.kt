@@ -65,7 +65,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
                             SimpleListItem("", resources.getString(R.string.coupon_info)),
                             SimpleListItem(
                                 coupon?.location?.location?.title ?: error(COUPON_IS_NULL),
-                                resources.getString(R.string.what),
+                                resources.getString(R.string.title_location),
                                 R.drawable.ic_circle_local_activity,
                             ),
                             SimpleListItem(
@@ -75,7 +75,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
                             ),
                             SimpleListItem(
                                 coupon?.location?.address?.toString(resources) ?: error(COUPON_IS_NULL),
-                                resources.getString(R.string.where),
+                                resources.getString(R.string.title_address),
                                 R.drawable.ic_circle_location_on,
                             ),
                         ),

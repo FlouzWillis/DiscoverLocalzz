@@ -10,6 +10,7 @@
     <string name="title_register">Registrieren</string>
     <string name="title_login">Anmelden</string>
     <string name="title_account">Mein Account</string>
+    <string name="title_address">Adresse</string>
 
     <string name="my_data">Meine Daten</string>
     <string name="my_interests">Meine Interessen</string>

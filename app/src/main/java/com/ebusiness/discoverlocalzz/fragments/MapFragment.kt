@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.location.Geocoder
 import android.os.Bundle
@@ -16,12 +17,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -72,9 +75,9 @@ class MapFragment : Fragment() {
                         dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_location, null)
                     }
                     dialogView?.let {
-                        val uploadedImageView = it.findViewById<ImageView>(R.id.uploaded_image)
-                        uploadedImageView.setImageURI(imageUri)
-                        uploadedImageView.visibility = View.VISIBLE
+                        val uploadedImage = it.findViewById<ImageView>(R.id.uploaded_image)
+                        uploadedImage.setImageURI(imageUri)
+                        it.findViewById<ConstraintLayout>(R.id.uploaded_image_view).visibility = View.VISIBLE
                     }
                 }
             }
@@ -264,13 +267,18 @@ class MapFragment : Fragment() {
     private fun showAddLocationDialog(context: Context) {
         if (dialogView == null) {
             dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_location, null)
+        } else {
+            resetDialogView()
         }
         val database = AppDatabase.getInstance(context)
         val cancelButton = dialogView?.findViewById<Button>(R.id.cancel_button)
         val addButton = dialogView?.findViewById<Button>(R.id.add_button)
         val categoriesList = dialogView?.findViewById<Spinner>(R.id.categories_list)
         val uploadImageButton = dialogView?.findViewById<Button>(R.id.upload_image_button)
-        val uploadedImageView = dialogView?.findViewById<ImageView>(R.id.uploaded_image)
+        val uploadedImage = dialogView?.findViewById<ImageView>(R.id.uploaded_image)
+        val uploadedImageView = dialogView?.findViewById<ConstraintLayout>(R.id.uploaded_image_view)
+        val deleteImageButton = dialogView?.findViewById<ImageButton>(R.id.delete_image_button)
+        uploadedImageView?.visibility = View.GONE
         val streetEt = dialogView?.findViewById<EditText>(R.id.street_et)
         val streetNumEt = dialogView?.findViewById<EditText>(R.id.number_et)
         val zipCodeEt = dialogView?.findViewById<EditText>(R.id.zip_code_et)
@@ -283,6 +291,11 @@ class MapFragment : Fragment() {
                 type = "image/*"
             }
             imagePickerLauncher.launch(intent)
+        }
+
+        deleteImageButton?.setOnClickListener {
+            uploadedImage?.setImageDrawable(null)
+            uploadedImageView?.visibility = View.GONE
         }
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -301,23 +314,67 @@ class MapFragment : Fragment() {
 
         val alertDialog = AlertDialog.Builder(context)
             .setView(dialogView)
+            .setCancelable(false)
             .create()
 
         cancelButton?.setOnClickListener {
+            (dialogView?.parent as? ViewGroup)?.removeView(dialogView)
             alertDialog.dismiss()
         }
 
         addButton?.setOnClickListener {
+            val street = streetEt?.text.toString()
+            val streetNumber = streetNumEt?.text.toString()
+            val zipCode = zipCodeEt?.text.toString()
+            val city = cityEt?.text.toString()
+            val title = titleEt?.text.toString()
+
+            var isValid = true
+
+            fun highlightEditText(editText: EditText?, highlight: Boolean) {
+                if (highlight) {
+                    editText?.apply {
+                        setTypeface(typeface, Typeface.BOLD)
+                        setHintTextColor(ContextCompat.getColor(context, R.color.error_hint_color))
+                    }
+                } else {
+                    editText?.apply {
+                        setTypeface(typeface, Typeface.NORMAL)
+                        setHintTextColor(ContextCompat.getColor(context, R.color.normal_hint_color))
+                    }
+                }
+            }
+
+            if (title.isBlank()) {
+                titleEt?.apply {
+                    error = "Titel darf nicht leer sein"
+                    highlightEditText(this, true)
+                }
+                isValid = false
+            } else {
+                highlightEditText(titleEt, false)
+            }
+
+            val addressFields = listOf(streetEt, streetNumEt, zipCodeEt, cityEt)
+            addressFields.forEach { editText ->
+                if (editText?.text.toString().isBlank()) {
+                    highlightEditText(editText, true)
+                    editText?.error = "Adresse darf nicht leer sein."
+                    isValid = false
+                } else {
+                    highlightEditText(editText, false)
+                }
+            }
+
+            if (!isValid) {
+                return@setOnClickListener
+            }
+
             CoroutineScope(Dispatchers.Main).launch {
-                val street = streetEt?.text.toString()
-                val streetNumber = streetNumEt?.text.toString()
-                val zipCode = zipCodeEt?.text.toString()
-                val city = cityEt?.text.toString()
-                val title = titleEt?.text.toString()
                 val descriptionText = description?.text.toString()
                 val selectedCategory = categoriesList?.selectedItem?.toString()
 
-                val uploadedImageDrawable = uploadedImageView?.drawable
+                val uploadedImageDrawable = uploadedImage?.drawable
                 val base64Image = if (uploadedImageDrawable is BitmapDrawable) {
                     val bitmap = uploadedImageDrawable.bitmap
                     Base64.encodeImageToBase64(bitmap)
@@ -328,21 +385,50 @@ class MapFragment : Fragment() {
                 val addressId = database.addressDao().insert(Address(street, zipCode, streetNumber, city))
                 val location = Location(
                     1,
-                    title ?: "",
+                    title,
                     addressId,
-                    descriptionText ?: "",
+                    descriptionText,
                     base64Image ?: Base64.getFromAssets(context, "sample_bar.jpg"),
-                    )
+                )
 
                 val locationId = database.locationDao().insert(location)
                 database.interestDao().getInterestIdByName(selectedCategory ?: "")?.let { id ->
                     database.locationInterestDao().insert(LocationInterest(locationId, id))
                 }
+                Toast.makeText(requireContext(), "Location erflogreich hinzugefügt", Toast.LENGTH_SHORT).show()
             }
-
+            (dialogView?.parent as? ViewGroup)?.removeView(dialogView)
             alertDialog.dismiss()
         }
 
         alertDialog.show()
     }
+
+    private fun resetDialogView() {
+        dialogView?.findViewById<EditText>(R.id.street_et)?.setText("")
+        dialogView?.findViewById<EditText>(R.id.number_et)?.setText("")
+        dialogView?.findViewById<EditText>(R.id.zip_code_et)?.setText("")
+        dialogView?.findViewById<EditText>(R.id.city_et)?.setText("")
+        dialogView?.findViewById<EditText>(R.id.title_et)?.setText("")
+        dialogView?.findViewById<EditText>(R.id.description_et)?.setText("")
+
+        dialogView?.findViewById<Spinner>(R.id.categories_list)?.setSelection(0)
+        dialogView?.findViewById<ImageView>(R.id.uploaded_image)?.setImageDrawable(null)
+
+        val editTexts = listOf<EditText?>(
+            dialogView?.findViewById(R.id.street_et),
+            dialogView?.findViewById(R.id.number_et),
+            dialogView?.findViewById(R.id.zip_code_et),
+            dialogView?.findViewById(R.id.city_et),
+            dialogView?.findViewById(R.id.title_et)
+        )
+
+        editTexts.forEach { editText ->
+            editText?.error = null
+
+            editText?.setTypeface(null, Typeface.NORMAL)
+            editText?.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.normal_hint_color))
+        }
+    }
+
 }

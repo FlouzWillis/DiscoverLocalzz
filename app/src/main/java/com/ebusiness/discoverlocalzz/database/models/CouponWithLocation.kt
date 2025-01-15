@@ -49,7 +49,7 @@ data class CouponWithLocation(
         SimpleListItem(
             "",
             location.title,
-            R.drawable.ic_square_credit_card,
+            R.drawable.ic_circle_local_activity,
             coupon.getExpiredDateAsString(),
         )
 }
