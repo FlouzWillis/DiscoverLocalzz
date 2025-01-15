@@ -148,6 +148,20 @@ abstract class AppDatabase : RoomDatabase() {
                                 Coupon(3, 1, 1_706_227_200_000),
                                 Coupon(4, 1, 1_706_227_200_000),
                             )
+                            addressDao().insertAll(
+                                Address("Hermann-Levi-Platz", "76137", "1", "Karlsruhe"),
+                                Address("Erbprinzenstraße", "76133", "13", "Karlsruhe"),
+                                Address("Rheinstraße", "76185", "77", "Karlsruhe"),
+                                Address("Zähringerstraße", "76133", "96", "Karlsruhe"),
+                                Address("Baumeisterstraße", "76137", "3", "Karlsruhe"),
+                                Address("Am Wriezener bhf", "10243", "1", "Berlin"),
+                                Address("Friedrichstraße", "70174", "27", "Stuttgart"),
+                                Address("Douglasstraße", "76133", "10", "Karlsruhe"),
+                                Address("Bürgerstraße", "76133", "16", "Karlsruhe"),
+                                Address("Rheinstraße", "76185", "18", "Karlsruhe"),
+                                Address("Rüppurrer Str.", "76137", "1", "Karlsruhe"),
+                                Address("Hirschstraße", "70173", "14", "Stuttgart"),
+                            )
                             locationDao().insertAll(
                                 Location(
                                     1,
@@ -167,8 +181,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     1,
                                     "Rheingold",
                                     3,
-                                    "\n" +
-                                            "Der Ort bietet eine besondere Form der Unterhaltung, bei der Tanz und Musik in einer einzigartigen Atmosphäre kombiniert werden.",
+                                    "Der Ort bietet eine besondere Form der Unterhaltung, bei der Tanz und Musik in einer einzigartigen Atmosphäre kombiniert werden.",
                                     Base64.getFromAssets(context, "Karlsruhe_Rheingold.jpg"),
                                 ),
                                 Location(
@@ -218,8 +231,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     1,
                                     "Kebab Factory",
                                     10,
-                                    "\n" +
-                                            "Kebab Factory Karlsruhe ist ein trendiges Restaurant, das für seine köstlichen Kebabs und frischen Zutaten bekannt ist.",
+                                    "Kebab Factory Karlsruhe ist ein trendiges Restaurant, das für seine köstlichen Kebabs und frischen Zutaten bekannt ist.",
                                     Base64.getFromAssets(context, "Kebab-Factory-KA.jpg"),
                                 ),
                                 Location(
@@ -233,8 +245,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     1,
                                     "Schräglage Club",
                                     12,
-                                    "\n" +
-                                            "Schräglage Club in Stuttgart ist ein angesagter Veranstaltungsort, der für seine unkonventionelle Atmosphäre und aufregenden Partys bekannt ist.",
+                                    "Schräglage Club in Stuttgart ist ein angesagter Veranstaltungsort, der für seine unkonventionelle Atmosphäre und aufregenden Partys bekannt ist.",
                                     Base64.getFromAssets(context, "Schraeglage-Club.jpg"),
                                 ),
                                 Location(
@@ -285,20 +296,6 @@ abstract class AppDatabase : RoomDatabase() {
                             organizerDao().insertAll(
                                 Organizer(""),
                             )
-                            addressDao().insertAll(
-                                Address("Hermann-Levi-Platz", "76137", "1", "Karlsruhe"),
-                                Address("Erbprinzenstraße", "76133", "13", "Karlsruhe"),
-                                Address("Rheinstraße", "76185", "77", "Karlsruhe"),
-                                Address("Zähringerstraße", "76133", "96", "Karlsruhe"),
-                                Address("Baumeisterstraße", "76137", "3", "Karlsruhe"),
-                                Address("Am Wriezener bhf", "10243", "1", "Berlin"),
-                                Address("Friedrichstraße", "70174", "27", "Stuttgart"),
-                                Address("Douglasstraße", "76133", "10", "Karlsruhe"),
-                                Address("Bürgerstraße", "76133", "16", "Karlsruhe"),
-                                Address("Rheinstraße", "76185", "18", "Karlsruhe"),
-                                Address("Rüppurrer Str.", "76137", "1", "Karlsruhe"),
-                                Address("Hirschstraße", "70173", "14", "Karlsruhe"),
-                                )
                             accountDao().insertAll(
                                 Account(
                                     "test@test.de",
