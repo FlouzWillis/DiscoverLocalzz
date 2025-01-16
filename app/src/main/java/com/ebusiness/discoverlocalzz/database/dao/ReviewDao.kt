@@ -24,4 +24,7 @@ interface ReviewDao {
 
     @Insert
     suspend fun saveReviewForLocation(review: Review)
+
+    @Query("SELECT * FROM review WHERE user_id = :userId")
+    suspend fun getReviewsFromUser(userId: Long): List<Review>?
 }

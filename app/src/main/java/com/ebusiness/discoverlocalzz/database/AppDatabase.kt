@@ -285,22 +285,22 @@ abstract class AppDatabase : RoomDatabase() {
                                 )
 
                             reviewDao().insertAll(
-                                Review(1, 1, "", 2.5f, 1_000_000_000),
-                                Review(2, 1, "", 3.5f, 2_000_000_000),
-                                Review(3, 1, "", 4.5f, 3_000_000_000),
-                                Review(4, 1, "", 5.0f, 2_090_000_000),
-                                Review(5, 1, "", 4.5f, 2_440_000_000),
-                                Review(6, 1, "", 4.0f, 2_570_000_000),
-                                Review(7, 1, "", 1.5f, 2_650_000_000),
+                                Review(1, 1, "", 2.5f, 1736982000000),
+                                Review(2, 1, "", 3.5f, 1736726400000),
+                                Review(3, 1, "", 4.5f, 1735084800000),
+                                Review(4, 1, "Super!", 5.0f, 1736208000000),
+                                Review(5, 1, "", 4.5f, 1735171200000),
+                                Review(6, 1, "", 4.0f, 1736380800000),
+                                Review(7, 1, "Schlecht!", 1.5f, 1735948800000),
                             )
                             organizerDao().insertAll(
                                 Organizer(""),
                             )
                             accountDao().insertAll(
                                 Account(
-                                    "test@test.de",
+                                    "maxmustermann@gmx.de",
                                     "0800 897378423",
-                                    BCrypt.hashpw("123456789", BCrypt.gensalt()),
+                                    BCrypt.hashpw("12345678", BCrypt.gensalt()),
                                 ),
                             )
                             userDao().insertAll(

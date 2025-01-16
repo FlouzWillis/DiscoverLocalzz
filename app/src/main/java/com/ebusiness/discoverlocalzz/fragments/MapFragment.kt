@@ -37,6 +37,7 @@ import com.ebusiness.discoverlocalzz.database.models.Address
 import com.ebusiness.discoverlocalzz.database.models.Location
 import com.ebusiness.discoverlocalzz.database.models.LocationInterest
 import com.ebusiness.discoverlocalzz.helpers.Base64
+import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -384,7 +385,7 @@ class MapFragment : Fragment() {
 
                 val addressId = database.addressDao().insert(Address(street, zipCode, streetNumber, city))
                 val location = Location(
-                    1,
+                    Preferences.getUserId(requireContext()),
                     title,
                     addressId,
                     descriptionText,

@@ -1,8 +1,18 @@
 package com.ebusiness.discoverlocalzz.database.models
 
+import android.content.Context
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ebusiness.discoverlocalzz.R
+import com.ebusiness.discoverlocalzz.database.AppDatabase
+import com.ebusiness.discoverlocalzz.database.SimpleListItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 /**
  * Die Klasse Review repräsentiert eine Bewertung in der Room-Datenbank.
@@ -27,4 +37,23 @@ class Review(
     @ColumnInfo(name = "review_id")
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
+
+    suspend fun getLocationName(context: Context): String {
+        return AppDatabase.getInstance(context).locationDao().get(locationId)?.title ?: ""
+    }
+
+    fun getReviewDateAsString(): String =
+        SimpleDateFormat(
+            "d. MMM yyyy",
+            Locale.getDefault(),
+        ).format(date)
+
+    suspend fun toListItem(context: Context): SimpleListItem {
+        return SimpleListItem(
+            context.getString(R.string.start_format, stars.toString(), getReviewDateAsString()),
+            message,
+            R.drawable.ic_circle_star_filled,
+            getLocationName(context),
+        )
+    }
 }

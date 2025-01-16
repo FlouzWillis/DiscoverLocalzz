@@ -30,6 +30,7 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
                 listOf(
                     SimpleListItem(resources.getString(R.string.my_data), "", R.drawable.ic_circle_person),
                     SimpleListItem(resources.getString(R.string.my_interests), "", R.drawable.ic_circle_interests),
+                    SimpleListItem(resources.getString(R.string.my_reviews), "", R.drawable.ic_circle_star_filled),
                     SimpleListItem(resources.getString(R.string.payment_details), "", R.drawable.ic_circle_credit_card),
                     SimpleListItem(
                         resources.getString(R.string.coupons_history),
@@ -67,6 +68,7 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
                     MY_INTERESTS_ITEM -> InterestsActivity::class.java
                     PAYMENT_DETAILS_ITEM -> PaymentDetailsActivity::class.java
                     REDEEMED_COUPONS_ITEM -> RedeemedCouponsActivity::class.java
+                    MY_REVIEWS_ITEM -> MyReviewsActivity::class.java
                     IMPRINT_ITEM -> ImprintActivity::class.java
                     PRIVACY_POLICY_ITEM -> PrivacyPolicyActivity::class.java
                     else -> return
@@ -78,9 +80,10 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
     companion object {
         private const val MY_DATA_ITEM = 0
         private const val MY_INTERESTS_ITEM = 1
-        private const val PAYMENT_DETAILS_ITEM = 2
-        private const val REDEEMED_COUPONS_ITEM = 3
-        private const val IMPRINT_ITEM = 4
-        private const val PRIVACY_POLICY_ITEM = 5
+        private const val MY_REVIEWS_ITEM = 2
+        private const val PAYMENT_DETAILS_ITEM = 3
+        private const val REDEEMED_COUPONS_ITEM = 4
+        private const val IMPRINT_ITEM = 5
+        private const val PRIVACY_POLICY_ITEM = 6
     }
 }

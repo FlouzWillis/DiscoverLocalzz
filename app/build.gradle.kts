@@ -51,6 +51,7 @@ dependencies {
     implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.activity)
 
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
