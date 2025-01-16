@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 /**
- * Aktivität für die Darstellung von Locationdetails und Interaktionsmöglichkeiten wie Teilen und Buchen.
+ * Aktivität für die Darstellung von Locationdetails und Interaktionsmöglichkeiten wie Teilen und Bewerten.
  */
 class LocationActivity : BaseActivity(), RecyclerViewHelperInterface {
     private var location: LocationWithAddressOrganizerReviews? = null

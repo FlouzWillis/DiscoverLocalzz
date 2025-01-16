@@ -37,8 +37,8 @@ import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
 /**
- * Die Klasse AppDatabase repräsentiert die Room-Datenbank für die Anwendung.
- * Sie definiert die Datenbankentitäten, die Version und stellt Datenbankoperationen bereit.
+ * Die Klasse AppDatabase beinhaltet die Room-Datenbank für die Anwendung.
+ * Hier sind die Datenbankentitäten, die Version und stellt Datenbankoperationen bereit.
  */
 @Database(
     entities = [
@@ -59,7 +59,7 @@ import org.mindrot.jbcrypt.BCrypt
 @Suppress("TooManyFunctions")
 abstract class AppDatabase : RoomDatabase() {
     /**
-     * DAO zum Zugriff auf Ticket-Daten.
+     * DAO zum Zugriff auf Coupon-Daten.
      */
     abstract fun couponDao(): CouponDao
 
@@ -79,7 +79,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun locationInterestDao(): LocationInterestDao
 
     /**
-     * DAO zum Zugriff auf Review-Daten.
+     * DAO zum Zugriff auf Bewertung-Daten.
      */
     abstract fun reviewDao(): ReviewDao
 
@@ -115,7 +115,7 @@ abstract class AppDatabase : RoomDatabase() {
         private var instance: AppDatabase? = null
 
         /**
-         * Holen Sie eine Instanz von AppDatabase mit einem bereitgestellten Kontext.
+         * Holen Sie eine Instanz von AppDatabase mit bereitgestellten Kontext.
          *
          * @param context Der Anwendungskontext.
          * @return Eine Instanz von AppDatabase.

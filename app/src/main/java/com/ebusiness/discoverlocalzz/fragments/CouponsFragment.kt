@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * Fragment für die Anzeige und Filterung von Benutzertickets.
+ * Fragment für die Anzeige und Filterung von Benutzercoupons.
  */
 class CouponsFragment : Fragment(), RecyclerViewHelperInterface {
     private var coupons: List<CouponWithLocation> = listOf()
@@ -36,7 +36,7 @@ class CouponsFragment : Fragment(), RecyclerViewHelperInterface {
     private var reversed = false
 
     /**
-     * Erstellt die Ansicht für das Ticketsfragment, initialisiert Filter und lädt die Ticketliste.
+     * Erstellt die Ansicht für das Couponsfragment, initialisiert Filter und lädt die Couponliste.
      */
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +83,7 @@ class CouponsFragment : Fragment(), RecyclerViewHelperInterface {
     }
 
     /**
-     * Behandelt Klickereignisse auf Ticketelemente und leitet zum Detailbereich des ausgewählten Tickets weiter.
+     * Behandelt Klickereignisse auf Couponelemente und leitet zum Detailbereich des ausgewählten Coupons weiter.
      */
     override fun onItemClicked(position: Int) {
         if (coupons.size > position) {

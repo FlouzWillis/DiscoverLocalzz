@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * Aktivität zur Anzeige von Ticketinformationen und Interaktionsmöglichkeiten wie Stornierung.
+ * Aktivität zur Anzeige von Couponinformationen und Interaktionsmöglichkeiten.
  */
 class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
     private var coupon: CouponWithLocationWithAddress? = null
@@ -97,7 +97,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
     }
 
     /**
-     * Reagiert auf Klickereignisse in der Ticketliste, insbesondere bei Auswahl der Stornierungsoption.
+     * Reagiert auf Klickereignisse in der Couponliste, insbesondere bei Auswahl der Stornierungsoption. TODO
      */
     override fun onItemClicked(position: Int) {
         when (position) {
@@ -107,7 +107,7 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
 
     companion object {
         /**
-         * Konstante für den Schlüssel, der verwendet wird, um Ticket-Daten als Intent-Extra
+         * Konstante für den Schlüssel, der verwendet wird, um Coupon-Daten als Intent-Extra
          * zwischen Aktivitäten zu übertragen.
          */
         const val COUPON_INTENT_EXTRA: String = "coupon_intent_extra"

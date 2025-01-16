@@ -9,20 +9,20 @@ import com.ebusiness.discoverlocalzz.database.models.CouponWithLocation
 import com.ebusiness.discoverlocalzz.database.models.CouponWithLocationWithAddress
 
 /**
- * Data Access Object (DAO) Schnittstelle für den Zugriff auf Ticketdaten in der Datenbank.
+ * Data Access Object (DAO) Schnittstelle für den Zugriff auf Coupondaten in der Datenbank.
  */
 @Dao
 interface CouponDao {
 
     /**
-     * Holt alle Tickets eines Benutzers mit den zugehörigen Veranstaltungsdaten.
+     * Holt alle Coupons eines Benutzers mit den zugehörigen Veranstaltungsdaten.
      */
     @Transaction
     @Query("SELECT * FROM coupon WHERE user_id = :userId AND is_deleted = 0 ORDER BY expiry_date DESC")
     suspend fun getAll(userId: Long): List<CouponWithLocation>
 
     /**
-     * Holt ein spezifisches Ticket eines Benutzers mit zugehöriger Veranstaltung und Adresse.
+     * Holt einen spezifischen Coupon eines Benutzers mit zugehöriger Location und Adresse.
      */
     @Transaction
     @Query("SELECT * FROM coupon WHERE coupon_id = :id AND user_id = :userId LIMIT 1")
@@ -32,19 +32,19 @@ interface CouponDao {
     ): CouponWithLocationWithAddress?
 
     /**
-     * Markiert ein Ticket anhand der ID zur Löschung.
+     * Markiert ein Coupon anhand der ID zur Löschung.
      */
     @Query("UPDATE coupon SET is_deleted = 1 WHERE coupon_id = :id")
     suspend fun delete(id: Long)
 
     /**
-     * Fügt einen oder mehrere Ticketdatensätze in die Datenbank ein.
+     * Fügt einen oder mehrere Coupondatensätze in die Datenbank ein.
      */
     @Insert
     suspend fun insertAll(vararg coupons: Coupon)
 
     /**
-     * Fügt einen einzelnen Ticketdatensatz in die Datenbank ein und gibt die generierte Ticket-ID zurück.
+     * Fügt einen einzelnen Coupondatensatz in die Datenbank ein und gibt die generierte Coupon-ID zurück.
      */
     @Insert
     suspend fun insert(coupon: Coupon): Long

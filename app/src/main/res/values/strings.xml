@@ -42,6 +42,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
 
+<!--    TODO-->
     <string name="booking_title">Titel des Locations</string>
     <string name="booking_payment">Zahlungsmethode</string>
     <string name="booking_payment_card_number">••••%1$s</string>
@@ -76,6 +77,7 @@
     <string name="scope">Außerhalb des Umfangs</string>
     <string name="scope_summary">Die Funktion, welche Sie versuchen aufzurufen, liegt nicht im Implementierungsumfang.</string>
 
+<!--    TODO-->
     <string name="share">Teilen</string>
     <string name="google_login">Mit Google fortfahren</string>
     <string name="facebook_login">Mit Facebook fortfahren</string>

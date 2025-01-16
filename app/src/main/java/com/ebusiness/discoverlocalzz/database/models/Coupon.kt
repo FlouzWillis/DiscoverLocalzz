@@ -7,12 +7,12 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 /**
- * Die Klasse Ticket repräsentiert ein Ticket in der Room-Datenbank.
+ * Die Klasse Coupon repräsentiert einen Coupon in der Room-Datenbank.
  *
  * @property locationId Die ID des zugehörigen Locations.
- * @property userId Die ID des Benutzers, der das Ticket gekauft hat.
- * @property expiryDate Der Zeitpunkt, zu dem das Ticket gekauft wurde.
- * @property isDeleted Ob das Ticket zur Löschung markiert wurde.
+ * @property userId Die ID des Benutzers, der den Coupon gekauft hat.
+ * @property expiryDate Der Zeitpunkt, zu dem der Coupon gekauft wurde.
+ * @property isDeleted Ob der Coupon zur Löschung markiert wurde.
  */
 @Entity(tableName = "coupon")
 class Coupon(
@@ -22,16 +22,16 @@ class Coupon(
     @ColumnInfo(name = "is_deleted") val isDeleted: Boolean = false,
 ) {
     /**
-     * Die eindeutige ID des Tickets in der Datenbank.
+     * Die eindeutige ID des Coupons in der Datenbank.
      */
     @ColumnInfo(name = "coupon_id")
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 
     /**
-     * Gibt den Kaufzeitpunkt des Tickets als formatierten String zurück.
+     * Gibt den Restlaufzeit des Coupons als formatierten String zurück.
      *
-     * @return Der formatierte Kaufzeitpunkt.
+     * @return Die formatierte Restlaufzeit.
      */
     fun getExpiredDateAsString(): String =
         SimpleDateFormat(

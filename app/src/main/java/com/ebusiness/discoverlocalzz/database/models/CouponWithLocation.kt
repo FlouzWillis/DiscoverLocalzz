@@ -9,10 +9,10 @@ import com.ebusiness.discoverlocalzz.database.SimpleListItem
 import com.ebusiness.discoverlocalzz.database.dao.AddressDao
 
 /**
- * Die Klasse TicketWithLocation stellt eine Beziehung zwischen einem Ticket und einem Location in der Room-Datenbank dar.
+ * Die Klasse CouponWithLocation stellt eine Beziehung zwischen einem Coupon und einer Location in der Room-Datenbank dar.
  *
- * @property coupon Das Ticket, das mit dem Location verknüpft ist.
- * @property location Das Location, mit dem das Ticket verknüpft ist.
+ * @property coupon Der Coupon, das mit der Location verknüpft ist.
+ * @property location Die Location, mit dem der Coupon verknüpft ist.
  */
 @Entity
 data class CouponWithLocation(
@@ -24,7 +24,7 @@ data class CouponWithLocation(
     val location: Location,
 ) {
     /**
-     * Diese Methode konvertiert das TicketWithLocation-Objekt in ein SimpleListItem-Objekt für die
+     * Diese Methode konvertiert das CouponWithLocation-Objekt in ein SimpleListItem-Objekt für die
      * Anzeige in einer RecyclerView.
      *
      * @param resources Die Ressourcen.
@@ -39,7 +39,7 @@ data class CouponWithLocation(
         )
 
     /**
-     * Diese Methode konvertiert das TicketWithLocation-Objekt in ein SimpleListItem-Objekt für
+     * Diese Methode konvertiert das CouponWithLocation-Objekt in ein SimpleListItem-Objekt für
      * die Anzeige in einer RecyclerView.
      *
      * @param resources Die Ressourcen.
