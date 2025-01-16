@@ -77,11 +77,6 @@ class DiscoverFragment : Fragment() {
             onClickCategoryFilterButton()
         }
 
-//        val locationFilterButton = root.findViewById<Button>(R.id.location_filter_button)
-//        locationFilterButton.setOnClickListener {
-//            onClickLocationFilterButton()
-//        }
-
         val ratingFilterButton = root.findViewById<Button>(R.id.rating_filter_button)
         ratingFilterButton.setOnClickListener {
             onClickRatingFilterButton()
@@ -273,119 +268,6 @@ class DiscoverFragment : Fragment() {
             )
         }
     }
-
-//    private fun onClickLocationFilterButton() {
-//        CoroutineScope(Dispatchers.Main).launch {
-//            val database = AppDatabase.getInstance(requireContext())
-//            val locations = database.locationDao().getAll()
-//            val cityCountMap = mutableMapOf<String, Int>()
-//
-//            locations.forEach { location ->
-//                val city = location.address.city
-//                if (city.isNotBlank()) {
-//                    val currentCount = cityCountMap[city] ?: 0
-//                    cityCountMap[city] = currentCount + 1
-//                }
-//            }
-//
-//            val allCitiesWithCount = cityCountMap.map { (city, count) ->
-//                "$city ($count)"
-//            }
-//
-//            val reorderCategories = reorderCategories(
-//                AppDatabase.getInstance(requireContext()).interestDao().getAll(),
-//                AppDatabase.getInstance(requireContext()).accountInterestDao()
-//                    .getUserInterests(Preferences.getUserId(requireContext())),
-//            )
-//
-//            showCustomAlertDialog(
-//                context = requireContext(),
-//                title = "Orte",
-//                description = "Ort wählen",
-//                optionsList = allCitiesWithCount,
-//                onConfirm = { selectedItems ->
-//
-//                    filterSharedPreferences.edit()
-//                        .putStringSet("SelectedCities", selectedItems.toSet())
-//                        .apply()
-//
-//                    val filteredLocations = listOf<InterestWithLocationsWithReviews>()
-//                    CoroutineScope(Dispatchers.Main).launch {
-//                        reorderCategories.mapNotNull { interestWithLocationsWithReviews ->
-//                            val filteredLocations = interestWithLocationsWithReviews.locations.filter { location ->
-//                                database.addressDao().getAddressById(location.location.addressId)
-//                                    ?.let {
-//                                        if (selectedItems.contains(it.city)) {
-//                                            filteredLocations.add(location)
-//                                        }
-//                                    }
-//                            }
-//
-//                            if (filteredLocations.isNotEmpty()) {
-//                                interestWithLocationsWithReviews.copy(locations = filteredLocations.toMutableList())
-//                            } else {
-//                                null
-//                            }
-//                        }
-//                    }
-//
-//                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
-//                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
-//                        CategoryListAdapter(
-//                            filteredLocations.mapIndexed { index, location ->
-//                                location.toListItem(
-//                                    requireContext(),
-//                                    object : RecyclerViewHelperInterface {
-//                                        override fun onItemClicked(position: Int) {
-//                                            onItemClicked(index, position)
-//                                        }
-//                                    },
-//                                )
-//                            },
-//                        )
-//                    } else if (reorderCategories.none { it.locations.isEmpty() }) {
-//                        EmptyAdapter()
-//                    } else {
-//                        CategoryListAdapter(
-//                            reorderCategories.mapIndexed { index, location ->
-//                                location.toListItem(
-//                                    requireContext(),
-//                                    object : RecyclerViewHelperInterface {
-//                                        override fun onItemClicked(position: Int) {
-//                                            onItemClicked(index, position)
-//                                        }
-//                                    },
-//                                )
-//                            },
-//                        )
-//                    }
-//                },
-//                onClear = {
-//
-//                    filterSharedPreferences.edit().remove("SelectedCities").apply()
-//
-//                    val recyclerView = view?.findViewById<RecyclerView>(R.id.list)
-//                    recyclerView?.adapter = if (reorderCategories.isNotEmpty()) {
-//                        CategoryListAdapter(
-//                            reorderCategories.mapIndexed { index, location ->
-//                                location.toListItem(
-//                                    requireContext(),
-//                                    object : RecyclerViewHelperInterface {
-//                                        override fun onItemClicked(position: Int) {
-//                                            onItemClicked(index, position)
-//                                        }
-//                                    },
-//                                )
-//                            },
-//                        )
-//                    } else {
-//                        EmptyAdapter()
-//                    }
-//                },
-//                preSelectedItems = getSelectedLocations().toList()
-//            )
-//        }
-//    }
 
     private fun onClickRatingFilterButton() {
 

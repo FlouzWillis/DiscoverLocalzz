@@ -113,7 +113,6 @@ class CouponActivity : BaseActivity(), RecyclerViewHelperInterface {
         const val COUPON_INTENT_EXTRA: String = "coupon_intent_extra"
 
         private const val LOCATION_ITEM = 3
-        private const val DATE_ITEM = 2
         private const val COUPON_IS_NULL = "Coupon is null."
     }
 }

@@ -49,7 +49,7 @@ class LoginActivity : BaseActivity() {
                     ),
                 )
                 .setPositiveButton(R.string.request) { _, _ ->
-//                    OutOfScopeDialog.show(this)
+
                 }
                 .setNegativeButton(R.string.cancel) { _, _ -> }
                 .show()

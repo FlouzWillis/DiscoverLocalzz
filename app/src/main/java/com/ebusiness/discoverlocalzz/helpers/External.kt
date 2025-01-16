@@ -2,14 +2,8 @@ package com.ebusiness.discoverlocalzz.helpers
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.provider.CalendarContract
-import android.util.Log
-import android.widget.Toast
-import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.database.models.Address
-import com.ebusiness.discoverlocalzz.database.models.Location
 
 /**
  * Objekt zur Interaktion mit externen Anwendungen wie dem Kalender und Karten.

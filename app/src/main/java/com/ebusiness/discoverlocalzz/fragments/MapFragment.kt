@@ -217,7 +217,7 @@ class MapFragment : Fragment() {
 
 
         if (searchQuery.isEmpty()) {
-            Toast.makeText(context, "R.string.search_empty_message", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, requireContext().getString(R.string.search_empty_message), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -251,14 +251,14 @@ class MapFragment : Fragment() {
                 } ?: run {
                     Toast.makeText(
                         context,
-                        "R.string.location_not_found)",
+                        requireContext().getString(R.string.location_not_found),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(
                     context,
-                    "R.string.search_error",
+                    requireContext().getString(R.string.search_error),
                     Toast.LENGTH_SHORT
                 ).show()
             }

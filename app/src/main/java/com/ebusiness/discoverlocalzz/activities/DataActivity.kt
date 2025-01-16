@@ -148,6 +148,6 @@ class DataActivity : BaseActivity(), RecyclerViewHelperInterface {
      * Reagiert auf Klickereignisse in der Optionsliste.
      */
     override fun onItemClicked(position: Int) {
-//        OutOfScopeDialog.show(this)
+
     }
 }
