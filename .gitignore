@@ -13,3 +13,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+/target
+.idea/
+*.ipr
+*.iws
+
+out/
+*.class
+*.log
+
