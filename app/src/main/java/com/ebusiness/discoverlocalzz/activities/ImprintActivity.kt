@@ -1,7 +1,6 @@
 package com.ebusiness.discoverlocalzz.activities
 
 import android.os.Bundle
-import com.ebusiness.discoverlocalzz.R
 
 /**
  * Aktivität für das Impressum.

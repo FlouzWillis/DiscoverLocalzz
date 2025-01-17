@@ -24,7 +24,6 @@ import com.ebusiness.discoverlocalzz.customview.showCustomAlertDialog
 import com.ebusiness.discoverlocalzz.database.AppDatabase
 import com.ebusiness.discoverlocalzz.database.models.AccountInterest
 import com.ebusiness.discoverlocalzz.database.models.InterestWithLocationsWithReviews
-import com.ebusiness.discoverlocalzz.database.models.LocationWithReviews
 import com.ebusiness.discoverlocalzz.helpers.Preferences
 import com.ebusiness.discoverlocalzz.interfaces.RecyclerViewHelperInterface
 import kotlinx.coroutines.CoroutineScope
@@ -178,10 +177,6 @@ class DiscoverFragment : Fragment() {
 
     private fun getSelectedCategories(): Set<String> {
         return filterSharedPreferences.getStringSet("SelectedCategories", emptySet()) ?: emptySet()
-    }
-
-    private fun getSelectedLocations(): Set<String> {
-        return filterSharedPreferences.getStringSet("SelectedCities", emptySet()) ?: emptySet()
     }
 
     private fun getSelectedRating(): String? {

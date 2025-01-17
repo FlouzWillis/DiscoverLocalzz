@@ -6,8 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ebusiness.discoverlocalzz.R
 import com.ebusiness.discoverlocalzz.database.dao.AddressDao
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 /**
  * Die Klasse Location repräsentiert ein Ereignis in der Room-Datenbank.

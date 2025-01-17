@@ -16,7 +16,7 @@
 
         <SearchView
             android:id="@+id/searchView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:queryBackground="@android:color/transparent"
@@ -28,6 +28,7 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:layout_marginEnd="@dimen/full_padding"
+            tools:ignore="ContentDescription"
             android:focusable="true"
             app:srcCompat="@drawable/ic_account_circle" />
 
@@ -50,7 +51,9 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:layout_marginBottom="595dp"
+            tools:ignore="ContentDescription"
             android:clickable="true"
+            android:focusable="true"
             app:srcCompat="@drawable/ic_add" />
     </RelativeLayout>
 

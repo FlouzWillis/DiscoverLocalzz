@@ -107,4 +107,9 @@
     <string name="search_empty_message">Keine Ergebnisse gefunden. Bitte überprüfen Sie die Adresse.</string>
     <string name="location_not_found">Standort nicht gefunden. Bitte überprüfen Sie die Eingabe.</string>
     <string name="search_error">Fehler bei der Suche. Bitte versuchen Sie es später erneut.</string>
+    <string name="filter_category">Kategorie</string>
+    <string name="filter_rating">Bewertung</string>
+    <string name="filter_location">Ort</string>
+    <string name="photo_upload">Foto hochladen</string>
+    <string name="add_location">Hinzufügen</string>
 </resources>

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -45,7 +46,7 @@
 
         <SearchView
             android:id="@+id/searchView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:queryBackground="@android:color/transparent"
@@ -58,7 +59,9 @@
             android:clickable="true"
             android:layout_marginEnd="@dimen/full_padding"
             android:focusable="true"
-            app:srcCompat="@drawable/ic_account_circle" />
+            app:srcCompat="@drawable/ic_account_circle"
+            tools:ignore="ContentDescription"
+            />
 
     </LinearLayout>
 </RelativeLayout>
